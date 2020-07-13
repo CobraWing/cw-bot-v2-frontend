@@ -1,12 +1,20 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-function App() {
-  return (
-    <div>
-      <h1>Cobra Wing Bot</h1>
-    </div>
-  );
-}
+import GlobalStyle from './styles/global';
+
+import AppProvider from './hooks';
+
+import Routes from './routes';
+
+const App: React.FC = () => (
+  <Router>
+    <AppProvider>
+      <Routes />
+    </AppProvider>
+
+    <GlobalStyle />
+  </Router>
+);
 
 export default App;
