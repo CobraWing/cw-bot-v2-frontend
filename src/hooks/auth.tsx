@@ -12,14 +12,13 @@ interface AuthState {
   user: User;
 }
 
-interface SignInCredentials {
-  email: string;
-  password: string;
+interface SignInData {
+  code: string;
 }
 
 interface AuthContextData {
   user: User;
-  signIn(credentials: SignInCredentials): Promise<void>;
+  signIn(credentials: SignInData): Promise<void>;
   signOut(): void;
   updateUser(user: User): void;
 }
@@ -45,7 +44,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signIn = useCallback(async ({ code }) => {
     const response = await api.post('/authorizations/discord/authorized', {
-      code
+      code,
     });
 
     const { token, user } = response.data;
