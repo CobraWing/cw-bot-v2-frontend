@@ -24,7 +24,7 @@ const Loading: React.FC = () => {
         description: 'Ocorreu um erro ao fazer o login, tente novamente.',
       });
     });
-  }, []);
+  }, [addToast, history, location.search, signIn]);
 
   return (
     <Container>

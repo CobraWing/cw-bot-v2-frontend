@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react';
 
-import { useHistory } from 'react-router-dom';
 import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
 import api from '../../services/api';
 
 const SignIn: React.FC = () => {
-  const history = useHistory();
-
   const handleLogin = useCallback((e) => {
     e.preventDefault();
     api.get('/authorizations/discord').then((response) => {
