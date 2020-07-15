@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
+import signInBackgroundImg from '../../assets/background.jpg';
 
 export const Container = styled.div`
   height: 100vh;
@@ -30,7 +31,10 @@ const appearFromLeft = keyframes`
 
 export const Background = styled.div`
   flex: 1;
+  background: url(${signInBackgroundImg}) no-repeat center;
   background-size: cover;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
 `;
 
 export const AnimationContainer = styled.div`
