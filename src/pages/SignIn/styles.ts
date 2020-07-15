@@ -59,6 +59,6 @@ export const Background = styled.div`
   flex: 1;
   background: url(${signInBackgroundImg}) no-repeat center;
   background-size: cover;
-  filter: blur(4px);
-  -webkit-filter: blur(4px);
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
 `;
