@@ -1,9 +1,13 @@
 import React, { useCallback } from 'react';
+import { FiLogIn } from 'react-icons/fi';
 
 import Button from '../../components/Button';
 
-import { Container, Content, AnimationContainer, Background } from './styles';
+import { Container, Content, Background } from './styles';
 import api from '../../services/api';
+
+import discordLogoImg from '../../assets/Discord-Logo-White.svg';
+import logo from '../../assets/logo.png';
 
 const SignIn: React.FC = () => {
   const handleLogin = useCallback((e) => {
@@ -16,12 +20,14 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <AnimationContainer>
-          <p>Login</p>
-          <form onSubmit={handleLogin}>
-            <Button type="submit">Logar</Button>
-          </form>
-        </AnimationContainer>
+        <img src={logo} alt="cobrawing-logo" />
+        <form onSubmit={handleLogin}>
+          <Button type="submit">
+            <img src={discordLogoImg} alt="discord-logo" />
+            Login com Discord
+            <FiLogIn />
+          </Button>
+        </form>
       </Content>
       <Background />
     </Container>
