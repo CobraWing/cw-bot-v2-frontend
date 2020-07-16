@@ -29,12 +29,18 @@ export const Content = styled.div`
   background-color: rgba(0, 0, 0, 0.6); /* Black w/opacity/see-through */
   color: #ffffff;
 
+  > img {
+    width: 100%;
+    min-width: 350px;
+  }
+
   button {
     background: #7289da;
     color: #ffffff;
     font-size: 20px;
     font-family: 'Roboto', serif;
     margin-top: 20px;
+    min-width: 200px;
 
     display: flex;
     align-items: center;
