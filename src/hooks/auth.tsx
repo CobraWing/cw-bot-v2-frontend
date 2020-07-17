@@ -43,8 +43,10 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ code }) => {
-    const response = await api.post('/authorizations/discord/authorized', {
-      code,
+    const response = await api.get('/authorizations/discord/authorized', {
+      params: {
+        code,
+      },
     });
 
     const { token, user } = response.data;
