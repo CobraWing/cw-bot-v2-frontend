@@ -1,6 +1,12 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
 
+interface Guild {
+  id: string;
+  name: string;
+  icon: string;
+}
+
 interface User {
   id: string;
   name: string;
@@ -10,6 +16,7 @@ interface User {
 interface AuthState {
   token: string;
   user: User;
+  guilds: Guild[];
 }
 
 interface SignInData {
@@ -18,6 +25,7 @@ interface SignInData {
 
 interface AuthContextData {
   user: User;
+  guilds: Guild[];
   signIn(credentials: SignInData): Promise<void>;
   signOut(): void;
   updateUser(user: User): void;
@@ -29,6 +37,7 @@ const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@CobraWingBot:token');
     const user = localStorage.getItem('@CobraWingBot:user');
+    const guilds = localStorage.getItem('@CobraWingBot:guilds');
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -36,6 +45,7 @@ const AuthProvider: React.FC = ({ children }) => {
       return {
         token,
         user: JSON.parse(user),
+        guilds: JSON.parse(guilds || '[]'),
       };
     }
 
@@ -49,19 +59,21 @@ const AuthProvider: React.FC = ({ children }) => {
       },
     });
 
-    const { token, user } = response.data;
+    const { token, user, guilds } = response.data;
 
     localStorage.setItem('@CobraWingBot:token', token);
     localStorage.setItem('@CobraWingBot:user', JSON.stringify(user));
+    localStorage.setItem('@CobraWingBot:guilds', JSON.stringify(guilds));
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user });
+    setData({ token, user, guilds });
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@CobraWingBot:token');
     localStorage.removeItem('@CobraWingBot:user');
+    localStorage.removeItem('@CobraWingBot:guilds');
 
     setData({} as AuthState);
   }, []);
@@ -73,14 +85,21 @@ const AuthProvider: React.FC = ({ children }) => {
       setData({
         token: data.token,
         user,
+        guilds: data.guilds,
       });
     },
-    [setData, data.token],
+    [setData, data.token, data.guilds],
   );
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{
+        user: data.user,
+        guilds: data.guilds,
+        signIn,
+        signOut,
+        updateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
