@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
+import Cookies from 'universal-cookie';
 import api from '../services/api';
 
 interface Guild {
@@ -34,6 +35,8 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
+  const cookies = new Cookies();
+
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@CobraWingBot:token');
     const user = localStorage.getItem('@CobraWingBot:user');
@@ -52,31 +55,36 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ({ code }) => {
-    const response = await api.get('/authorizations/discord/authorized', {
-      params: {
-        code,
-      },
-    });
+  const signIn = useCallback(
+    async ({ code }) => {
+      const response = await api.get('/authorizations/discord/authorized', {
+        params: {
+          code,
+        },
+      });
 
-    const { token, user, guilds } = response.data;
+      const { token, user, guilds } = response.data;
 
-    localStorage.setItem('@CobraWingBot:token', token);
-    localStorage.setItem('@CobraWingBot:user', JSON.stringify(user));
-    localStorage.setItem('@CobraWingBot:guilds', JSON.stringify(guilds));
+      localStorage.setItem('@CobraWingBot:token', token);
+      localStorage.setItem('@CobraWingBot:user', JSON.stringify(user));
+      localStorage.setItem('@CobraWingBot:guilds', JSON.stringify(guilds));
+      cookies.set('@CobraWingBot:session', true, { maxAge: 75600 });
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user, guilds });
-  }, []);
+      setData({ token, user, guilds });
+    },
+    [cookies],
+  );
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@CobraWingBot:token');
     localStorage.removeItem('@CobraWingBot:user');
     localStorage.removeItem('@CobraWingBot:guilds');
+    cookies.remove('@CobraWingBot:session');
 
     setData({} as AuthState);
-  }, []);
+  }, [cookies]);
 
   const updateUser = useCallback(
     (user: User) => {
@@ -90,6 +98,15 @@ const AuthProvider: React.FC = ({ children }) => {
     },
     [setData, data.token, data.guilds],
   );
+
+  const isLogged = localStorage.getItem('@CobraWingBot:token');
+  if (isLogged && !cookies.get('@CobraWingBot:session')) {
+    console.log('invalidate session');
+    localStorage.removeItem('@CobraWingBot:token');
+    localStorage.removeItem('@CobraWingBot:user');
+    localStorage.removeItem('@CobraWingBot:guilds');
+    cookies.set('@CobraWingBot:session-expirated', true, { maxAge: 5 * 60 });
+  }
 
   return (
     <AuthContext.Provider

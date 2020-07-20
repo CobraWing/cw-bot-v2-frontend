@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { FiLogIn } from 'react-icons/fi';
 
 import { useLocation, useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
@@ -18,8 +19,19 @@ const SignIn: React.FC = () => {
   const { addToast } = useToast();
   const { signIn } = useAuth();
   const [loading, setLoading] = useState(false);
+  const cookies = new Cookies();
 
   useEffect(() => {
+    if (cookies.get('@CobraWingBot:session-expirated')) {
+      addToast({
+        type: 'error',
+        title: 'Sessão expirada',
+        description: 'Sua sessão expirou, faça login novamente.',
+      });
+      cookies.remove('@CobraWingBot:session-expirated');
+      return;
+    }
+
     const code = location.search.replace('?code=', '');
 
     if (code) {
@@ -36,7 +48,7 @@ const SignIn: React.FC = () => {
         setLoading(false);
       });
     }
-  }, [addToast, history, location.search, signIn]);
+  }, [addToast, history, location.search, signIn, cookies]);
 
   const handleLogin = useCallback((e) => {
     e.preventDefault();
