@@ -27,15 +27,25 @@ interface SignInData {
 interface AuthContextData {
   user: User;
   guilds: Guild[];
+  selectedGuild: Guild;
   signIn(credentials: SignInData): Promise<void>;
   signOut(): void;
   updateUser(user: User): void;
+  updateSelectedGuild(guild: Guild): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const cookies = new Cookies();
+
+  const [selectedGuild, setSelectedGuild] = useState<Guild>(() => {
+    const guild = localStorage.getItem('@CobraWingBot:selectedGuild');
+    if (guild) {
+      return JSON.parse(guild);
+    }
+    return null;
+  });
 
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@CobraWingBot:token');
@@ -68,6 +78,7 @@ const AuthProvider: React.FC = ({ children }) => {
       localStorage.setItem('@CobraWingBot:token', token);
       localStorage.setItem('@CobraWingBot:user', JSON.stringify(user));
       localStorage.setItem('@CobraWingBot:guilds', JSON.stringify(guilds));
+      localStorage.removeItem('@CobraWingBot:selectedGuild');
       cookies.set('@CobraWingBot:session', true, { maxAge: 84924 });
 
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -81,6 +92,7 @@ const AuthProvider: React.FC = ({ children }) => {
     localStorage.removeItem('@CobraWingBot:token');
     localStorage.removeItem('@CobraWingBot:user');
     localStorage.removeItem('@CobraWingBot:guilds');
+    localStorage.removeItem('@CobraWingBot:selectedGuild');
     cookies.remove('@CobraWingBot:session');
 
     setData({} as AuthState);
@@ -99,9 +111,19 @@ const AuthProvider: React.FC = ({ children }) => {
     [setData, data.token, data.guilds],
   );
 
+  const updateSelectedGuild = useCallback(
+    (guild: Guild) => {
+      localStorage.setItem(
+        '@CobraWingBot:selectedGuild',
+        JSON.stringify(guild),
+      );
+      setSelectedGuild(guild);
+    },
+    [setSelectedGuild],
+  );
+
   const isLogged = localStorage.getItem('@CobraWingBot:token');
   if (isLogged && !cookies.get('@CobraWingBot:session')) {
-    console.log('invalidate session');
     localStorage.removeItem('@CobraWingBot:token');
     localStorage.removeItem('@CobraWingBot:user');
     localStorage.removeItem('@CobraWingBot:guilds');
@@ -113,9 +135,11 @@ const AuthProvider: React.FC = ({ children }) => {
       value={{
         user: data.user,
         guilds: data.guilds,
+        selectedGuild,
         signIn,
         signOut,
         updateUser,
+        updateSelectedGuild,
       }}
     >
       {children}
