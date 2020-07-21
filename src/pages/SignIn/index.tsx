@@ -34,7 +34,7 @@ const SignIn: React.FC = () => {
 
     const code = location.search.replace('?code=', '');
 
-    if (code) {
+    if (code && !loading) {
       setLoading(true);
       signIn({
         code,
@@ -48,7 +48,7 @@ const SignIn: React.FC = () => {
         setLoading(false);
       });
     }
-  }, [addToast, history, location.search, signIn, cookies]);
+  }, [addToast, history, location.search, signIn, cookies, loading]);
 
   const handleLogin = useCallback((e) => {
     e.preventDefault();

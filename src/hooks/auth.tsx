@@ -68,7 +68,7 @@ const AuthProvider: React.FC = ({ children }) => {
       localStorage.setItem('@CobraWingBot:token', token);
       localStorage.setItem('@CobraWingBot:user', JSON.stringify(user));
       localStorage.setItem('@CobraWingBot:guilds', JSON.stringify(guilds));
-      cookies.set('@CobraWingBot:session', true, { maxAge: 75600 });
+      cookies.set('@CobraWingBot:session', true, { maxAge: 84924 });
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
