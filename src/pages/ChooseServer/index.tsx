@@ -48,7 +48,7 @@ const ChooseServer: React.FC = () => {
         <ContentTitle>Selecione um dos servidores:</ContentTitle>
         <GuildList>
           {guilds.map((guild) => (
-            <GuildContainer>
+            <GuildContainer key={guild.id}>
               <img src={guild.icon} alt={guild.name} />
               <strong>{guild.name}</strong>
               <Button>
