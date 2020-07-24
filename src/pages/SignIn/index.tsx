@@ -42,7 +42,7 @@ const SignIn: React.FC = () => {
         history.push('/');
         addToast({
           type: 'error',
-          title: 'Erro ao fazer login',
+          title: 'Erro ao fazer login (#2/2)',
           description: 'Ocorreu um erro ao fazer o login, tente novamente.',
         });
         setLoading(false);
@@ -50,12 +50,26 @@ const SignIn: React.FC = () => {
     }
   }, [addToast, history, location.search, signIn, cookies, loading]);
 
-  const handleLogin = useCallback((e) => {
-    e.preventDefault();
-    api.get('/authorizations/discord').then((response) => {
-      window.location.href = response.data.url;
-    });
-  }, []);
+  const handleLogin = useCallback(
+    (e) => {
+      e.preventDefault();
+      setLoading(true);
+      api
+        .get('/authorizations/discord')
+        .then((response) => {
+          window.location.href = response.data.url;
+        })
+        .catch(() => {
+          addToast({
+            type: 'error',
+            title: 'Erro ao fazer login (#2/1)',
+            description: 'Ocorreu um erro ao fazer o login, tente novamente.',
+          });
+          setLoading(false);
+        });
+    },
+    [addToast],
+  );
 
   return (
     <Container>

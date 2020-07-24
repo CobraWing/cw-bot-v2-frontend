@@ -40,9 +40,11 @@ const AuthProvider: React.FC = ({ children }) => {
   const cookies = new Cookies();
 
   const [selectedGuild, setSelectedGuild] = useState<Guild>(() => {
-    const guild = localStorage.getItem('@CobraWingBot:selectedGuild');
-    if (guild) {
-      return JSON.parse(guild);
+    const guildJson = localStorage.getItem('@CobraWingBot:selectedGuild');
+    if (guildJson) {
+      const guild = JSON.parse(guildJson);
+      api.defaults.headers.guildId = guild.id;
+      return guild;
     }
     return null;
   });
@@ -113,6 +115,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const updateSelectedGuild = useCallback(
     (guild: Guild) => {
+      api.defaults.headers.guildid = guild.id;
       localStorage.setItem(
         '@CobraWingBot:selectedGuild',
         JSON.stringify(guild),
