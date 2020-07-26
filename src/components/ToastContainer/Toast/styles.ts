@@ -8,16 +8,16 @@ interface ContainerProps {
 
 const toastTypeVariations = {
   info: css`
-    background: #ebf8ff;
-    color: #3172b7;
+    background: var(--info-light);
+    color: var(--info);
   `,
   success: css`
-    background: #e6fffa;
-    color: #2e656a;
+    background: var(--success-light);
+    color: var(--success);
   `,
   error: css`
-    background: #fddede;
-    color: #c53030;
+    background: var(--error-light);
+    color: var(--error);
   `,
 };
 
