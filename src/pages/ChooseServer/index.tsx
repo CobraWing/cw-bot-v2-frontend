@@ -4,6 +4,7 @@ import { FiChevronRight } from 'react-icons/fi';
 
 import { useHistory } from 'react-router-dom';
 import LayoutDefault from '../../components/Layout/Default';
+import Header from '../../components/Header';
 
 import { Container, ContentTitle, GuildList, GuildContainer } from './styles';
 import { useAuth } from '../../hooks/auth';
@@ -11,7 +12,7 @@ import { useAuth } from '../../hooks/auth';
 import Button from '../../components/Button';
 
 const ChooseServer: React.FC = () => {
-  const { guilds } = useAuth();
+  const { guilds, updateSelectedGuild } = useAuth();
   const history = useHistory();
 
   const handleSelectServer = useCallback(
@@ -20,9 +21,10 @@ const ChooseServer: React.FC = () => {
         '@CobraWingBot:selectedGuild',
         JSON.stringify(guild),
       );
+      updateSelectedGuild(guild);
       history.push('/dashboard');
     },
-    [history],
+    [updateSelectedGuild, history],
   );
 
   return (

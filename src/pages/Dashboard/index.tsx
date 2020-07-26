@@ -2,16 +2,19 @@ import React from 'react';
 
 import { Container } from './styles';
 
+import LayoutDefault from '../../components/Layout/Default';
+
 import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
-  const { user } = useAuth();
+  const { selectedGuild } = useAuth();
 
   return (
-    <Container>
-      <p>Dashboard</p>
-      <p>User: {user.name}</p>
-    </Container>
+    <LayoutDefault>
+      <Container>
+        <p>Server: {selectedGuild.name}</p>
+      </Container>
+    </LayoutDefault>
   );
 };
 
