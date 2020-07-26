@@ -13,7 +13,14 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContent>
-      <img src={logoImg} alt="GoBarber" />
+      <a
+        href="http://discord.io/cobrawing"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Acesse o discord da Cobra Wing"
+      >
+        <img src={logoImg} alt="Cobra Wing Bot" />
+      </a>
 
       <Profile>
         <div>

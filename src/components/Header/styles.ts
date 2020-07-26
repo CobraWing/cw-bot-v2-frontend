@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const HeaderContent = styled.div`
+export const HeaderContent = styled.header`
   grid-area: HEADER;
 
   display: flex;
@@ -9,7 +9,7 @@ export const HeaderContent = styled.div`
   width: 100%;
   padding: 0 20px;
 
-  > img {
+  a > img {
     height: 70px;
   }
 `;

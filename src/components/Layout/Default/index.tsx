@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Header from '../../Header';
+import Footer from '../../Footer';
 
-import { Grid, Footer } from './styles';
+import { Grid } from './styles';
 
 const LayoutDefault: React.FC = ({ children }) => (
   <Grid>

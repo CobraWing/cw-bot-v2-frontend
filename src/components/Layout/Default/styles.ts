@@ -17,7 +17,3 @@ export const Grid = styled.div`
 
   height: 100vh;
 `;
-
-export const Footer = styled.div`
-  grid-area: FOOTER;
-`;

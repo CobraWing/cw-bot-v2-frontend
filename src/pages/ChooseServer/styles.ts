@@ -4,24 +4,24 @@ export const Container = styled.div`
   grid-area: CENTER;
   grid-column: span 3;
 
+  padding-top: 100px;
   width: 100%;
-  padding: 10px 0;
   display: flex;
   flex-direction: column;
-  align-content: center;
   align-items: center;
 `;
 
 export const ContentTitle = styled.h3`
-  text-transform: uppercase;
+  margin-bottom: 10px;
+  cursor: default;
 `;
 
 export const GuildList = styled.div`
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
+  margin-top: 10px;
 `;
 
 export const GuildContainer = styled.div`
@@ -38,18 +38,19 @@ export const GuildContainer = styled.div`
   }
 
   & + div {
-    border-top: 1px #99aab5 solid;
+    border-top: 1px var(--quaternary) solid;
   }
 
   img {
-    width: 56px;
-    height: 56px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
   }
 
   strong {
     margin-left: 20px;
     margin-right: auto;
+    cursor: default;
   }
 
   button {

@@ -15,19 +15,35 @@ const ChooseServer: React.FC = () => {
   return (
     <LayoutDefault>
       <Container>
-        <ContentTitle>Selecione um dos servidores:</ContentTitle>
-        <GuildList>
-          {guilds.map((guild) => (
-            <GuildContainer key={guild.id}>
-              <img src={guild.icon} alt={guild.name} />
-              <strong>{guild.name}</strong>
-              <Button tp="success">
-                Escolher
-                <FiChevronRight size={22} />
-              </Button>
-            </GuildContainer>
-          ))}
-        </GuildList>
+        {guilds && guilds.length > 0 && (
+          <>
+            <ContentTitle>
+              Selecione um dos servidores abaixo para gerenciar:
+            </ContentTitle>
+            <GuildList>
+              {guilds.map((guild) => (
+                <GuildContainer key={guild.id}>
+                  <img src={guild.icon} alt={guild.name} />
+                  <strong>{guild.name}</strong>
+                  <Button tp="success">
+                    Selecionar
+                    <FiChevronRight size={22} />
+                  </Button>
+                </GuildContainer>
+              ))}
+            </GuildList>
+          </>
+        )}
+        {guilds && guilds.length === 0 && (
+          <>
+            <ContentTitle>
+              Você não tem permissão para gerenciar servidores.
+            </ContentTitle>
+            <ContentTitle>
+              Contate com o administrador do servidor e faça login novamente.
+            </ContentTitle>
+          </>
+        )}
       </Container>
     </LayoutDefault>
   );
