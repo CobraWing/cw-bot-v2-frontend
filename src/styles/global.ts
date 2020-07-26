@@ -5,7 +5,7 @@ export default createGlobalStyle`
     --primary: #EE0000;
     --secondary: #23272A;
     --tertiary: #36393f;
-    --quaternary: #99AAB5;
+    --quaternary: #40444b;
     --quinary: #7289DA;
 
     --cw: #EE0000;
