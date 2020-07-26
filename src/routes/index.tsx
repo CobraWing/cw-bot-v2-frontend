@@ -15,13 +15,7 @@ const Routes: React.FC = () => (
 
     <Route path="/servers" exact component={ChooseServer} isPrivate />
 
-    <Route
-      path="/dashboard"
-      exact
-      component={Dashboard}
-      isPrivate
-      isSelectedGuild
-    />
+    <Route path="/dashboard" exact component={Dashboard} isPrivate />
 
     <Route path="*" component={NotFound} />
   </Switch>

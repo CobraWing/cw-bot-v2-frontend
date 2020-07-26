@@ -4,12 +4,13 @@ export default createGlobalStyle`
   :root {
     --primary: #EE0000;
     --secondary: #23272A;
-    --tertiary: #2C2F33;
+    --tertiary: #36393f;
     --quaternary: #99AAB5;
     --quinary: #7289DA;
 
     --cw: #EE0000;
-    --text: #f4ede8;
+    --text: #dcddde;
+    --text-link: #00b0f4;
     --discord: #6e86d6;
 
     --button-primary: #007bff;
@@ -41,7 +42,7 @@ export default createGlobalStyle`
   }
 
   body {
-    color: #FFF;
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
 
     background: linear-gradient(

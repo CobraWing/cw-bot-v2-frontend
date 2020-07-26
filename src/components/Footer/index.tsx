@@ -6,16 +6,16 @@ const Footer: React.FC = () => {
   return (
     <FooterContent>
       <p>
-        © Copyright
+        Copyright ©
         <a
           href="http://discord.io/cobrawing"
           target="_blank"
           rel="noopener noreferrer"
           title="Acesse o discord da Cobra Wing"
         >
-          Cobra Wing Bot
+          Cobra Wing
         </a>
-        - 2020 | Desenvolvido por
+        - 2020 | develop by
         <span>
           <a
             href="https://github.com/rafaelpivatto"

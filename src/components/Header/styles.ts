@@ -33,15 +33,15 @@ export const Profile = styled.div`
   align-items: center;
   margin-left: auto;
   img {
-    width: 56px;
-    height: 56px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin-left: 10px;
   }
   div {
     display: flex;
     flex-direction: row;
-    margin-left: 16px;
+    margin-left: 10px;
     line-height: 24px;
     span {
       color: var(--text);

@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 
 import { useAuth } from '../hooks/auth';
-import ChooseServer from '../pages/ChooseServer';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
@@ -16,21 +15,17 @@ interface RouteProps extends ReactDOMRouteProps {
 
 const Route: React.FC<RouteProps> = ({
   isPrivate = false,
-  isSelectedGuild = false,
   component: Component,
   ...rest
 }) => {
-  const { user, selectedGuild } = useAuth();
+  const { user } = useAuth();
 
   return (
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
         if (isPrivate === !!user) {
-          if (isSelectedGuild === !!selectedGuild) {
-            return <Component />;
-          }
-          return <ChooseServer />;
+          return <Component />;
         }
         return (
           <Redirect

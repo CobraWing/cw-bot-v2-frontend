@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { FiChevronRight } from 'react-icons/fi';
 
+import { useHistory } from 'react-router-dom';
 import LayoutDefault from '../../components/Layout/Default';
 
 import { Container, ContentTitle, GuildList, GuildContainer } from './styles';
@@ -11,6 +12,18 @@ import Button from '../../components/Button';
 
 const ChooseServer: React.FC = () => {
   const { guilds } = useAuth();
+  const history = useHistory();
+
+  const handleSelectServer = useCallback(
+    (guild) => {
+      localStorage.setItem(
+        '@CobraWingBot:selectedGuild',
+        JSON.stringify(guild),
+      );
+      history.push('/dashboard');
+    },
+    [history],
+  );
 
   return (
     <LayoutDefault>
@@ -25,7 +38,10 @@ const ChooseServer: React.FC = () => {
                 <GuildContainer key={guild.id}>
                   <img src={guild.icon} alt={guild.name} />
                   <strong>{guild.name}</strong>
-                  <Button tp="success">
+                  <Button
+                    tp="success"
+                    onClick={() => handleSelectServer(guild)}
+                  >
                     Selecionar
                     <FiChevronRight size={22} />
                   </Button>
