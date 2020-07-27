@@ -28,11 +28,7 @@ export const ItemContainer = styled.div`
 
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${lighten(0.05, '#40444b')};
-  }
-
-  & > div {
-    margin
+    background-color: ${lighten(0.1, '#40444b')};
   }
 `;
 
