@@ -10,6 +10,9 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@styled-icons/boxicons-regular": "^10.6.0",
+    "@styled-icons/material-rounded": "^10.7.0",
+    "@styled-icons/styled-icon": "^10.6.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",

@@ -8,6 +8,8 @@ import NotFound from '../pages/NotFound';
 
 import ChooseServer from '../pages/ChooseServer';
 import Dashboard from '../pages/Dashboard';
+import CustomCommands from '../pages/CustomCommands';
+import Categories from '../pages/Categories';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -16,6 +18,8 @@ const Routes: React.FC = () => (
     <Route path="/servers" exact component={ChooseServer} isPrivate />
 
     <Route path="/dashboard" exact component={Dashboard} isPrivate />
+    <Route path="/custom-commands" exact component={CustomCommands} isPrivate />
+    <Route path="/categories" exact component={Categories} isPrivate />
 
     <Route path="*" component={NotFound} />
   </Switch>

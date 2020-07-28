@@ -8,8 +8,4 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: baseline;
 `;

@@ -1515,7 +1515,7 @@
     "@babel/runtime" "^7.10.4"
     "@styled-icons/styled-icon" "^10.6.0"
 
-"@styled-icons/material-rounded@^10.6.0":
+"@styled-icons/material-rounded@^10.6.0", "@styled-icons/material-rounded@^10.7.0":
   version "10.7.0"
   resolved "https://registry.yarnpkg.com/@styled-icons/material-rounded/-/material-rounded-10.7.0.tgz#f541be5a31f63c185b767a061f5744b65aa1efa9"
   integrity sha512-cdP+V1osQifhilVYbZNAHJHlXjVwzmQU1/hZJj4lA43yFEq80etAESfjG5LzHhJEDKQXYZWQv5DeZpz3REoqFg==

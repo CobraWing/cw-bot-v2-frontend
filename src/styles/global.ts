@@ -41,6 +41,10 @@ export default createGlobalStyle`
     outline: 0;
   }
 
+  a {
+    color: var(--text-link);
+  }
+
   body {
     color: var(--text);
     -webkit-font-smoothing: antialiased;
