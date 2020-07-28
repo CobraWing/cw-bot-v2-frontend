@@ -6,7 +6,7 @@ export const Container = styled.div`
 
   width: 370px;
   height: 150px;
-  margin: 7px 7px;
+  margin: 10px 10px;
   padding: 30px;
 
   border-radius: 10px;

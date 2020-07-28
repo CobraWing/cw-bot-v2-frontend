@@ -27,6 +27,12 @@ const Dashboard: React.FC = () => {
           iconSize={50}
           iconColor="#ffc107"
         />
+        <DashboardItem title="" description="" destiny="/dashboard" />
+        <DashboardItem title="" description="" destiny="/dashboard" />
+        <DashboardItem title="" description="" destiny="/dashboard" />
+        <DashboardItem title="" description="" destiny="/dashboard" />
+        <DashboardItem title="" description="" destiny="/dashboard" />
+        <DashboardItem title="" description="" destiny="/dashboard" />
       </Container>
     </LayoutDefault>
   );
