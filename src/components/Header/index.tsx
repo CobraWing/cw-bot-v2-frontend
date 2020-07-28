@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
 
 import { FiPower } from 'react-icons/fi';
 
@@ -25,6 +26,8 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContent>
+      <ReactTooltip />
+
       <Logo
         href="http://discord.io/cobrawing"
         target="_blank"
@@ -41,8 +44,15 @@ const Header: React.FC = () => {
           </GuildLogo>
           <GuildName>
             <strong>{selectedGuild.name}</strong>
-            <Link to="/servers">
-              <ChangeGuild title="Alterar" />
+            <Link
+              to="/servers"
+              data-tip="Alterar servidor"
+              data-place="bottom"
+              data-background-color="gray"
+              data-text-color="white"
+              data-border="white"
+            >
+              <ChangeGuild />
             </Link>
           </GuildName>
         </SelectedGuildContainer>
@@ -57,8 +67,16 @@ const Header: React.FC = () => {
           <img src={user.avatar} alt={user.name} />
         </Profile>
 
-        <LogoutButton type="button" onClick={signOut}>
-          <FiPower title="Sair" />
+        <LogoutButton
+          type="button"
+          onClick={signOut}
+          data-tip="Deslogar"
+          data-place="bottom"
+          data-background-color="red"
+          data-text-color="white"
+          data-border="white"
+        >
+          <FiPower />
         </LogoutButton>
       </ProfileContainer>
     </HeaderContent>
