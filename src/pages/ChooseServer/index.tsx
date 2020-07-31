@@ -40,7 +40,7 @@ const ChooseServer: React.FC = () => {
                   <img src={guild.icon} alt={guild.name} />
                   <strong>{guild.name}</strong>
                   <Button
-                    tp="success"
+                    tp="positive"
                     onClick={() => handleSelectServer(guild)}
                   >
                     Selecionar

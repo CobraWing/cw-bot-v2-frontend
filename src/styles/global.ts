@@ -15,6 +15,8 @@ export default createGlobalStyle`
 
     --button-primary: #007bff;
     --button-secondary: #6c757d;
+    --button-positive: #28a745;
+    --button-negative: #c53030;
     --button-success: #28a745;
     --button-danger: #dc3545;
     --button-warning: #ffc107;
@@ -56,6 +58,10 @@ export default createGlobalStyle`
       var(--tertiary) calc(100vh - 50px),
       var(--secondary) 50px
     );
+
+    &.ReactModal__Body--open {
+      overflow: hidden;
+    }
   }
 
   body, input, button {
@@ -69,5 +75,19 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+  }
+
+  .rdt_Pagination {
+    justify-content: center;
+
+    > span {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  .ReactModal__Overlay {
+    z-index: 10 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
   }
 `;

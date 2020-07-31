@@ -6,13 +6,14 @@ import { Container } from './styles';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
-  tp?: 'success' | undefined;
+  tp?: 'positive' | 'negative' | undefined;
 };
 
 const Button: React.FC<ButtonProps> = ({ children, loading, tp, ...rest }) => {
   const classes = classNames({
     loading: loading ? 'loading' : '',
-    success: tp === 'success' ? 'success' : '',
+    positive: tp === 'positive' ? 'positive' : '',
+    negative: tp === 'negative' ? 'negative' : '',
   });
 
   return (

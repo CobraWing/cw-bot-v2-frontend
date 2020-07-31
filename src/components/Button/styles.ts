@@ -19,14 +19,26 @@ export const Container = styled.button`
     background: ${shade(0.2, '#ffffff')};
   }
 
-  &.success {
+  &.positive {
     background: transparent;
-    color: var(--button-success);
-    border: 1px solid var(--button-success);
+    color: var(--button-positive);
+    border: 1px solid var(--button-positive);
 
     transition: color 0.2s;
     &:hover {
-      background: var(--button-success);
+      background: var(--button-positive);
+      color: var(--white);
+    }
+  }
+
+  &.negative {
+    background: transparent;
+    color: var(--button-negative);
+    border: 1px solid var(--button-negative);
+
+    transition: color 0.2s;
+    &:hover {
+      background: var(--button-negative);
       color: var(--white);
     }
   }
