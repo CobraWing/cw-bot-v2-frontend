@@ -5,13 +5,11 @@ export const Container = styled.div`
   grid-area: CENTER;
   grid-column: span 3;
 
-  padding-top: 25px;
+  padding: 25px 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
-
-export const Breadcrumb = styled.div``;
 
 export const Filters = styled.div``;
 
@@ -19,8 +17,8 @@ export const Table = styled.div`
   display: flex;
   justify-content: center;
 
-  .tableStyle {
-    margin: 20px;
+  .header-icon {
+    margin-left: 5px;
   }
 `;
 

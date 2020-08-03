@@ -9,10 +9,11 @@ export const Grid = styled.div`
   min-width: 660px;
 
   grid-template-columns: 150px auto 150px;
-  grid-template-rows: 100px auto 50px;
+  grid-template-rows: 100px 40px auto 50px;
 
   grid-template-areas:
     'HEADER HEADER HEADER'
+    'BCRUMB BCRUMB BCRUMB'
     'LEFT CENTER RIGHT'
     'FOOTER FOOTER FOOTER';
 

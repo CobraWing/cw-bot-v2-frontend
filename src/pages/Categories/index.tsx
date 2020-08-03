@@ -5,12 +5,12 @@ import Modal from 'react-modal';
 
 import { CloseCircle } from '@styled-icons/ionicons-solid';
 import { Like, Dislike } from '@styled-icons/boxicons-solid';
+import { QuestionCircleFill } from '@styled-icons/bootstrap';
 
 import Button from '../../components/Button';
 
 import {
   Container,
-  Breadcrumb,
   Filters,
   Table,
   MyModal,
@@ -47,10 +47,6 @@ const Categories: React.FC = () => {
     setFieldSelected(field);
     setCheckedSelected(checked);
     setIsOpen(true);
-  }, []);
-
-  const afterOpenModal = useCallback(() => {
-    console.log('afterOpenModal');
   }, []);
 
   const closeModal = useCallback(() => {
@@ -144,19 +140,32 @@ const Categories: React.FC = () => {
       name: 'Nome',
       selector: 'name',
       sortable: true,
-      width: '200px',
+      width: '100px',
     },
     {
       name: 'Descrição',
       selector: 'description',
     },
     {
-      name: 'Ativo?',
+      name: (
+        <>
+          <span>Ativo</span>
+          <QuestionCircleFill
+            className="header-icon"
+            size={15}
+            data-tip="Ativar / Desativar a categoria.<br> Isso afetará todos os comandos nessa categoria."
+            data-place="top"
+            data-multiline="true"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+          />
+        </>
+      ),
       selector: 'enabled',
-      sortable: true,
-      right: true,
-      width: '200px',
-      cell: (row: any) => (
+      center: true,
+      width: '100px',
+      cell: (row: ICategory) => (
         <span>
           <Switch
             id="enabled"
@@ -167,10 +176,23 @@ const Categories: React.FC = () => {
       ),
     },
     {
-      name: 'Exibir no menu?',
+      name: (
+        <>
+          <span>Exibir no menu</span>
+          <QuestionCircleFill
+            className="header-icon"
+            size={15}
+            data-tip="Exibir / Não exibir no menu.<br> Isso controla quando os comandos <br> nessa categoria são exibidos no menu."
+            data-place="top"
+            data-multiline="true"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+          />
+        </>
+      ),
       selector: 'show_in_menu',
-      sortable: true,
-      right: true,
+      center: true,
       width: '200px',
       cell: (row: ICategory) => (
         <span>
@@ -195,7 +217,6 @@ const Categories: React.FC = () => {
   return (
     <LayoutDefault>
       <Container>
-        <Breadcrumb>Dashboard / Categorias</Breadcrumb>
         <Filters>Campos de filtros...</Filters>
         <Table>
           <DataTable
@@ -213,7 +234,6 @@ const Categories: React.FC = () => {
 
         <MyModal
           isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           contentLabel="Example Modal"
           shouldCloseOnOverlayClick={false}

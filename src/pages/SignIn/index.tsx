@@ -42,8 +42,9 @@ const SignIn: React.FC = () => {
         history.push('/');
         addToast({
           type: 'error',
-          title: 'Erro ao fazer login (#2/2)',
-          description: 'Ocorreu um erro ao fazer o login, tente novamente.',
+          title: 'Erro ao fazer login',
+          description:
+            'Ocorreu um erro ao fazer o login, tente novamente. (#2/2)',
         });
         setLoading(false);
       });
@@ -62,8 +63,9 @@ const SignIn: React.FC = () => {
         .catch(() => {
           addToast({
             type: 'error',
-            title: 'Erro ao fazer login (#2/1)',
-            description: 'Ocorreu um erro ao fazer o login, tente novamente.',
+            title: 'Erro ao fazer login',
+            description:
+              'Ocorreu um erro ao fazer o login, tente novamente. (#1/2)',
           });
           setLoading(false);
         });
