@@ -11,11 +11,26 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const Filters = styled.div``;
+export const Filters = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 20px;
+
+  Form {
+    margin-left: 10px;
+  }
+
+  Button {
+    margin-left: 10px;
+    height: 30px;
+  }
+`;
 
 export const Table = styled.div`
   display: flex;
   justify-content: center;
+  border-radius: 15px;
 
   .header-icon {
     margin-left: 5px;

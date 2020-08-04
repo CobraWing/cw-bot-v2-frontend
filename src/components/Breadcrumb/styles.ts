@@ -18,7 +18,10 @@ export const BreadcrumbContent = styled.section`
     li {
       display: flex;
       align-items: center;
-      margin-right: 10px;
+      padding: 0 5px;
+      transition: background-color 0.2s;
+      transition: border-radius 0.2s;
+
       svg:first-child {
         margin-right: 5px;
       }
@@ -26,10 +29,11 @@ export const BreadcrumbContent = styled.section`
       a:link,
       a:visited {
         color: var(--text);
-        text-decoration: none;
-      }
-      a:hover {
         text-decoration: underline;
+      }
+      &:hover {
+        background: var(--quinary);
+        border-radius: 10px;
       }
     }
 
@@ -45,6 +49,34 @@ export const Arrow = styled(ArrowIosForwardOutline)`
   width: 25px;
   height: 25px;
 
-  margin-left: 10px;
+  margin-left: 5px;
   color: var(--gray);
+`;
+
+export const BackButton = styled.button`
+  background: transparent;
+  border: 0;
+  color: var(--text);
+
+  width: 85px;
+  text-align: left;
+
+  border-right: 1px solid var(--text);
+  margin-right: 10px;
+
+  transition: background-color 0.2s;
+  transition: border-radius 0.2s;
+
+  svg {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    background: var(--quinary);
+    border-radius: 10px;
+    svg {
+      color: var(--text);
+      padding-left: 3px;
+    }
+  }
 `;
