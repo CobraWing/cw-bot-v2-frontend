@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
+import ReactTooltip from 'react-tooltip';
 import Switch from 'react-switch';
 import Modal from 'react-modal';
 import { Form } from '@unform/web';
@@ -128,6 +129,10 @@ const Categories: React.FC = () => {
       ),
     );
   }, [filterNameField, data]);
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, [filteredData]);
 
   const openModal = useCallback((row, field, checked) => {
     setCategorySelected(row);
