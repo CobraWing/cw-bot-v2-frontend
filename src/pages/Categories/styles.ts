@@ -19,11 +19,47 @@ export const Filters = styled.div`
 
   Form {
     margin-left: 10px;
+    display: flex;
+    position: relative;
+
+    input {
+      padding-right: 20px;
+    }
   }
 
-  Button {
+  .clear {
+    position: absolute;
+    left: 155px;
+    top: -4px;
+    background: transparent;
+    border: 0;
+    color: var(--gray);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--white);
+    }
+  }
+
+  .filter {
     margin-left: 10px;
     height: 30px;
+    padding-right: 5px;
+
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    color: var(--white);
+    background: transparent;
+    transition: background-color 0.2s;
+
+    svg {
+      margin-left: 5px;
+    }
+
+    &:hover {
+      color: var(--gray);
+      background: var(--white);
+    }
   }
 `;
 

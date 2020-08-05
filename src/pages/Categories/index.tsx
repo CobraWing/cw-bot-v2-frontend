@@ -7,7 +7,7 @@ import { Form } from '@unform/web';
 
 import { CloseCircle } from '@styled-icons/ionicons-solid';
 import { Like, Dislike } from '@styled-icons/boxicons-solid';
-import { QuestionCircleFill } from '@styled-icons/bootstrap';
+import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
 import Button from '../../components/Button';
@@ -256,15 +256,21 @@ const Categories: React.FC = () => {
     <LayoutDefault>
       <Container>
         <Filters>
-          <span>Filtrar por nome:</span>
+          <span>Filtrar por:</span>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
+              placeholder="Nome"
               name="name"
               containerStyle={{ width: '200px' }}
-              onChange={() => formRef.current?.submitForm()}
             />
+            <Button className="clear" onClick={handleClearFilters}>
+              <CloseCircle size={25} />
+            </Button>
+            <Button className="filter" type="submit">
+              Filtrar
+              <Filter size={20} />
+            </Button>
           </Form>
-          <Button onClick={handleClearFilters}>Limpar</Button>
         </Filters>
         <Table>
           <DataTable
@@ -278,6 +284,7 @@ const Categories: React.FC = () => {
             paginationPerPage={5}
             noHeader
             paginationComponentOptions={paginationOptions}
+            noDataComponent="Nenhuma categoria encontrada!"
           />
         </Table>
 

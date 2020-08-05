@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ children, loading, tp, ...rest }) => {
   });
 
   return (
-    <Container type="button" {...rest} className={classes} disabled={!!loading}>
+    <Container type="button" className={classes} {...rest} disabled={!!loading}>
       {loading ? (
         <>
           <FiLoader /> Carregando...

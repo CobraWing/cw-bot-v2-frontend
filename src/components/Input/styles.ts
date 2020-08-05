@@ -31,8 +31,8 @@ export const Container = styled.div<ContainerProps>`
   ${(props) =>
     props.isFocused &&
     css`
-      color: var(--discord);
-      border-color: var(--discord);
+      color: var(--gray);
+      border-color: var(--gray);
     `}
 
   ${(props) =>

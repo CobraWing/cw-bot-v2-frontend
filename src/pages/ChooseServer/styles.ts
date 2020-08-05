@@ -58,6 +58,7 @@ export const GuildContainer = styled.div`
     align-content: center;
     align-items: center;
     padding-right: 0;
+    border-radius: 20px;
 
     svg {
       margin-right: 5px;
