@@ -20,7 +20,7 @@ export const BreadcrumbContent = styled.section`
       align-items: center;
       padding: 0 5px;
       transition: background-color 0.2s;
-      transition: border-radius 0.2s;
+      transition: border-radius 0.1s;
 
       svg:first-child {
         margin-right: 5px;
@@ -33,7 +33,7 @@ export const BreadcrumbContent = styled.section`
       }
       &:hover {
         background: var(--quinary);
-        border-radius: 10px;
+        border-radius: 20px;
       }
     }
 
@@ -61,7 +61,7 @@ export const BackButton = styled.button`
   width: 85px;
   text-align: left;
 
-  border-right: 1px solid var(--text);
+  border-radius: 10px;
   margin-right: 10px;
 
   transition: background-color 0.2s;
@@ -73,10 +73,9 @@ export const BackButton = styled.button`
 
   &:hover {
     background: var(--quinary);
-    border-radius: 10px;
+
     svg {
       color: var(--text);
-      padding-left: 3px;
     }
   }
 `;

@@ -24,6 +24,8 @@ import {
 } from './styles';
 
 import LayoutDefault from '../../components/Layout/Default';
+import api from '../../services/api';
+import { useToast } from '../../hooks/toast';
 
 interface ICategory {
   id: string;
@@ -40,6 +42,7 @@ const Categories: React.FC = () => {
   Modal.setAppElement('#root');
 
   const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
 
   const [data, setData] = useState<ICategory[]>([] as ICategory[]);
   const [filterNameField, setFilterNameField] = useState('');
@@ -54,71 +57,21 @@ const Categories: React.FC = () => {
   const [checkedSelected, setCheckedSelected] = useState(false);
 
   useEffect(() => {
-    const mockData = [
-      {
-        id: '13ce9720-3523-467b-893e-cf4fc0241196',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category com nome grande',
-        description: 'description a',
-        enabled: true,
-        show_in_menu: true,
-        created_at: '2020-07-10T02:45:34.596Z',
-        updated_at: '2020-07-10T02:45:34.596Z',
-      },
-      {
-        id: '7feab1f9-0de3-4497-a8cc-fc139cc70ce8',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category 2',
-        description: 'description b',
-        enabled: false,
-        show_in_menu: true,
-        created_at: '2020-07-10T03:01:22.018Z',
-        updated_at: '2020-07-10T03:01:22.018Z',
-      },
-      {
-        id: 'c29d2c25-d865-4621-8c40-f6b7d47eeaa7',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category 3',
-        description: 'description c',
-        enabled: true,
-        show_in_menu: false,
-        created_at: '2020-07-10T03:05:10.626Z',
-        updated_at: '2020-07-10T03:05:10.626Z',
-      },
-      {
-        id: 'c29d2c25-d865-4621-8c40-f6b7d47eeaa8',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category 4',
-        description: 'description d',
-        enabled: true,
-        show_in_menu: false,
-        created_at: '2020-07-10T03:05:10.626Z',
-        updated_at: '2020-07-10T03:05:10.626Z',
-      },
-      {
-        id: 'c29d2c25-d865-4621-8c40-f6b7d47eeaa9',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category 5',
-        description: 'description e',
-        enabled: true,
-        show_in_menu: false,
-        created_at: '2020-07-10T03:05:10.626Z',
-        updated_at: '2020-07-10T03:05:10.626Z',
-      },
-      {
-        id: 'c29d2c25-d865-4621-8c40-f6b7d47eea10',
-        server_id: '3e734863-594e-4850-8c72-d69e520163c2',
-        name: 'category 6',
-        description: 'description f',
-        enabled: true,
-        show_in_menu: false,
-        created_at: '2020-07-10T03:05:10.626Z',
-        updated_at: '2020-07-10T03:05:10.626Z',
-      },
-    ];
-    setData([...mockData]);
-    setFilteredData([...mockData]);
-  }, []);
+    api
+      .get('/categories')
+      .then((response) => {
+        setData(response.data);
+        setFilteredData(response.data);
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Erro ao carregar',
+          description:
+            'Ocorreu um erro ao carregar as categorias, tente novamente.',
+        });
+      });
+  }, [addToast]);
 
   useEffect(() => {
     setFilteredData(
