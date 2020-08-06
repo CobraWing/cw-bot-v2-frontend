@@ -43,6 +43,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const guildJson = localStorage.getItem('@CobraWingBot:selectedGuild');
     if (guildJson) {
       const guild = JSON.parse(guildJson);
+      delete api.defaults.headers.guildId;
       api.defaults.headers.guildId = guild.id;
       return guild;
     }
@@ -53,6 +54,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const token = localStorage.getItem('@CobraWingBot:token');
     const user = localStorage.getItem('@CobraWingBot:user');
     const guilds = localStorage.getItem('@CobraWingBot:guilds');
+    delete api.defaults.headers.authorization;
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -83,6 +85,7 @@ const AuthProvider: React.FC = ({ children }) => {
       localStorage.removeItem('@CobraWingBot:selectedGuild');
       cookies.set('@CobraWingBot:session', true, { maxAge: 84924 });
 
+      delete api.defaults.headers.authorization;
       api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ token, user, guilds });
@@ -115,6 +118,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const updateSelectedGuild = useCallback(
     (guild: Guild) => {
+      delete api.defaults.headers.guildId;
       api.defaults.headers.guildid = guild.id;
       localStorage.setItem(
         '@CobraWingBot:selectedGuild',
