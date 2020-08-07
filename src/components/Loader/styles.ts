@@ -1,0 +1,28 @@
+import styled from 'styled-components';
+
+export const Content = styled.div`
+  position: absolute;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.8) !important;
+
+  height: 100%;
+  width: 100%;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  img {
+    margin-top: 20%;
+    width: 80px;
+    height: 80px;
+  }
+
+  p {
+    margin-left: 10px;
+  }
+`;

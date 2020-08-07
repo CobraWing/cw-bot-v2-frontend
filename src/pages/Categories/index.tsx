@@ -26,6 +26,7 @@ import {
 import LayoutDefault from '../../components/Layout/Default';
 import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
+import { useLoader } from '../../hooks/loader';
 
 interface ICategory {
   id: string;
@@ -43,6 +44,7 @@ const Categories: React.FC = () => {
 
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
+  const { enableLoader, disableLoader, isLoading } = useLoader();
 
   const [data, setData] = useState<ICategory[]>([] as ICategory[]);
   const [filterNameField, setFilterNameField] = useState('');
@@ -57,6 +59,7 @@ const Categories: React.FC = () => {
   const [checkedSelected, setCheckedSelected] = useState(false);
 
   useEffect(() => {
+    enableLoader();
     api
       .get('/categories')
       .then((response) => {
@@ -70,8 +73,9 @@ const Categories: React.FC = () => {
           description:
             'Ocorreu um erro ao carregar as categorias, tente novamente.',
         });
-      });
-  }, [addToast]);
+      })
+      .finally(() => disableLoader());
+  }, [addToast, enableLoader, disableLoader]);
 
   useEffect(() => {
     setFilteredData(
@@ -226,19 +230,21 @@ const Categories: React.FC = () => {
           </Form>
         </Filters>
         <Table>
-          <DataTable
-            className="tableStyle"
-            columns={columns}
-            data={filteredData}
-            defaultSortField="name"
-            theme="dark"
-            highlightOnHover
-            pagination
-            paginationPerPage={5}
-            noHeader
-            paginationComponentOptions={paginationOptions}
-            noDataComponent="Nenhuma categoria encontrada!"
-          />
+          {!isLoading && (
+            <DataTable
+              className="tableStyle"
+              columns={columns}
+              data={filteredData}
+              defaultSortField="name"
+              theme="dark"
+              highlightOnHover
+              pagination
+              paginationPerPage={5}
+              noHeader
+              paginationComponentOptions={paginationOptions}
+              noDataComponent="Nenhuma categoria encontrada!"
+            />
+          )}
         </Table>
 
         <MyModal
