@@ -2,25 +2,17 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import ReactTooltip from 'react-tooltip';
 import Switch from 'react-switch';
-import Modal from 'react-modal';
 import { Form } from '@unform/web';
 
-import { CloseCircle, Close } from '@styled-icons/ionicons-solid';
-import { QuestionCircleFill, Filter, Check } from '@styled-icons/bootstrap';
+import { CloseCircle } from '@styled-icons/ionicons-solid';
+import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import ConfirmModal from '../../components/ConfirmModal';
 
-import {
-  Container,
-  Filters,
-  Table,
-  MyModal,
-  MyModalHeader,
-  CloseButton,
-  MyModalContent,
-} from './styles';
+import { Container, Filters, Table } from './styles';
 
 import LayoutDefault from '../../components/Layout/Default';
 import api from '../../services/api';
@@ -39,8 +31,6 @@ interface ICategory {
 }
 
 const Categories: React.FC = () => {
-  Modal.setAppElement('#root');
-
   const formRef = useRef<FormHandles>(null);
   const { addToast, toastMessages } = useToast();
   const { enableLoader, disableLoader, isLoading } = useLoader();
@@ -106,7 +96,7 @@ const Categories: React.FC = () => {
     setIsOpen(false);
   }, []);
 
-  const handleSwitch = useCallback(() => {
+  const acceptAction = useCallback(() => {
     closeModal();
     enableLoader();
 
@@ -282,40 +272,19 @@ const Categories: React.FC = () => {
           )}
         </Table>
 
-        <MyModal
+        <ConfirmModal
+          title={
+            categorySelected && (
+              <>
+                {getMessageModal()}
+                <strong>{categorySelected.name}</strong> ?
+              </>
+            )
+          }
           isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Example Modal"
-          shouldCloseOnOverlayClick={false}
-        >
-          <MyModalHeader>
-            <span>Confirmação</span>
-            <CloseButton type="button" onClick={closeModal}>
-              <CloseCircle />
-            </CloseButton>
-          </MyModalHeader>
-          <MyModalContent>
-            <span>
-              {categorySelected && (
-                <>
-                  {getMessageModal()}
-                  <strong>{categorySelected.name}</strong> ?
-                </>
-              )}
-            </span>
-            <div>
-              <Button tp="positive" onClick={handleSwitch}>
-                Sim
-                <Check size={30} />
-              </Button>
-
-              <Button tp="negative" onClick={closeModal}>
-                Não
-                <Close size={25} />
-              </Button>
-            </div>
-          </MyModalContent>
-        </MyModal>
+          acceptAction={acceptAction}
+          rejectAction={closeModal}
+        />
       </Container>
     </LayoutDefault>
   );
