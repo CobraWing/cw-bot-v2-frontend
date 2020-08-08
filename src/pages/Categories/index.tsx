@@ -107,6 +107,9 @@ const Categories: React.FC = () => {
   }, []);
 
   const handleSwitch = useCallback(() => {
+    closeModal();
+    enableLoader();
+
     const updateData = {
       name: categorySelected.name,
       description: categorySelected.description,
@@ -118,6 +121,7 @@ const Categories: React.FC = () => {
     api
       .put(`/categories/${categorySelected.id}`, updateData)
       .then(() => {
+        loadCategories();
         addToast({
           type: 'success',
           title: 'Tudo certo :)',
@@ -131,10 +135,6 @@ const Categories: React.FC = () => {
           description:
             'Ocorreu um erro ao atualizar a categoria, tente novamente.',
         });
-      })
-      .finally(() => {
-        closeModal();
-        loadCategories();
       });
   }, [
     addToast,
@@ -143,6 +143,7 @@ const Categories: React.FC = () => {
     fieldSelected,
     closeModal,
     loadCategories,
+    enableLoader,
   ]);
 
   const getMessageModal = useCallback(() => {

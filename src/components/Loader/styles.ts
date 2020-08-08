@@ -17,7 +17,7 @@ export const Content = styled.div`
   overflow-y: hidden;
 
   img {
-    margin-top: 20%;
+    margin-top: 30vh;
     width: 80px;
     height: 80px;
   }
