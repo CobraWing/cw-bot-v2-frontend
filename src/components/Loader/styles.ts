@@ -7,7 +7,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
 
-  z-index: 99;
+  z-index: 6;
   background: rgba(0, 0, 0, 0.8) !important;
 
   height: 100%;

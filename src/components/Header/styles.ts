@@ -89,7 +89,7 @@ export const LogoutButton = styled.button`
   margin-left: 20px;
   background: transparent;
   border: 0;
-  z-index: 2;
+  z-index: 5;
 
   svg {
     color: var(--cw);

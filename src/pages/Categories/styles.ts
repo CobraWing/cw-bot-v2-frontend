@@ -156,12 +156,22 @@ export const MyModalContent = styled.div`
     }
   }
 
-  button {
-    margin: 0 10px;
-    padding-right: 5px;
+  div {
+    display: flex;
 
-    svg {
-      margin-left: 10px;
+    button {
+      margin: 0 10px;
+      padding-right: 10px;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 95px;
+
+      svg {
+        margin-left: 10px;
+      }
     }
   }
 `;

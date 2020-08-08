@@ -88,7 +88,7 @@ export default createGlobalStyle`
   }
 
   .ReactModal__Overlay {
-    z-index: 10 !important;
+    z-index: 6 !important;
     background: rgba(0, 0, 0, 0.7) !important;
   }
 `;

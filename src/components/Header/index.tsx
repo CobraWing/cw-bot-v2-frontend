@@ -71,7 +71,7 @@ const Header: React.FC = () => {
           type="button"
           onClick={signOut}
           data-tip="Deslogar"
-          data-place="bottom"
+          data-place="left"
           data-background-color="red"
           data-text-color="white"
           data-border="white"

@@ -5,9 +5,9 @@ import Switch from 'react-switch';
 import Modal from 'react-modal';
 import { Form } from '@unform/web';
 
-import { CloseCircle } from '@styled-icons/ionicons-solid';
+import { CloseCircle, Close } from '@styled-icons/ionicons-solid';
 import { Like, Dislike } from '@styled-icons/boxicons-solid';
-import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
+import { QuestionCircleFill, Filter, Check } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
 import Button from '../../components/Button';
@@ -43,7 +43,7 @@ const Categories: React.FC = () => {
   Modal.setAppElement('#root');
 
   const formRef = useRef<FormHandles>(null);
-  const { addToast } = useToast();
+  const { addToast, toastMessages } = useToast();
   const { enableLoader, disableLoader, isLoading } = useLoader();
 
   const [data, setData] = useState<ICategory[]>([] as ICategory[]);
@@ -58,13 +58,12 @@ const Categories: React.FC = () => {
   const [fieldSelected, setFieldSelected] = useState('');
   const [checkedSelected, setCheckedSelected] = useState(false);
 
-  useEffect(() => {
+  const loadCategories = useCallback(() => {
     enableLoader();
     api
       .get('/categories')
       .then((response) => {
         setData(response.data);
-        setFilteredData(response.data);
       })
       .catch(() => {
         addToast({
@@ -74,8 +73,14 @@ const Categories: React.FC = () => {
             'Ocorreu um erro ao carregar as categorias, tente novamente.',
         });
       })
-      .finally(() => disableLoader());
+      .finally(() => {
+        disableLoader();
+      });
   }, [addToast, enableLoader, disableLoader]);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
 
   useEffect(() => {
     setFilteredData(
@@ -89,7 +94,7 @@ const Categories: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.rebuild();
-  }, [filteredData]);
+  }, [filteredData, isLoading, toastMessages, modalIsOpen]);
 
   const openModal = useCallback((row, field, checked) => {
     setCategorySelected(row);
@@ -103,13 +108,43 @@ const Categories: React.FC = () => {
   }, []);
 
   const handleSwitch = useCallback(() => {
-    const newRow = {
-      ...categorySelected,
+    const updateData = {
+      name: categorySelected.name,
+      description: categorySelected.description,
+      enabled: categorySelected.enabled,
+      show_in_menu: categorySelected.show_in_menu,
       [fieldSelected]: checkedSelected,
     };
-    setData([...data.filter((r) => r.id !== categorySelected.id), newRow]);
-    closeModal();
-  }, [categorySelected, checkedSelected, fieldSelected, data, closeModal]);
+
+    api
+      .put(`/categories/${categorySelected.id}`, updateData)
+      .then(() => {
+        addToast({
+          type: 'success',
+          title: 'Tudo certo :)',
+          description: 'Categoria atualizada com sucesso.',
+        });
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Algo deu errado :(',
+          description:
+            'Ocorreu um erro ao atualizar a categoria, tente novamente.',
+        });
+      })
+      .finally(() => {
+        closeModal();
+        loadCategories();
+      });
+  }, [
+    addToast,
+    categorySelected,
+    checkedSelected,
+    fieldSelected,
+    closeModal,
+    loadCategories,
+  ]);
 
   const getMessageModal = useCallback(() => {
     let action = '';
@@ -271,12 +306,12 @@ const Categories: React.FC = () => {
             <div>
               <Button tp="positive" onClick={handleSwitch}>
                 Sim
-                <Like size={22} />
+                <Check size={30} />
               </Button>
 
               <Button tp="negative" onClick={closeModal}>
                 Não
-                <Dislike size={22} />
+                <Close size={25} />
               </Button>
             </div>
           </MyModalContent>
