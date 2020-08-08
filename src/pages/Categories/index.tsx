@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import { Form } from '@unform/web';
 
 import { CloseCircle, Close } from '@styled-icons/ionicons-solid';
-import { Like, Dislike } from '@styled-icons/boxicons-solid';
 import { QuestionCircleFill, Filter, Check } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
