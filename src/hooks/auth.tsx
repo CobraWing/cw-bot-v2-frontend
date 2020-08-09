@@ -135,6 +135,7 @@ const AuthProvider: React.FC = ({ children }) => {
     localStorage.removeItem('@CobraWingBot:user');
     localStorage.removeItem('@CobraWingBot:guilds');
     cookies.set('@CobraWingBot:session-expirated', true, { maxAge: 5 * 60 });
+    setData({} as AuthState);
   }
 
   return (
