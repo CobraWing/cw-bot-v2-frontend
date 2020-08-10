@@ -1,22 +1,21 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
 
 export const Container = styled.button`
-  background: #ffffff;
-  height: 40px;
-  border-radius: 7px;
-  border: 0;
+  height: 30px;
   padding: 0 16px;
-  color: #312e38;
-  font-weight: 500;
+  border: 1px solid var(--button-defaul-border);
+  border-radius: 20px;
+  color: var(--button-defaul-color);
+  background: var(--button-defaul-background);
   transition: background-color 0.2s;
 
   svg {
-    margin-right: 5px;
+    margin-left: 5px;
   }
 
   &:hover {
-    background: ${shade(0.2, '#ffffff')};
+    color: var(--button-defaul-hovered-color);
+    background: var(--button-defaul-hovered-background);
   }
 
   &.positive {

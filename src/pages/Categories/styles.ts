@@ -26,10 +26,10 @@ export const Filters = styled.div`
     }
   }
 
-  .clear {
+  .clear-icon {
     position: absolute;
-    left: 155px;
-    top: -4px;
+    left: 150px;
+    top: 0;
     background: transparent;
     border: 0;
     color: var(--gray);
@@ -42,23 +42,6 @@ export const Filters = styled.div`
 
   .filter {
     margin-left: 10px;
-    height: 30px;
-    padding-right: 5px;
-
-    border: 1px solid var(--gray);
-    border-radius: 20px;
-    color: var(--white);
-    background: transparent;
-    transition: background-color 0.2s;
-
-    svg {
-      margin-left: 5px;
-    }
-
-    &:hover {
-      color: var(--gray);
-      background: var(--white);
-    }
   }
 `;
 

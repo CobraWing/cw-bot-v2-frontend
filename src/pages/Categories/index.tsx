@@ -245,7 +245,7 @@ const Categories: React.FC = () => {
               name="name"
               containerStyle={{ width: '200px' }}
             />
-            <Button className="clear" onClick={handleClearFilters}>
+            <Button className="clear-icon" onClick={handleClearFilters}>
               <CloseCircle size={25} />
             </Button>
             <Button className="filter" type="submit">

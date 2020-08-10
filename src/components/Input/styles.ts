@@ -7,13 +7,13 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: #232129;
+  background: var(--input-default-background);
   border-radius: 10px;
   padding: 6px 8px;
   width: 100%;
 
-  border: 2px solid var(--quinary);
-  color: var(--text);
+  border: 2px solid var(--input-default-border);
+  color: var(--input-default-color);
 
   display: flex;
   align-items: center;
@@ -25,14 +25,14 @@ export const Container = styled.div<ContainerProps>`
   ${(props) =>
     props.isErrored &&
     css`
-      border-color: #c53030;
+      border-color: var(--error);
     `}
 
   ${(props) =>
     props.isFocused &&
     css`
-      color: var(--gray);
-      border-color: var(--gray);
+      color: var(--input-default-focused);
+      border-color: var(--input-default-focused);
     `}
 
   ${(props) =>
@@ -41,15 +41,25 @@ export const Container = styled.div<ContainerProps>`
       color: var(--discord);
     `}
 
+  &:hover {
+    border-color: var(--input-default-hovered-border);
+  }
+
   input {
     flex: 1;
     background: transparent;
     border: 0;
-    color: var(--text);
+    color: var(--input-default-text);
     font-size: 14px;
 
     &::placeholder {
-      color: #666360;
+      color: var(--input-default-placeholder);
+    }
+
+    &:hover {
+      &::placeholder {
+        color: var(--input-default-hovered-placeholder);
+      }
     }
   }
 

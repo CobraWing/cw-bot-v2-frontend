@@ -75,7 +75,7 @@ export const MyModalContent = styled.div`
   height: calc(100% - 40px);
 
   span {
-    margin: 25px 0;
+    margin: 35px 0;
     font-size: 18px;
     text-align: center;
 

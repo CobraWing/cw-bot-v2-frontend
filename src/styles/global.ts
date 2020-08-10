@@ -7,12 +7,28 @@ export default createGlobalStyle`
     --tertiary: #36393f;
     --quaternary: #40444b;
     --quinary: #53565d;
-    --secnary: #7289DA;
+    --secnary:#74777a
+    --octnary: #8a8c90;
 
     --cw: #EE0000;
     --text: #dcddde;
     --text-link: #00b0f4;
     --discord: #6e86d6;
+
+    --input-default-background: #23272A;
+    --input-default-border: #53565d;
+    --input-default-color: #dcddde;
+    --input-default-focused: #8a8c90;
+    --input-default-text: #dcddde;
+    --input-default-placeholder: #666360;
+    --input-default-hovered-border: #8a8c90;
+    --input-default-hovered-placeholder: #8a8c90;
+
+    --button-defaul-color: #fff;
+    --button-defaul-border: #8a8c90;
+    --button-defaul-background: tranparent;
+    --button-defaul-hovered-color: #23272A;
+    --button-defaul-hovered-background: #dcddde;
 
     --button-primary: #007bff;
     --button-secondary: #6c757d;
