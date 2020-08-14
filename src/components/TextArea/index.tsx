@@ -10,21 +10,21 @@ import { IconBaseProps } from 'react-icons';
 import { useField } from '@unform/core';
 import { Label, Container } from './styles';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label?: string;
   containerStyle?: object;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({
+const TextArea: React.FC<InputProps> = ({
   name,
   label,
   containerStyle = {},
   icon: Icon,
   ...rest
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const { fieldName, defaultValue, error, registerField } = useField(name);
@@ -57,7 +57,9 @@ const Input: React.FC<InputProps> = ({
         data-testid="input-container"
       >
         {Icon && <Icon size={20} />}
-        <input
+        <textarea
+          id="w3review"
+          name="w3review"
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           ref={inputRef}
@@ -71,4 +73,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default TextArea;

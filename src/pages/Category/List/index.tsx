@@ -8,16 +8,16 @@ import { CloseCircle } from '@styled-icons/ionicons-solid';
 import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import ConfirmModal from '../../components/ConfirmModal';
+import Button from '../../../components/Button';
+import Input from '../../../components/Input';
+import ConfirmModal from '../../../components/ConfirmModal';
 
 import { Container, Filters, Table } from './styles';
 
-import LayoutDefault from '../../components/Layout/Default';
-import api from '../../services/api';
-import { useToast } from '../../hooks/toast';
-import { useLoader } from '../../hooks/loader';
+import LayoutDefault from '../../../components/Layout/Default';
+import api from '../../../services/api';
+import { useToast } from '../../../hooks/toast';
+import { useLoader } from '../../../hooks/loader';
 
 interface ICategory {
   id: string;
@@ -30,7 +30,7 @@ interface ICategory {
   updated_at: string;
 }
 
-const Categories: React.FC = () => {
+const ListCategories: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast, toastMessages } = useToast();
   const { enableLoader, disableLoader, isLoading } = useLoader();
@@ -290,4 +290,4 @@ const Categories: React.FC = () => {
   );
 };
 
-export default Categories;
+export default ListCategories;

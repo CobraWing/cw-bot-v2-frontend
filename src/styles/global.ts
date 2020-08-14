@@ -81,7 +81,7 @@ export default createGlobalStyle`
     }
   }
 
-  body, input, button {
+  body, input, button, textarea {
     font-family: 'Roboto', serif;
     font-size: 16px;
   }

@@ -15,6 +15,7 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 10px;
   padding: 6px 8px;
   width: 100%;
+  height: 80px;
 
   border: 2px solid var(--input-default-border);
   color: var(--input-default-color);
@@ -49,12 +50,14 @@ export const Container = styled.div<ContainerProps>`
     border-color: var(--input-default-hovered-border);
   }
 
-  input {
+  textarea {
     flex: 1;
     background: transparent;
     border: 0;
     color: var(--input-default-text);
     font-size: 14px;
+    height: 100%;
+    resize: none;
 
     &::placeholder {
       color: var(--input-default-placeholder);
