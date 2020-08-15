@@ -62,6 +62,11 @@ const TextArea: React.FC<InputProps> = ({
           name="w3review"
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              e.stopPropagation();
+            }
+          }}
           ref={inputRef}
           defaultValue={defaultValue}
           {...rest}

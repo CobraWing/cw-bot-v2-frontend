@@ -60,6 +60,11 @@ const Input: React.FC<InputProps> = ({
         <input
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+            }
+          }}
           ref={inputRef}
           defaultValue={defaultValue}
           {...rest}

@@ -18,4 +18,11 @@ export const Container = styled.div`
   svg {
     margin-right: 16px;
   }
+
+  > div {
+    border: 2px solid transparent;
+    &:hover {
+      border: 2px solid var(--input-default-color);
+    }
+  }
 `;

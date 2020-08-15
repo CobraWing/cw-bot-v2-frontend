@@ -19,8 +19,14 @@ const SwitchInput: React.FC<InputProps> = ({
   containerStyle = {},
   icon: Icon,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      setIsChecked(defaultValue);
+    }
+  }, [defaultValue]);
 
   useEffect(() => {
     registerField({
@@ -37,6 +43,12 @@ const SwitchInput: React.FC<InputProps> = ({
         {label && <Label>{label}</Label>}
         <Switch
           onChange={() => setIsChecked((last) => !last)}
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              setIsChecked((last) => !last);
+            }
+          }}
           defaultValue={defaultValue}
           checked={isChecked}
         />

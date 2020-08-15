@@ -17,11 +17,17 @@ const NewCategory: React.FC = () => {
     console.log(filterData);
   }, []);
 
+  const data = {
+    name: 'name teste',
+    description: 'description teste',
+    enabled: true,
+  };
+
   return (
     <LayoutDefault>
       <Container>
         <h2>Adicionar uma nova categoria</h2>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit} initialData={data}>
           <Input
             label="Nome:"
             placeholder="Nome"
