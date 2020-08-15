@@ -51,6 +51,20 @@ export const Table = styled.div`
   border-radius: 15px;
 
   .header-icon {
-    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .tableStyle {
+    .rdt_TableHeadRow,
+    .rdt_TableRow,
+    .rdt_Pagination {
+      background: var(--quaternary);
+    }
+
+    .rdt_TableRow {
+      &:hover {
+        background: var(--secondary);
+      }
+    }
   }
 `;

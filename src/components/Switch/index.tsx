@@ -38,7 +38,11 @@ const SwitchInput: React.FC<InputProps> = ({
 
   return (
     <>
-      <Container style={containerStyle} data-testid="input-container">
+      <Container
+        style={containerStyle}
+        data-testid="input-container"
+        className="formContainerSwitch"
+      >
         {Icon && <Icon size={20} />}
         {label && <Label>{label}</Label>}
         <Switch

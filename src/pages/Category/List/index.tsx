@@ -169,7 +169,6 @@ const ListCategories: React.FC = () => {
     {
       name: (
         <>
-          <span>Ativo</span>
           <QuestionCircleFill
             className="header-icon"
             size={15}
@@ -180,6 +179,7 @@ const ListCategories: React.FC = () => {
             data-text-color="white"
             data-border="white"
           />
+          <span>Ativo</span>
         </>
       ),
       selector: 'enabled',
@@ -198,7 +198,6 @@ const ListCategories: React.FC = () => {
     {
       name: (
         <>
-          <span>Exibir no menu</span>
           <QuestionCircleFill
             className="header-icon"
             size={15}
@@ -209,6 +208,7 @@ const ListCategories: React.FC = () => {
             data-text-color="white"
             data-border="white"
           />
+          <span>Exibir no menu</span>
         </>
       ),
       selector: 'show_in_menu',

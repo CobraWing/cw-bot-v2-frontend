@@ -55,6 +55,7 @@ const Input: React.FC<InputProps> = ({
         isFocused={isFocused}
         isFilled={isFilled}
         data-testid="input-container"
+        className="formContainerInput"
       >
         {Icon && <Icon size={20} />}
         <input

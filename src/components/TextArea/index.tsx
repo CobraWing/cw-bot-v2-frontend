@@ -55,11 +55,10 @@ const TextArea: React.FC<InputProps> = ({
         isFocused={isFocused}
         isFilled={isFilled}
         data-testid="input-container"
+        className="formContainerTextArea"
       >
         {Icon && <Icon size={20} />}
         <textarea
-          id="w3review"
-          name="w3review"
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           onKeyDown={(e) => {
