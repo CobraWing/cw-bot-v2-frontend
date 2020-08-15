@@ -18,7 +18,7 @@ export const Container = styled.button`
     background: var(--button-defaul-hovered-background);
   }
 
-  &.positive {
+  &.action {
     background: transparent;
     color: var(--button-positive);
     border: 1px solid var(--button-positive);

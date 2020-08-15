@@ -35,6 +35,7 @@ export const Content = styled.div`
   }
 
   button {
+    height: 40px;
     background: #7289da;
     color: #ffffff;
     font-size: 20px;
@@ -48,6 +49,7 @@ export const Content = styled.div`
 
     &:hover {
       background: ${shade(0.2, '#7289da')};
+      color: #ffffff;
     }
 
     img {

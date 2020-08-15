@@ -4,10 +4,11 @@ import ReactTooltip from 'react-tooltip';
 import Switch from 'react-switch';
 import { Form } from '@unform/web';
 
-import { CloseCircle } from '@styled-icons/ionicons-solid';
+import { CloseCircle, Add } from '@styled-icons/ionicons-solid';
 import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
 
 import { FormHandles } from '@unform/core';
+import { useHistory } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import ConfirmModal from '../../../components/ConfirmModal';
@@ -32,6 +33,8 @@ interface ICategory {
 
 const ListCategories: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
+
   const { addToast, toastMessages } = useToast();
   const { enableLoader, disableLoader, isLoading } = useLoader();
 
@@ -84,6 +87,10 @@ const ListCategories: React.FC = () => {
   useEffect(() => {
     ReactTooltip.rebuild();
   }, [filteredData, isLoading, toastMessages, modalIsOpen]);
+
+  const handleNewCategory = useCallback(() => {
+    history.push('/categories/new');
+  }, [history]);
 
   const openModal = useCallback((row, field, checked) => {
     setCategorySelected(row);
@@ -251,6 +258,10 @@ const ListCategories: React.FC = () => {
             <Button className="filter" type="submit">
               Filtrar
               <Filter size={20} />
+            </Button>
+            <Button type="button" tp="action" onClick={handleNewCategory}>
+              Nova
+              <Add size={20} />
             </Button>
           </Form>
         </Filters>

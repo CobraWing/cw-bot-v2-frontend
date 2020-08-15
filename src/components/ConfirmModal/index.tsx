@@ -45,7 +45,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       <MyModalContent>
         <span>{title}</span>
         <div>
-          <Button tp="positive" onClick={accept}>
+          <Button tp="action" onClick={accept}>
             Sim
             <Check size={30} />
           </Button>

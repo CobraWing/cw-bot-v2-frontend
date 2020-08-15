@@ -43,6 +43,10 @@ export const Filters = styled.div`
   .filter {
     margin-left: 10px;
   }
+
+  .action {
+    margin-left: 10px;
+  }
 `;
 
 export const Table = styled.div`

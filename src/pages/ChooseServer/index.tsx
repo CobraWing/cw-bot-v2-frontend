@@ -39,10 +39,7 @@ const ChooseServer: React.FC = () => {
                 <GuildContainer key={guild.id}>
                   <img src={guild.icon} alt={guild.name} />
                   <strong>{guild.name}</strong>
-                  <Button
-                    tp="positive"
-                    onClick={() => handleSelectServer(guild)}
-                  >
+                  <Button tp="action" onClick={() => handleSelectServer(guild)}>
                     Selecionar
                     <FiChevronRight size={22} />
                   </Button>
