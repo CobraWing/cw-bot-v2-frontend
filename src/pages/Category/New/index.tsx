@@ -2,8 +2,11 @@ import React, { useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
+import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
 import { Add } from '@styled-icons/ionicons-solid';
+import { useHistory } from 'react-router-dom';
+import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
 import TextArea from '../../../components/TextArea';
@@ -17,20 +20,63 @@ import {
   SwitchContainer,
   ButtonContainer,
 } from './styles';
+import { useToast } from '../../../hooks/toast';
+import api from '../../../services/api';
+
+interface CategoryFormData {
+  name: string;
+  description: string;
+  enabled: boolean;
+  show_in_menu: boolean;
+}
 
 const NewCategory: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
+  const history = useHistory();
 
-  const handleSubmit = useCallback((filterData) => {
-    console.log(filterData);
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: CategoryFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-  const data = {
-    name: 'name teste',
-    description: 'description teste',
-    enabled: true,
-    show_in_menu: false,
-  };
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome da categoria obrigatório.'),
+          description: Yup.string().required('E-mail obrigatório'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await api.post('/categories', data);
+
+        history.push('/categories');
+
+        addToast({
+          type: 'success',
+          title: 'Categoria criada!',
+          description: 'A categoria foi criada com sucesso!',
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationError(err);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na criação',
+          description:
+            'Ocorreu um erro na criação da categoria, tente novamente.',
+        });
+      }
+    },
+    [addToast, history],
+  );
 
   return (
     <LayoutDefault>
@@ -40,7 +86,7 @@ const NewCategory: React.FC = () => {
         </TitleContainer>
 
         <FormContainer>
-          <Form ref={formRef} onSubmit={handleSubmit} initialData={data}>
+          <Form ref={formRef} onSubmit={handleSubmit}>
             <Input label="Nome:" placeholder="Nome" name="name" />
 
             <TextArea
@@ -79,7 +125,7 @@ const NewCategory: React.FC = () => {
             </SwitchContainer>
 
             <ButtonContainer>
-              <Button type="submit">
+              <Button type="submit" tp="action">
                 Adicionar
                 <Add size={20} />
               </Button>

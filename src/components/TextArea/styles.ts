@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import Tooltip from '../Tooltip';
+
 interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
@@ -23,15 +25,9 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
 
-  & + div {
-    margin-top: 8px;
+  &:not(.isError):hover {
+    border-color: var(--input-default-hovered-border);
   }
-
-  ${(props) =>
-    props.isErrored &&
-    css`
-      border-color: var(--error);
-    `}
 
   ${(props) =>
     props.isFocused &&
@@ -46,9 +42,12 @@ export const Container = styled.div<ContainerProps>`
       color: var(--discord);
     `}
 
-  &:hover {
-    border-color: var(--input-default-hovered-border);
-  }
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border-color: var(--error);
+    `}
+
 
   textarea {
     flex: 1;
@@ -72,5 +71,23 @@ export const Container = styled.div<ContainerProps>`
 
   svg {
     margin-right: 16px;
+  }
+`;
+
+export const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+
+  svg {
+    margin: 0;
+  }
+
+  span {
+    background: #c53030;
+    color: #fff;
+
+    &::before {
+      border-color: #c53030 transparent;
+    }
   }
 `;
