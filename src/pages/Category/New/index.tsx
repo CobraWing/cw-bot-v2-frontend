@@ -41,8 +41,8 @@ const NewCategory: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          name: Yup.string().required('Nome da categoria obrigatório.'),
-          description: Yup.string().required('E-mail obrigatório'),
+          name: Yup.string().required('O nome obrigatório.'),
+          description: Yup.string().required('A descrição é obrigatória'),
         });
 
         await schema.validate(data, {
@@ -87,12 +87,18 @@ const NewCategory: React.FC = () => {
 
         <FormContainer>
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <Input label="Nome:" placeholder="Nome" name="name" />
+            <Input
+              label="Nome:"
+              placeholder="Nome"
+              name="name"
+              maxLength={20}
+            />
 
-            <TextArea
+            <Input
               label="Descrição:"
               placeholder="Descrição"
               name="description"
+              maxLength={50}
             />
 
             <SwitchContainer>

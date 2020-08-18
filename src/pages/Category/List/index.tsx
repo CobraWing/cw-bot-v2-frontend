@@ -256,7 +256,7 @@ const ListCategories: React.FC = () => {
     },
     {
       name: '',
-      width: '50px',
+      width: '30px',
       cell: (row: ICategory) => (
         <span className="actions">
           <Edit

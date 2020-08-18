@@ -20,6 +20,8 @@ export const Container = styled.div`
     transform: translateX(-50%);
     color: #312e38;
 
+    text-align: center;
+
     &::before {
       content: '';
       border-style: solid;
