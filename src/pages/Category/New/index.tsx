@@ -9,7 +9,6 @@ import { useHistory } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
-import TextArea from '../../../components/TextArea';
 import Switch from '../../../components/Switch';
 import Button from '../../../components/Button';
 
