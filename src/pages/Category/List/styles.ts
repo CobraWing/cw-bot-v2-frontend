@@ -59,6 +59,8 @@ export const Table = styled.div`
   }
 
   .tableStyle {
+    overflow-x: hidden;
+
     .rdt_TableHeadRow,
     .rdt_TableRow,
     .rdt_Pagination {
@@ -66,8 +68,41 @@ export const Table = styled.div`
     }
 
     .rdt_TableRow {
+      position: relative;
       &:hover {
         background: var(--secondary);
+      }
+
+      .actions {
+        display: flex;
+        position: absolute;
+        right: -100px;
+        opacity: 0;
+        transition: opacity 0.3s linear, right 0.1s;
+
+        svg {
+          cursor: pointer;
+          transition: color 0.3s;
+
+          &.delete:hover {
+            color: var(--button-danger);
+          }
+
+          &.edit:hover {
+            color: var(--button-positive);
+          }
+        }
+
+        svg + svg {
+          margin-left: 10px;
+        }
+      }
+
+      &:hover {
+        .actions {
+          opacity: 0.8;
+          right: 10px;
+        }
       }
     }
   }

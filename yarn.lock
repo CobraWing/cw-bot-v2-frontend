@@ -1562,6 +1562,14 @@
     "@babel/runtime" "^7.10.4"
     "@styled-icons/styled-icon" "^10.6.0"
 
+"@styled-icons/material@^10.17.0":
+  version "10.17.0"
+  resolved "https://registry.yarnpkg.com/@styled-icons/material/-/material-10.17.0.tgz#84d003a2ce77e43c0d71fdbdec4984fea45cbd2a"
+  integrity sha512-kCzVsCT5IGmDSngOvFTPvauwaV8GntHiJRuORJdjj672166Q7qSmYRLFQESslQj31n3eYPKVqesHmggGLVMTjQ==
+  dependencies:
+    "@babel/runtime" "^7.10.5"
+    "@styled-icons/styled-icon" "^10.6.0"
+
 "@styled-icons/material@^10.6.0":
   version "10.7.0"
   resolved "https://registry.yarnpkg.com/@styled-icons/material/-/material-10.7.0.tgz#bf9676398c39c8a539c81d2c69c1f83ce262eb31"

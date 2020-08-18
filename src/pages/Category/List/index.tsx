@@ -6,6 +6,8 @@ import { Form } from '@unform/web';
 
 import { CloseCircle, Add } from '@styled-icons/ionicons-solid';
 import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
+import { Edit } from '@styled-icons/boxicons-regular';
+import { DeleteForever } from '@styled-icons/material';
 
 import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
@@ -43,7 +45,8 @@ const ListCategories: React.FC = () => {
   const [filteredData, setFilteredData] = useState<ICategory[]>(
     [] as ICategory[],
   );
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
+  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [categorySelected, setCategorySelected] = useState<ICategory>(
     {} as ICategory,
   );
@@ -86,25 +89,41 @@ const ListCategories: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.rebuild();
-  }, [filteredData, isLoading, toastMessages, modalIsOpen]);
+    ReactTooltip.hide();
+  }, [
+    filteredData,
+    isLoading,
+    toastMessages,
+    modalEditIsOpen,
+    modalDeleteIsOpen,
+  ]);
 
   const handleNewCategory = useCallback(() => {
     history.push('/categories/new');
   }, [history]);
 
-  const openModal = useCallback((row, field, checked) => {
+  const openEditModal = useCallback((row, field, checked) => {
     setCategorySelected(row);
     setFieldSelected(field);
     setCheckedSelected(checked);
-    setIsOpen(true);
+    setModalEditIsOpen(true);
   }, []);
 
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
+  const openDeleteModal = useCallback((row) => {
+    setCategorySelected(row);
+    setModalDeleteIsOpen(true);
   }, []);
 
-  const acceptAction = useCallback(() => {
-    closeModal();
+  const closeEditModal = useCallback(() => {
+    setModalEditIsOpen(false);
+  }, []);
+
+  const closeDeleteModal = useCallback(() => {
+    setModalDeleteIsOpen(false);
+  }, []);
+
+  const acceptEditAction = useCallback(() => {
+    closeEditModal();
     enableLoader();
 
     const updateData = {
@@ -138,10 +157,14 @@ const ListCategories: React.FC = () => {
     categorySelected,
     checkedSelected,
     fieldSelected,
-    closeModal,
+    closeEditModal,
     loadCategories,
     enableLoader,
   ]);
+
+  const acceptDeleteAction = useCallback(() => {
+    closeDeleteModal();
+  }, [closeDeleteModal]);
 
   const getMessageModal = useCallback(() => {
     let action = '';
@@ -196,7 +219,7 @@ const ListCategories: React.FC = () => {
         <span>
           <Switch
             id="enabled"
-            onChange={(checked, _, id) => openModal(row, id, checked)}
+            onChange={(checked, _, id) => openEditModal(row, id, checked)}
             checked={row.enabled}
           />
         </span>
@@ -225,8 +248,33 @@ const ListCategories: React.FC = () => {
         <span>
           <Switch
             id="show_in_menu"
-            onChange={(checked, _, id) => openModal(row, id, checked)}
+            onChange={(checked, _, id) => openEditModal(row, id, checked)}
             checked={row.show_in_menu}
+          />
+        </span>
+      ),
+    },
+    {
+      name: '',
+      width: '50px',
+      cell: (row: ICategory) => (
+        <span className="actions">
+          <Edit
+            className="edit"
+            data-tip="Editar"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+            size={26}
+          />
+          <DeleteForever
+            className="delete"
+            data-tip="Excluir"
+            data-background-color="red"
+            data-text-color="white"
+            data-border="white"
+            size={26}
+            onClick={() => openDeleteModal(row)}
           />
         </span>
       ),
@@ -279,6 +327,7 @@ const ListCategories: React.FC = () => {
               noHeader
               paginationComponentOptions={paginationOptions}
               noDataComponent="Nenhuma categoria encontrada!"
+              onChangePage={() => ReactTooltip.rebuild()}
             />
           )}
         </Table>
@@ -292,9 +341,23 @@ const ListCategories: React.FC = () => {
               </>
             )
           }
-          isOpen={modalIsOpen}
-          acceptAction={acceptAction}
-          rejectAction={closeModal}
+          isOpen={modalEditIsOpen}
+          acceptAction={acceptEditAction}
+          rejectAction={closeEditModal}
+        />
+
+        <ConfirmModal
+          title={
+            categorySelected && (
+              <>
+                Deseja realmente deletar a categoria&nbsp;
+                <strong>{categorySelected.name}</strong> ?
+              </>
+            )
+          }
+          isOpen={modalDeleteIsOpen}
+          acceptAction={acceptDeleteAction}
+          rejectAction={closeDeleteModal}
         />
       </Container>
     </LayoutDefault>
