@@ -102,6 +102,13 @@ const ListCategories: React.FC = () => {
     history.push('/categories/new');
   }, [history]);
 
+  const handleEditCategoryPage = useCallback(
+    (row) => {
+      history.push(`/categories/edit?id=${row.id}`);
+    },
+    [history],
+  );
+
   const openEditModal = useCallback((row, field, checked) => {
     setCategorySelected(row);
     setFieldSelected(field);
@@ -265,7 +272,9 @@ const ListCategories: React.FC = () => {
             data-background-color="black"
             data-text-color="white"
             data-border="white"
+            data-place="bottom"
             size={26}
+            onClick={() => handleEditCategoryPage(row)}
           />
           <DeleteForever
             className="delete"
@@ -273,6 +282,7 @@ const ListCategories: React.FC = () => {
             data-background-color="red"
             data-text-color="white"
             data-border="white"
+            data-place="bottom"
             size={26}
             onClick={() => openDeleteModal(row)}
           />

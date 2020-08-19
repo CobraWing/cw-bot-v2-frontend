@@ -1,11 +1,11 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
 import { Add } from '@styled-icons/ionicons-solid';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
@@ -21,6 +21,7 @@ import {
 } from './styles';
 import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
+import { useLoader } from '../../../hooks/loader';
 
 interface CategoryFormData {
   name: string;
@@ -33,6 +34,33 @@ const NewCategory: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
+  const location = useLocation();
+  const { enableLoader, disableLoader } = useLoader();
+
+  const [loadData, setLoadData] = useState<CategoryFormData>(
+    {} as CategoryFormData,
+  );
+
+  const loadCategory = useCallback(
+    (id) => {
+      enableLoader();
+      setLoadData({
+        name: 'teste',
+        description: 'teste descrição',
+        enabled: true,
+        show_in_menu: false,
+      });
+      disableLoader();
+    },
+    [enableLoader, disableLoader],
+  );
+
+  useEffect(() => {
+    const id = location.search.replace('?id=', '');
+    if (id) {
+      loadCategory(id);
+    }
+  }, [location.search, loadCategory]);
 
   const handleSubmit = useCallback(
     async (data: CategoryFormData) => {
@@ -85,7 +113,7 @@ const NewCategory: React.FC = () => {
         </TitleContainer>
 
         <FormContainer>
-          <Form ref={formRef} onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit} initialData={loadData}>
             <Input
               label="Nome:"
               placeholder="Nome"

@@ -23,6 +23,7 @@ const Routes: React.FC = () => (
 
     <Route path="/categories" exact component={ListCategories} isPrivate />
     <Route path="/categories/new" exact component={NewCategory} isPrivate />
+    <Route path="/categories/edit" exact component={NewCategory} isPrivate />
 
     <Route path="*" component={NotFound} />
   </Switch>

@@ -130,12 +130,10 @@ const AuthProvider: React.FC = ({ children }) => {
   );
 
   const isLogged = localStorage.getItem('@CobraWingBot:token');
+
   if (isLogged && !cookies.get('@CobraWingBot:session')) {
-    localStorage.removeItem('@CobraWingBot:token');
-    localStorage.removeItem('@CobraWingBot:user');
-    localStorage.removeItem('@CobraWingBot:guilds');
     cookies.set('@CobraWingBot:session-expirated', true, { maxAge: 5 * 60 });
-    setData({} as AuthState);
+    signOut();
   }
 
   return (
@@ -156,7 +154,16 @@ const AuthProvider: React.FC = ({ children }) => {
 };
 
 function useAuth(): AuthContextData {
+  const cookies = new Cookies();
   const context = useContext(AuthContext);
+
+  const isLogged = localStorage.getItem('@CobraWingBot:token');
+  const isSession = cookies.get('@CobraWingBot:session');
+
+  if (isLogged && !isSession) {
+    cookies.set('@CobraWingBot:session-expirated', true, { maxAge: 5 * 60 });
+    context.signOut();
+  }
 
   return context;
 }
