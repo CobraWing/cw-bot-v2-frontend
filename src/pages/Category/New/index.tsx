@@ -74,7 +74,7 @@ const NewCategory: React.FC = () => {
   }, [enableLoader, disableLoader, addToast, history, location.search]);
 
   useEffect(() => {
-    if (location.pathname !== 'categories/edit') {
+    if (location.pathname === '/categories/edit') {
       loadCategory();
     }
   }, [loadCategory, location.pathname]);
@@ -140,6 +140,8 @@ const NewCategory: React.FC = () => {
               placeholder="Nome"
               name="name"
               maxLength={20}
+              replaceWhiteSpaces
+              replaceSpecialCharacters
             />
 
             <Input

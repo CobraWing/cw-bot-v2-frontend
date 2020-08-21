@@ -17,6 +17,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   containerStyle?: object;
   icon?: React.ComponentType<IconBaseProps>;
+  replaceWhiteSpaces?: boolean;
+  replaceSpecialCharacters?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -24,6 +26,8 @@ const Input: React.FC<InputProps> = ({
   label,
   containerStyle = {},
   icon: Icon,
+  replaceWhiteSpaces,
+  replaceSpecialCharacters,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -71,6 +75,17 @@ const Input: React.FC<InputProps> = ({
           onKeyDown={(e) => {
             if (e.keyCode === 13) {
               e.preventDefault();
+            }
+          }}
+          onChange={() => {
+            if (replaceWhiteSpaces && inputRef.current?.value) {
+              inputRef.current.value = inputRef.current.value.replace(' ', '_');
+            }
+            if (replaceSpecialCharacters && inputRef.current?.value) {
+              inputRef.current.value = inputRef.current.value.replace(
+                /\W|_/g,
+                '_',
+              );
             }
           }}
           ref={inputRef}
