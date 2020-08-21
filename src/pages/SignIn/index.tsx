@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { FiLogIn } from 'react-icons/fi';
 
 import { useLocation, useHistory } from 'react-router-dom';
@@ -75,6 +76,9 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Cobra Wing Bot - Login</title>
+      </Helmet>
       <Content>
         <img src={logo} alt="cobrawing-logo" />
         <form onSubmit={handleLogin}>

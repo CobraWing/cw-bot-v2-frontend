@@ -127,7 +127,7 @@ const NewCategory: React.FC = () => {
   );
 
   return (
-    <LayoutDefault>
+    <LayoutDefault title={loadData?.id ? 'Editar Categoria' : 'Nova Categoria'}>
       <Container>
         <TitleContainer>
           <h3>{loadData?.id ? 'Editar categoria' : 'Nova categoria'}</h3>

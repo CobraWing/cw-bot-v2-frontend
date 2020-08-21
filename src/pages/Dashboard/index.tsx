@@ -9,7 +9,7 @@ import DashboardItem from '../../components/DashboardItem';
 
 const Dashboard: React.FC = () => {
   return (
-    <LayoutDefault>
+    <LayoutDefault title="Dashboard">
       <Container>
         <DashboardItem
           title="Comandos customizados"

@@ -7,7 +7,7 @@ import LayoutDefault from '../../components/Layout/Default';
 
 const CustomCommands: React.FC = () => {
   return (
-    <LayoutDefault>
+    <LayoutDefault title="Lista Comandos">
       <Container>
         <p>Comandos customizados - Em construção...</p>
         <span>

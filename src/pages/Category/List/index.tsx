@@ -319,7 +319,7 @@ const ListCategories: React.FC = () => {
   };
 
   return (
-    <LayoutDefault>
+    <LayoutDefault title="Lista Categorias">
       <Container>
         <Filters>
           <span>Filtrar por:</span>

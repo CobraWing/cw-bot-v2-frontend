@@ -27,7 +27,7 @@ const ChooseServer: React.FC = () => {
   );
 
   return (
-    <LayoutDefault>
+    <LayoutDefault title="Servidores">
       <Container>
         {guilds && guilds.length > 0 && (
           <>
