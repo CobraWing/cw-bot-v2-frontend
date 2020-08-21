@@ -24,10 +24,12 @@ import api from '../../../services/api';
 import { useLoader } from '../../../hooks/loader';
 
 interface CategoryFormData {
+  id: string;
   name: string;
   description: string;
   enabled: boolean;
   show_in_menu: boolean;
+  updated_at: string;
 }
 
 const NewCategory: React.FC = () => {
@@ -36,31 +38,46 @@ const NewCategory: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
-
   const [loadData, setLoadData] = useState<CategoryFormData>(
     {} as CategoryFormData,
   );
 
-  const loadCategory = useCallback(
-    (id) => {
-      enableLoader();
-      setLoadData({
-        name: 'teste',
-        description: 'teste descrição',
-        enabled: true,
-        show_in_menu: false,
+  const loadCategory = useCallback(() => {
+    if (!location.search.includes('?id=')) {
+      addToast({
+        type: 'error',
+        title: 'Erro',
+        description:
+          'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
       });
-      disableLoader();
-    },
-    [enableLoader, disableLoader],
-  );
+      history.push('/categories');
+    }
+    const id = location.search.replace('?id=', '');
+
+    enableLoader();
+
+    api
+      .get(`/categories/${id}`)
+      .then((response) => {
+        setLoadData(response.data);
+        disableLoader();
+      })
+      .catch(() => {
+        disableLoader();
+        addToast({
+          type: 'error',
+          title: 'Erro',
+          description: 'Ocorreu um erro carregar categoria, tente novamente.',
+        });
+        history.push('/categories');
+      });
+  }, [enableLoader, disableLoader, addToast, history, location.search]);
 
   useEffect(() => {
-    const id = location.search.replace('?id=', '');
-    if (id) {
-      loadCategory(id);
+    if (location.pathname !== 'categories/edit') {
+      loadCategory();
     }
-  }, [location.search, loadCategory]);
+  }, [loadCategory, location.pathname]);
 
   const handleSubmit = useCallback(
     async (data: CategoryFormData) => {
@@ -75,15 +92,19 @@ const NewCategory: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        await api.post('/categories', data);
+        if (loadData?.id) {
+          delete loadData.updated_at;
+          await api.put(`/categories/${loadData.id}`, data);
+        } else {
+          await api.post('/categories', data);
+        }
 
         history.push('/categories');
 
         addToast({
           type: 'success',
-          title: 'Categoria criada!',
-          description: 'A categoria foi criada com sucesso!',
+          title: 'Sucesso!',
+          description: 'A categoria foi gravada com sucesso!',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -102,14 +123,14 @@ const NewCategory: React.FC = () => {
         });
       }
     },
-    [addToast, history],
+    [addToast, history, loadData],
   );
 
   return (
     <LayoutDefault>
       <Container>
         <TitleContainer>
-          <h3>Nova categoria</h3>
+          <h3>{loadData?.id ? 'Editar categoria' : 'Nova categoria'}</h3>
         </TitleContainer>
 
         <FormContainer>
@@ -159,7 +180,7 @@ const NewCategory: React.FC = () => {
 
             <ButtonContainer>
               <Button type="submit" tp="action">
-                Adicionar
+                Salvar
                 <Add size={20} />
               </Button>
             </ButtonContainer>

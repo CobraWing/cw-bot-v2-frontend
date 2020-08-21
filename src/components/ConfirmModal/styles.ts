@@ -69,13 +69,13 @@ export const MyModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 
   width: 100%;
   padding: 0 20px;
   height: calc(100% - 40px);
 
   span {
-    margin: 35px 0;
     font-size: 18px;
     text-align: center;
 

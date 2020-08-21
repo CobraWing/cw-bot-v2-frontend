@@ -18,7 +18,9 @@ const LoaderProvider: React.FC = ({ children }) => {
   }, []);
 
   const disableLoader = useCallback(() => {
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   }, []);
 
   return (

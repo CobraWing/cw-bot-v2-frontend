@@ -170,8 +170,27 @@ const ListCategories: React.FC = () => {
   ]);
 
   const acceptDeleteAction = useCallback(() => {
-    closeDeleteModal();
-  }, [closeDeleteModal]);
+    api
+      .delete(`/categories/${categorySelected.id}`)
+      .then(() => {
+        addToast({
+          type: 'success',
+          title: 'Sucesso!',
+          description: 'A categoria excluída definitivamente com sucesso!',
+        });
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Erro',
+          description: 'Ocorreu um erro carregar categoria, tente novamente.',
+        });
+      })
+      .finally(() => {
+        closeDeleteModal();
+        loadCategories();
+      });
+  }, [closeDeleteModal, categorySelected, loadCategories, addToast]);
 
   const getMessageModal = useCallback(() => {
     let action = '';
@@ -361,7 +380,8 @@ const ListCategories: React.FC = () => {
             categorySelected && (
               <>
                 Deseja realmente deletar a categoria&nbsp;
-                <strong>{categorySelected.name}</strong> ?
+                <strong>{categorySelected.name}</strong> ?<br />
+                <strong>Essa ação não poderá ser revertida</strong>
               </>
             )
           }
