@@ -1,7 +1,10 @@
-import styled from 'styled-components';
-import { lighten } from 'polished';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  borderColor?: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
 
   width: 370px;
@@ -10,14 +13,19 @@ export const Container = styled.div`
   padding: 30px;
 
   border-radius: 10px;
+  border: 2px solid var(--quaternary);
   background-color: var(--quaternary);
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 
-  transition: background-color 0.2s;
+  transition: transform 0.2s, border-color 0.2s;
   &:hover {
-    background-color: ${lighten(0.1, '#40444b')};
-    margin-top: 2px;
+    transform: translateY(-7px);
+    ${(props) =>
+      props.borderColor &&
+      css`
+        border: 2px solid ${props.borderColor};
+      `}
   }
 `;
 

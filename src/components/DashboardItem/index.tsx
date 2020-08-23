@@ -32,7 +32,7 @@ const DashboardItem: React.FC<Props> = ({
   }, [history, destiny]);
 
   return (
-    <Container onClick={handleNavigate}>
+    <Container onClick={handleNavigate} borderColor={iconColor}>
       <ItemImageContainer>
         {Icon && <Icon size={iconSize} color={iconColor} />}
       </ItemImageContainer>
