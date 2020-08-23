@@ -12,21 +12,22 @@ const Dashboard: React.FC = () => {
     <LayoutDefault title="Dashboard">
       <Container>
         <DashboardItem
-          title="Comandos customizados"
-          description="Adicione ou gerencie os comandos customizados no servidor."
-          destiny="/custom-commands"
-          icon={MessageDetail}
-          iconSize={50}
-          iconColor="#7289DA"
-        />
-        <DashboardItem
           title="Categorias de comandos"
           description="Adicione ou gerencie as categorias dos comandos customizados no servidor."
           destiny="/categories"
           icon={Category}
           iconSize={50}
+          iconColor="#17a2b8"
+        />
+        <DashboardItem
+          title="Comandos customizados"
+          description="Adicione ou gerencie os comandos customizados no servidor."
+          destiny="/custom-commands"
+          icon={MessageDetail}
+          iconSize={50}
           iconColor="#ffc107"
         />
+
         <DashboardItem title="" description="" destiny="/dashboard" />
         <DashboardItem title="" description="" destiny="/dashboard" />
         <DashboardItem title="" description="" destiny="/dashboard" />

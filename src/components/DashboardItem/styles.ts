@@ -25,6 +25,9 @@ export const Container = styled.div<ContainerProps>`
       props.borderColor &&
       css`
         border: 2px solid ${props.borderColor};
+        strong {
+          color: ${props.borderColor};
+        }
       `}
   }
 `;
