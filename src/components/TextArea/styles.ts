@@ -15,7 +15,7 @@ export const Label = styled.span`
 export const Container = styled.div<ContainerProps>`
   background: var(--input-default-background);
   border-radius: 10px;
-  padding: 6px 8px;
+  padding: 8px;
   width: 100%;
   height: 80px;
 
@@ -75,8 +75,9 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Error = styled(Tooltip)`
-  height: 20px;
+  height: 16px;
   margin-left: 16px;
+  margin-top: -5px;
 
   svg {
     margin: 0;

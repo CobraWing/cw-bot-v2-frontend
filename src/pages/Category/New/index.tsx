@@ -85,8 +85,10 @@ const NewCategory: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          name: Yup.string().required('O nome obrigatório.'),
-          description: Yup.string().required('A descrição é obrigatória'),
+          name: Yup.string().required('O campo nome é obrigatório.'),
+          description: Yup.string().required(
+            'O campo descrição é obrigatório.',
+          ),
         });
 
         await schema.validate(data, {
