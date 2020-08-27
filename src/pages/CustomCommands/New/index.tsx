@@ -35,9 +35,10 @@ import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 import { useLoader } from '../../../hooks/loader';
 
-interface CategoryFormData {
+interface CommandFormData {
   id: string;
   name: string;
+  title: string;
   description: string;
   enabled: boolean;
   show_in_menu: boolean;
@@ -51,8 +52,11 @@ const NewCategory: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
-  const [loadData, setLoadData] = useState<CategoryFormData>(
-    {} as CategoryFormData,
+  const [loadData, setLoadData] = useState<CommandFormData>(
+    {} as CommandFormData,
+  );
+  const [refreshData, setRefreshData] = useState<CommandFormData>(
+    {} as CommandFormData,
   );
 
   const loadCategory = useCallback(() => {
@@ -93,7 +97,7 @@ const NewCategory: React.FC = () => {
   }, [loadCategory, location.pathname]);
 
   const handleSubmit = useCallback(
-    async (data: CategoryFormData) => {
+    async (data: CommandFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -141,6 +145,10 @@ const NewCategory: React.FC = () => {
     [addToast, history, loadData],
   );
 
+  const handleRefreshPreview = useCallback(() => {
+    setRefreshData(formRef.current?.getData() as CommandFormData);
+  }, []);
+
   return (
     <LayoutDefault
       title={
@@ -158,10 +166,15 @@ const NewCategory: React.FC = () => {
 
         <BodyContainer>
           <FormContainer>
-            <Form ref={formRef} onSubmit={handleSubmit} initialData={loadData}>
+            <Form
+              ref={formRef}
+              onChange={handleRefreshPreview}
+              onSubmit={handleSubmit}
+              initialData={loadData}
+            >
               <Input
-                label="Nome:"
-                placeholder="Nome"
+                label="Nome do comando:"
+                placeholder="Nome do comando"
                 name="name"
                 maxLength={20}
                 replaceWhiteSpaces
@@ -169,9 +182,9 @@ const NewCategory: React.FC = () => {
               />
 
               <Input
-                label="Descrição:"
-                placeholder="Descrição"
-                name="description"
+                label="Título:"
+                placeholder="Título"
+                name="title"
                 maxLength={50}
               />
 
@@ -232,7 +245,7 @@ const NewCategory: React.FC = () => {
                     <strong>{user.name}</strong>
                   </UserInfos>
 
-                  <Title>Comandos de naves</Title>
+                  <Title>{refreshData.title || 'Título'}</Title>
 
                   <Description>
                     <strong>!fitadder</strong> - <em>Fits para Adder</em>
