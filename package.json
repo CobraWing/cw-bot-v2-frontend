@@ -10,6 +10,14 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@progress/kendo-drawing": "^1.9.0",
+    "@progress/kendo-react-buttons": "^3.15.0",
+    "@progress/kendo-react-dialogs": "^3.15.0",
+    "@progress/kendo-react-dropdowns": "^3.15.0",
+    "@progress/kendo-react-editor": "^3.15.0",
+    "@progress/kendo-react-inputs": "^3.15.0",
+    "@progress/kendo-react-intl": "^3.15.0",
+    "@progress/kendo-theme-default": "^4.21.0",
     "@styled-icons/bootstrap": "^10.14.1",
     "@styled-icons/boxicons-regular": "^10.6.0",
     "@styled-icons/boxicons-solid": "^10.6.0",
@@ -30,6 +38,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "date-fns": "^2.14.0",
+    "html-to-text": "^5.1.1",
     "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-data-table-component": "^6.9.8",
@@ -52,6 +61,7 @@
   "devDependencies": {
     "@testing-library/react-hooks": "^3.3.0",
     "@types/classnames": "^2.2.10",
+    "@types/html-to-text": "^5.1.1",
     "@types/react-helmet": "^6.1.0",
     "@types/react-modal": "^3.10.6",
     "@types/react-router-dom": "^5.1.5",

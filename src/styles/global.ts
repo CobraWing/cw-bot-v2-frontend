@@ -1,3 +1,4 @@
+import '@progress/kendo-theme-default/dist/all.css';
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`

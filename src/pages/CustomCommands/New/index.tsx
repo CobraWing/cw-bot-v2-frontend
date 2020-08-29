@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+// import { Editor, EditorTools } from '@progress/kendo-react-editor';
 
 import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
@@ -9,6 +10,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
+import Editor from '../../../components/Editor';
 import Switch from '../../../components/Switch';
 import Button from '../../../components/Button';
 import { useAuth } from '../../../hooks/auth';
@@ -52,12 +54,14 @@ const NewCategory: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
-  const [loadData, setLoadData] = useState<CommandFormData>(
-    {} as CommandFormData,
-  );
+  const [loadData, setLoadData] = useState<CommandFormData>({
+    description: '<strong>teste strong</strong>',
+  } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
+  // const [text, setText] = useState('testando');
+  // const { Bold, Italic, Underline, Undo, Redo } = EditorTools;
 
   const loadCategory = useCallback(() => {
     if (!location.search.includes('?id=')) {
@@ -98,49 +102,50 @@ const NewCategory: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
-      try {
-        formRef.current?.setErrors({});
+      console.log(data);
+      // try {
+      //   formRef.current?.setErrors({});
 
-        const schema = Yup.object().shape({
-          name: Yup.string().required('O campo nome é obrigatório.'),
-          description: Yup.string().required(
-            'O campo descrição é obrigatório.',
-          ),
-        });
+      //   const schema = Yup.object().shape({
+      //     name: Yup.string().required('O campo nome é obrigatório.'),
+      //     description: Yup.string().required(
+      //       'O campo descrição é obrigatório.',
+      //     ),
+      //   });
 
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-        if (loadData?.id) {
-          delete loadData.updated_at;
-          await api.put(`/categories/${loadData.id}`, data);
-        } else {
-          await api.post('/categories', data);
-        }
+      //   await schema.validate(data, {
+      //     abortEarly: false,
+      //   });
+      //   if (loadData?.id) {
+      //     delete loadData.updated_at;
+      //     await api.put(`/categories/${loadData.id}`, data);
+      //   } else {
+      //     await api.post('/categories', data);
+      //   }
 
-        history.push('/categories');
+      //   history.push('/categories');
 
-        addToast({
-          type: 'success',
-          title: 'Sucesso!',
-          description: 'A categoria foi gravada com sucesso!',
-        });
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationError(err);
+      //   addToast({
+      //     type: 'success',
+      //     title: 'Sucesso!',
+      //     description: 'A categoria foi gravada com sucesso!',
+      //   });
+      // } catch (err) {
+      //   if (err instanceof Yup.ValidationError) {
+      //     const errors = getValidationError(err);
 
-          formRef.current?.setErrors(errors);
+      //     formRef.current?.setErrors(errors);
 
-          return;
-        }
+      //     return;
+      //   }
 
-        addToast({
-          type: 'error',
-          title: 'Erro na criação',
-          description:
-            'Ocorreu um erro na criação da categoria, tente novamente.',
-        });
-      }
+      //   addToast({
+      //     type: 'error',
+      //     title: 'Erro na criação',
+      //     description:
+      //       'Ocorreu um erro na criação da categoria, tente novamente.',
+      //   });
+      // }
     },
     [addToast, history, loadData],
   );
@@ -187,6 +192,8 @@ const NewCategory: React.FC = () => {
                 name="title"
                 maxLength={50}
               />
+
+              <Editor label="Descrição:" name="description" />
 
               <SwitchContainer>
                 <div>
