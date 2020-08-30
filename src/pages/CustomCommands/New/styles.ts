@@ -100,6 +100,10 @@ export const MessageInfos = styled.div`
   margin-left: 15px;
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+`;
+
 export const BotName = styled.div`
   display: flex;
   color: rgb(7, 125, 245);
@@ -162,7 +166,33 @@ export const Title = styled.div`
   color: var(--white);
 `;
 
-export const Description = styled.div`
+export const MessageContentLeftContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+`;
+
+export const MessageContentRightContainer = styled.div`
+  display: flex;
+
+  width: 95px;
+  max-width: 95px;
+  padding-left: 12px;
+  align-items: baseline;
+`;
+
+export const MessageContent = styled.div`
   margin-top: 8px;
 
   font-size: 14px;
@@ -179,5 +209,22 @@ export const Description = styled.div`
     &:hover {
       text-decoration: underline;
     }
+  }
+`;
+
+export const MessageThumb = styled.img`
+  max-width: 80px;
+  max-height: 80px;
+
+  object-fit: contain;
+`;
+
+export const MessageImage = styled.div`
+  margin-top: 20px;
+  width: 95%;
+
+  img {
+    border-radius: 5px;
+    max-width: 100%;
   }
 `;

@@ -8,7 +8,7 @@ export const BreadcrumbContent = styled.section`
   align-items: center;
 
   width: 100%;
-  padding: 0 20px;
+  padding: 10px 20px 0 0;
 
   ul {
     display: flex;

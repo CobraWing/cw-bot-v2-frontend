@@ -10,6 +10,9 @@ export const HeaderContent = styled.header`
 
   width: 100%;
   padding: 0 20px;
+
+  background: var(--secondary);
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
 `;
 
 export const Logo = styled.a`

@@ -69,13 +69,7 @@ export default createGlobalStyle`
     color: var(--text);
     -webkit-font-smoothing: antialiased;
 
-    background: linear-gradient(
-      to bottom,
-      var(--secondary) 100px,
-      var(--tertiary) 100px,
-      var(--tertiary) calc(100vh - 50px),
-      var(--secondary) 50px
-    );
+    background: var(--tertiary);
 
     &.ReactModal__Body--open {
       overflow: hidden;

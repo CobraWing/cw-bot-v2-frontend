@@ -24,6 +24,7 @@ import {
   ButtonContainer,
   PreviewContainer,
   PreviewContainerBox,
+  ContentContainer,
   BotAvatar,
   MessageInfos,
   BotName,
@@ -31,7 +32,11 @@ import {
   MessageBox,
   UserInfos,
   Title,
-  Description,
+  MessageContentLeftContainer,
+  MessageContentRightContainer,
+  MessageContent,
+  MessageThumb,
+  MessageImage,
 } from './styles';
 import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
@@ -39,9 +44,13 @@ import { useLoader } from '../../../hooks/loader';
 
 interface CommandFormData {
   id: string;
+  category_id: string;
   name: string;
   title: string;
   description: string;
+  content: string;
+  image_content: string;
+  image_thumbnail: string;
   enabled: boolean;
   show_in_menu: boolean;
   updated_at: string;
@@ -55,7 +64,7 @@ const NewCategory: React.FC = () => {
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [loadData, setLoadData] = useState<CommandFormData>({
-    description: '<p><strong>teste strong</strong></p>',
+    content: '<p><strong>teste strong</strong></p><p>http://www.globo.com</p>',
   } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
@@ -149,21 +158,26 @@ const NewCategory: React.FC = () => {
   );
 
   const handleRefreshPreview = useCallback(() => {
-    console.log('formRef.current?.getData()', formRef.current?.getData());
+    // console.log('formRef.current?.getData()', formRef.current?.getData());
     const formData = formRef.current?.getData() as CommandFormData;
-    let { description } = formData;
+    let { content } = formData;
 
-    const matchs = description.match(
+    let matchs = content.match(
       /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
     );
+
     if (matchs) {
+      matchs = matchs.filter((m, index) => {
+        return matchs?.indexOf(m) === index;
+      });
+
       for (let i = 0; i < matchs.length; i += 1) {
         const link =
           matchs[i].includes('http://') || matchs[i].includes('https://')
             ? matchs[i]
             : `http://${matchs[i]}`;
-        description = description.replace(
-          matchs[i],
+        content = content.replace(
+          new RegExp(matchs[i], 'gm'),
           `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
         );
       }
@@ -171,7 +185,7 @@ const NewCategory: React.FC = () => {
 
     setRefreshData({
       ...formData,
-      description: description
+      content: content
         .replace(/<\/p><p>/g, '<br/>')
         .replace(/<p>/g, '')
         .replace(/<\/p>/g, ''),
@@ -202,12 +216,19 @@ const NewCategory: React.FC = () => {
               initialData={loadData}
             >
               <Input
-                label="Nome do comando:"
+                label="!Comando: (obrigatório)"
                 placeholder="Nome do comando"
                 name="name"
                 maxLength={20}
                 replaceWhiteSpaces
                 replaceSpecialCharacters
+              />
+
+              <Input
+                label="Descrição: (obrigatório)"
+                placeholder="Descrição do comando"
+                name="description"
+                maxLength={100}
               />
 
               <Input
@@ -218,9 +239,23 @@ const NewCategory: React.FC = () => {
               />
 
               <Editor
-                label="Descrição:"
-                name="description"
+                label="Conteúdo:"
+                name="content"
                 onChangeEvent={handleRefreshPreview}
+              />
+
+              <Input
+                label="Imagem de conteúdo:"
+                placeholder="Link da imagem"
+                name="image_content"
+                maxLength={1000}
+              />
+
+              <Input
+                label="Imagem de thumb:"
+                placeholder="Link da imagem"
+                name="image_thumbnail"
+                maxLength={1000}
               />
 
               <SwitchContainer>
@@ -275,16 +310,38 @@ const NewCategory: React.FC = () => {
                   <span>Hoje às 16:20</span>
                 </BotName>
                 <MessageBox>
-                  <UserInfos>
-                    <img src={user.avatar} alt={user.name} />
-                    <strong>{user.name}</strong>
-                  </UserInfos>
+                  <ContentContainer>
+                    <MessageContentLeftContainer>
+                      <UserInfos>
+                        <img src={user.avatar} alt={user.name} />
+                        <strong>{user.name}</strong>
+                      </UserInfos>
 
-                  <Title>{refreshData.title || 'Título'}</Title>
+                      <Title>{refreshData.title || 'Título'}</Title>
 
-                  <Description>
-                    {ReactHtmlParser(refreshData.description)}
-                  </Description>
+                      <MessageContent>
+                        {ReactHtmlParser(refreshData.content)}
+                      </MessageContent>
+                    </MessageContentLeftContainer>
+
+                    {refreshData.image_thumbnail && (
+                      <MessageContentRightContainer>
+                        <MessageThumb
+                          alt="Imagem com erro =("
+                          src={refreshData.image_thumbnail}
+                        />
+                      </MessageContentRightContainer>
+                    )}
+                  </ContentContainer>
+
+                  {refreshData.image_content && (
+                    <MessageImage>
+                      <img
+                        alt="Imagem com erro =("
+                        src={refreshData.image_content}
+                      />
+                    </MessageImage>
+                  )}
                 </MessageBox>
               </MessageInfos>
             </PreviewContainerBox>

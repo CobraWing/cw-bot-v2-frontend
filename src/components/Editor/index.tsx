@@ -20,8 +20,8 @@ const {
   Italic,
   Underline,
   Strikethrough,
-  Link,
-  Unlink,
+  // Link,
+  // Unlink,
   Undo,
   Redo,
 } = EditorTools;
