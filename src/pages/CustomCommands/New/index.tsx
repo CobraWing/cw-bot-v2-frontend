@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-// import { Editor, EditorTools } from '@progress/kendo-react-editor';
+import ReactHtmlParser from 'react-html-parser';
 
 import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
@@ -55,13 +55,11 @@ const NewCategory: React.FC = () => {
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [loadData, setLoadData] = useState<CommandFormData>({
-    description: '<strong>teste strong</strong>',
+    description: '<p><strong>teste strong</strong></p>',
   } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
-  // const [text, setText] = useState('testando');
-  // const { Bold, Italic, Underline, Undo, Redo } = EditorTools;
 
   const loadCategory = useCallback(() => {
     if (!location.search.includes('?id=')) {
@@ -102,7 +100,7 @@ const NewCategory: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
-      console.log(data);
+      console.log('data', data);
       // try {
       //   formRef.current?.setErrors({});
 
@@ -151,7 +149,29 @@ const NewCategory: React.FC = () => {
   );
 
   const handleRefreshPreview = useCallback(() => {
-    setRefreshData(formRef.current?.getData() as CommandFormData);
+    console.log('formRef.current?.getData()', formRef.current?.getData());
+    const formData = formRef.current?.getData() as CommandFormData;
+    let { description } = formData;
+
+    const matchs = description.match(
+      /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
+    );
+    if (matchs) {
+      for (let i = 0; i < matchs.length; i += 1) {
+        description = description.replace(
+          matchs[i],
+          `<a href="${matchs[i]}">${matchs[i]}</a>`,
+        );
+      }
+    }
+
+    setRefreshData({
+      ...formData,
+      description: description
+        .replace(/<\/p><p>/g, '<br/>')
+        .replace(/<p>/g, '')
+        .replace(/<\/p>/g, ''),
+    });
   }, []);
 
   return (
@@ -193,7 +213,11 @@ const NewCategory: React.FC = () => {
                 maxLength={50}
               />
 
-              <Editor label="Descrição:" name="description" />
+              <Editor
+                label="Descrição:"
+                name="description"
+                onChangeEvent={handleRefreshPreview}
+              />
 
               <SwitchContainer>
                 <div>
@@ -255,26 +279,7 @@ const NewCategory: React.FC = () => {
                   <Title>{refreshData.title || 'Título'}</Title>
 
                   <Description>
-                    <strong>!fitadder</strong> - <em>Fits para Adder</em>
-                    <br />
-                    <strong>!fitanaconda</strong> - <em>Fits para Anaconda</em>
-                    <br />
-                    <strong>!fitasps</strong> - <em>Fits para Asp Scout</em>
-                    <br />
-                    <strong>!fitaspx</strong> - <em>Fits para Asp Explorer</em>
-                    <br />
-                    <strong>!fitbeluga</strong> - <em>Fits para Beluga</em>
-                    <br />
-                    <strong>!fitchallenger</strong> -{' '}
-                    <em>Fits para Alliance Challenger</em>
-                    <br />
-                    <strong>!fitchieftain</strong> -{' '}
-                    <em>Fits para Alliance Chieftain</em>
-                    <br />
-                    <strong>!fitcobra3</strong> - <em>Fits para Cobra MKIII</em>
-                    <br />
-                    <strong>!fitcobra4</strong> - <em>Fits para Cobra MKIV</em>
-                    <br />
+                    {ReactHtmlParser(refreshData.description)}
                   </Description>
                 </MessageBox>
               </MessageInfos>

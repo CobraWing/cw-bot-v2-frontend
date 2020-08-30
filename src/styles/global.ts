@@ -108,4 +108,53 @@ export default createGlobalStyle`
     z-index: 6 !important;
     background: rgba(0, 0, 0, 0.7) !important;
   }
+
+  .k-dialog-wrapper {
+    input {
+      border-radius: 10px;
+      border: 2px solid var(--input-default-border) !important;
+      color: var(--input-default-color) !important;
+      background: transparent !important;
+
+      &:hover {
+        border-color: var(--input-default-hovered-border) !important;
+      }
+    }
+
+    .k-dialog-titlebar {
+      background-color: var(--secondary);
+      color: var(--text);
+      border-bottom: 0;
+    }
+
+    .k-dialog-content {
+      background-color: var(--tertiary);
+      color: var(--text);
+    }
+
+    .k-dialog-buttongroup {
+      .k-button {
+        background-color: var(--tertiary) !important;
+        color: var(--text) !important;
+        background-image: none;
+        &:hover {
+          background-color: var(--text) !important;
+          color: var(--quaternary) !important;
+        }
+        &.k-primary {
+          border-color: var(--tertiary) !important;
+          &:hover {
+            background-color: var(--text) !important;
+            color: var(--quaternary) !important;
+          }
+          &.k-state-focused {
+            box-shadow: none !important;
+          }
+          &:focus {
+            box-shadow: none !important;
+          }
+        }
+      }
+    }
+  }
 `;
