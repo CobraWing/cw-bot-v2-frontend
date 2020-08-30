@@ -158,9 +158,13 @@ const NewCategory: React.FC = () => {
     );
     if (matchs) {
       for (let i = 0; i < matchs.length; i += 1) {
+        const link =
+          matchs[i].includes('http://') || matchs[i].includes('https://')
+            ? matchs[i]
+            : `http://${matchs[i]}`;
         description = description.replace(
           matchs[i],
-          `<a href="${matchs[i]}">${matchs[i]}</a>`,
+          `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
         );
       }
     }

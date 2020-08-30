@@ -55,6 +55,8 @@ export const Container = styled.div<ContainerProps>`
       border-radius: 5px;
 
       .k-button {
+        box-shadow: none !important;
+        background-image: none !important;
         &.k-state-active {
           border-color: var(--discord);
           background-color: var(--discord);

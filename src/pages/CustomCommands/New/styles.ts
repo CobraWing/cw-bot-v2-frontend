@@ -37,7 +37,7 @@ export const BodyContainer = styled.div`
 `;
 
 export const FormContainer = styled.div`
-  width: 50%;
+  width: 45%;
   padding: 20px;
 
   background: var(--quaternary);
@@ -72,7 +72,7 @@ export const PreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: 50%;
+  width: 55%;
   padding: 20px;
 
   p {
@@ -131,7 +131,7 @@ export const MessageBox = styled.div`
   flex-direction: column;
 
   min-height: 200px;
-  max-width: 490px;
+  max-width: 570px;
   margin-top: 6px;
   padding: 15px 10px;
   border-radius: 4px;
@@ -169,6 +169,15 @@ export const Description = styled.div`
   line-height: 18px;
 
   strong {
-    font-weight: bold;
+    font-weight: 900;
+  }
+
+  a {
+    color: var(--text-link);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;

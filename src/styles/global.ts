@@ -83,7 +83,7 @@ export default createGlobalStyle`
   }
 
   body, input, button, textarea {
-    font-family: 'Roboto', serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
   }
 
@@ -132,7 +132,7 @@ export default createGlobalStyle`
       color: var(--text);
     }
 
-    .k-dialog-buttongroup {
+    .DISABLE-k-dialog-buttongroup {
       .k-button {
         background-color: var(--tertiary) !important;
         color: var(--text) !important;
