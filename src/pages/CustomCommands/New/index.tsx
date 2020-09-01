@@ -43,17 +43,17 @@ import api from '../../../services/api';
 import { useLoader } from '../../../hooks/loader';
 
 interface CommandFormData {
-  id: string;
-  category_id: string;
-  name: string;
-  title: string;
-  description: string;
-  content: string;
-  image_content: string;
-  image_thumbnail: string;
-  enabled: boolean;
-  show_in_menu: boolean;
-  updated_at: string;
+  id?: string;
+  category_id?: string;
+  name?: string;
+  title?: string;
+  description?: string;
+  content?: string;
+  image_content?: string;
+  image_thumbnail?: string;
+  enabled?: boolean;
+  show_in_menu?: boolean;
+  updated_at?: string;
 }
 
 const NewCategory: React.FC = () => {
@@ -64,7 +64,13 @@ const NewCategory: React.FC = () => {
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [loadData, setLoadData] = useState<CommandFormData>({
-    content: '<p><strong>teste strong</strong></p><p>http://www.globo.com</p>',
+    title: 'Fits para Krait MKII',
+    content:
+      '<p><strong>[01] PVE</strong> - Krait MKII para PVE -</p><p>01A - https://s.orbis.zone/4n98 - por Cmdr CyberTX.</p><p></p><p><strong>[02] PVP</strong> - Krait MKII para PVP -</p><p>02A - Não disponivel ainda.</p><p></p><p><strong>[03] Multipropósito</strong> - Krait MKII para uso misto -</p><p>03A - https://s.orbis.zone/4n99 - por Cmdr CyberTX.</p><p></p><p><strong>[04] Exploração</strong> - Krait MKII para exploração -</p><p>04A - https://s.orbis.zone/4n9b - por Cmdr CyberTX.</p><p></p><p><strong>[05] Transporte</strong> - Krait MKII para transporte de cargas -</p><p>05A - https://s.orbis.zone/4n9h - por Cmdr CyberTX.</p><p></p><p><strong>[06] Passageiro</strong> - Krait MKII para transporte de passageiros -</p><p>06A - https://s.orbis.zone/4n9i - por Cmdr CyberTX.</p><p></p><p><strong>[07] Mineração</strong> - Krait MKII para mineração -</p><p>07A - Não disponivel ainda.</p><p></p><p><strong>[08] Pirataria</strong> - Krait MKII para pirataria -</p><p>08A - Não disponivel ainda.</p><p></p><p><strong>[09] Thargoid</strong> - Krait MKII para combate AX -</p><p>09A - Não disponivel ainda.</p><p></p><p><strong>[10] Velocidade</strong> - Krait MKII com foco em velocidade -</p><p>10A - https://s.orbis.zone/4n9g - por Cmdr CyberTX.</p><p></p><p><strong>Importante:</strong> Os fits da Cobra Wing são apenas sugestões.</p>',
+    image_content:
+      'https://cdn.discordapp.com/attachments/575275169636024320/575279710792187932/Krait_Mk_II.gif',
+    image_thumbnail:
+      'https://cdn.discordapp.com/attachments/575275169636024320/575279710792187932/Krait_Mk_II.gif',
   } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
@@ -158,39 +164,51 @@ const NewCategory: React.FC = () => {
   );
 
   const handleRefreshPreview = useCallback(() => {
-    // console.log('formRef.current?.getData()', formRef.current?.getData());
+    console.log('formRef.current?.getData()', formRef.current?.getData());
     const formData = formRef.current?.getData() as CommandFormData;
     let { content } = formData;
 
-    let matchs = content.match(
-      /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
-    );
+    if (content) {
+      let matchs = content.match(
+        /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
+      );
 
-    if (matchs) {
-      matchs = matchs.filter((m, index) => {
-        return matchs?.indexOf(m) === index;
-      });
+      if (matchs) {
+        matchs = matchs.filter((m, index) => {
+          return matchs?.indexOf(m) === index;
+        });
 
-      for (let i = 0; i < matchs.length; i += 1) {
-        const link =
-          matchs[i].includes('http://') || matchs[i].includes('https://')
-            ? matchs[i]
-            : `http://${matchs[i]}`;
-        content = content.replace(
-          new RegExp(matchs[i], 'gm'),
-          `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
-        );
+        for (let i = 0; i < matchs.length; i += 1) {
+          const link =
+            matchs[i].includes('http://') || matchs[i].includes('https://')
+              ? matchs[i]
+              : `http://${matchs[i]}`;
+          content = content.replace(
+            new RegExp(matchs[i], 'gm'),
+            `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
+          );
+        }
       }
+
+      content = content
+        .replace(/<\/p><p>/g, '<br/>')
+        .replace(/<p>/g, '')
+        .replace(/<\/p>/g, '');
     }
 
     setRefreshData({
       ...formData,
-      content: content
-        .replace(/<\/p><p>/g, '<br/>')
-        .replace(/<p>/g, '')
-        .replace(/<\/p>/g, ''),
+      content,
     });
   }, []);
+
+  useEffect(() => {
+    // console.log(
+    //   'useEffect ===> formRef.current?.getData()',
+    //   formRef.current?.getData(),
+    // );
+    handleRefreshPreview();
+  }, [handleRefreshPreview]);
 
   return (
     <LayoutDefault
@@ -320,7 +338,7 @@ const NewCategory: React.FC = () => {
                       <Title>{refreshData.title || 'Título'}</Title>
 
                       <MessageContent>
-                        {ReactHtmlParser(refreshData.content)}
+                        {ReactHtmlParser(refreshData?.content || '')}
                       </MessageContent>
                     </MessageContentLeftContainer>
 
