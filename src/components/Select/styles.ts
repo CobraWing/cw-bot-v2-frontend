@@ -70,6 +70,11 @@ export const Container = styled.div<ContainerProps>`
           color: var(--input-default-text);
         }
       }
+      .react-select__input {
+        input {
+          color: var(--input-default-text) !important;
+        }
+      }
     }
 
     .react-select__menu {

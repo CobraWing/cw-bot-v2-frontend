@@ -78,16 +78,16 @@ const NewCategory: React.FC = () => {
   );
 
   const [categoriesOptions, setCategoriesOptions] = useState([
-    { value: 'ocean', label: 'Ocean' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'purple', label: 'Purple' },
-    { value: 'red', label: 'Red' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'yellow', label: 'Yellow' },
-    { value: 'green', label: 'Green' },
-    { value: 'forest', label: 'Forest' },
-    { value: 'slate', label: 'Slate' },
-    { value: 'silver', label: 'Silver' },
+    // { value: 'ocean', label: 'Ocean' },
+    // { value: 'blue', label: 'Blue' },
+    // { value: 'purple', label: 'Purple' },
+    // { value: 'red', label: 'Red' },
+    // { value: 'orange', label: 'Orange' },
+    // { value: 'yellow', label: 'Yellow' },
+    // { value: 'green', label: 'Green' },
+    // { value: 'forest', label: 'Forest' },
+    // { value: 'slate', label: 'Slate' },
+    // { value: 'silver', label: 'Silver' },
   ]);
 
   const loadCategory = useCallback(() => {
@@ -251,7 +251,9 @@ const NewCategory: React.FC = () => {
                 label="Categoria: (obrigatória)"
                 placeholder="Selecione a categoria"
                 name="test"
+                isSearchable
                 options={categoriesOptions}
+                noOptionsMessage={() => 'Nenhuma categoria encontrada'}
               />
 
               <Input
