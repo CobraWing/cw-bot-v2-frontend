@@ -10,6 +10,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
+import Select from '../../../components/Select';
 import Editor from '../../../components/Editor';
 import Switch from '../../../components/Switch';
 import Button from '../../../components/Button';
@@ -75,6 +76,19 @@ const NewCategory: React.FC = () => {
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
+
+  const [categoriesOptions, setCategoriesOptions] = useState([
+    { value: 'ocean', label: 'Ocean' },
+    { value: 'blue', label: 'Blue' },
+    { value: 'purple', label: 'Purple' },
+    { value: 'red', label: 'Red' },
+    { value: 'orange', label: 'Orange' },
+    { value: 'yellow', label: 'Yellow' },
+    { value: 'green', label: 'Green' },
+    { value: 'forest', label: 'Forest' },
+    { value: 'slate', label: 'Slate' },
+    { value: 'silver', label: 'Silver' },
+  ]);
 
   const loadCategory = useCallback(() => {
     if (!location.search.includes('?id=')) {
@@ -233,6 +247,13 @@ const NewCategory: React.FC = () => {
               onSubmit={handleSubmit}
               initialData={loadData}
             >
+              <Select
+                label="Categoria: (obrigatória)"
+                placeholder="Selecione a categoria"
+                name="test"
+                options={categoriesOptions}
+              />
+
               <Input
                 label="!Comando: (obrigatório)"
                 placeholder="Nome do comando"
