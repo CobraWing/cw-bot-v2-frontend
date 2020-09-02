@@ -14,10 +14,8 @@ export const Label = styled.span`
 export const Container = styled.div<ContainerProps>`
   background: var(--input-default-background);
   border-radius: 10px;
-  padding: 8px;
   width: 100%;
 
-  border: 2px solid var(--input-default-border);
   color: var(--input-default-color);
 
   display: flex;
@@ -58,8 +56,9 @@ export const Container = styled.div<ContainerProps>`
     }
 
     .react-select__control {
-      background: var(--tertiary);
-      border: 1px solid var(--input-default-border);
+      background: var(--input-default-background);
+      border: 2px solid var(--input-default-border);
+      border-radius: 10px;
 
       &.react-select__control--is-focused {
         border-color: var(--input-default-focused);
@@ -80,6 +79,8 @@ export const Container = styled.div<ContainerProps>`
     .react-select__menu {
       z-index: 3;
       background: var(--tertiary);
+      border: 1px solid var(---input-default-hovered-border);
+      margin-top: 0;
 
       .react-select__option--is-focused:not(.react-select__option--is-selected) {
         background-color: var(--quinary);

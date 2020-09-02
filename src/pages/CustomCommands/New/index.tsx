@@ -43,6 +43,15 @@ import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 import { useLoader } from '../../../hooks/loader';
 
+interface CategoryData {
+  id: string;
+  name: string;
+  description: string;
+  enabled: string;
+  show_in_menu: string;
+  updated_at: string;
+}
+
 interface CommandFormData {
   id?: string;
   category_id?: string;
@@ -78,36 +87,30 @@ const NewCategory: React.FC = () => {
   );
 
   const [categoriesOptions, setCategoriesOptions] = useState([
-    // { value: 'ocean', label: 'Ocean' },
-    // { value: 'blue', label: 'Blue' },
-    // { value: 'purple', label: 'Purple' },
-    // { value: 'red', label: 'Red' },
-    // { value: 'orange', label: 'Orange' },
-    // { value: 'yellow', label: 'Yellow' },
-    // { value: 'green', label: 'Green' },
-    // { value: 'forest', label: 'Forest' },
-    // { value: 'slate', label: 'Slate' },
-    // { value: 'silver', label: 'Silver' },
+    { value: 'ocean', label: 'Ocean' },
+    { value: 'blue', label: 'Blue' },
+    { value: 'purple', label: 'Purple' },
+    { value: 'red', label: 'Red' },
+    { value: 'orange', label: 'Orange' },
+    { value: 'yellow', label: 'Yellow' },
+    { value: 'green', label: 'Green' },
+    { value: 'forest', label: 'Forest' },
+    { value: 'slate', label: 'Slate' },
+    { value: 'silver', label: 'Silver' },
   ]);
 
-  const loadCategory = useCallback(() => {
-    if (!location.search.includes('?id=')) {
-      addToast({
-        type: 'error',
-        title: 'Erro',
-        description:
-          'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
-      });
-      history.push('/categories');
-    }
-    const id = location.search.replace('?id=', '');
-
-    enableLoader();
-
+  const loadCategories = useCallback(() => {
     api
-      .get(`/categories/${id}`)
+      .get<CategoryData[]>('/categories')
       .then((response) => {
-        setLoadData(response.data);
+        setCategoriesOptions(
+          response.data.map((category) => {
+            return {
+              value: category.id,
+              label: category.name,
+            };
+          }),
+        );
         disableLoader();
       })
       .catch(() => {
@@ -115,17 +118,16 @@ const NewCategory: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro',
-          description: 'Ocorreu um erro carregar categoria, tente novamente.',
+          description: 'Ocorreu um erro carregar as categorias.',
         });
         history.push('/categories');
       });
   }, [enableLoader, disableLoader, addToast, history, location.search]);
 
   useEffect(() => {
-    if (location.pathname === '/categories/edit') {
-      loadCategory();
-    }
-  }, [loadCategory, location.pathname]);
+    enableLoader();
+    loadCategories();
+  }, [enableLoader, loadCategories]);
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
@@ -257,8 +259,8 @@ const NewCategory: React.FC = () => {
               />
 
               <Input
-                label="!Comando: (obrigatório)"
-                placeholder="Nome do comando"
+                label="!Nome do comando: (obrigatório)"
+                placeholder="Ex: !comandolegal"
                 name="name"
                 maxLength={20}
                 replaceWhiteSpaces
@@ -267,14 +269,14 @@ const NewCategory: React.FC = () => {
 
               <Input
                 label="Descrição: (obrigatório)"
-                placeholder="Descrição do comando"
+                placeholder="Ex: Esse comando retorna uma mensagem legal!"
                 name="description"
                 maxLength={100}
               />
 
               <Input
                 label="Título:"
-                placeholder="Título"
+                placeholder="Ex: Título do comando legal"
                 name="title"
                 maxLength={50}
               />
