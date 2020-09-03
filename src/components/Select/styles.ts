@@ -79,7 +79,7 @@ export const Container = styled.div<ContainerProps>`
     .react-select__menu {
       z-index: 3;
       background: var(--tertiary);
-      border: 1px solid var(---input-default-hovered-border);
+      border: 2px solid var(---input-default-hovered-border);
       margin-top: 0;
 
       .react-select__option--is-focused:not(.react-select__option--is-selected) {

@@ -43,6 +43,11 @@ import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 import { useLoader } from '../../../hooks/loader';
 
+interface CategorySelectData {
+  value: string;
+  label: string;
+}
+
 interface CategoryData {
   id: string;
   name: string;
@@ -86,18 +91,9 @@ const NewCategory: React.FC = () => {
     {} as CommandFormData,
   );
 
-  const [categoriesOptions, setCategoriesOptions] = useState([
-    { value: 'ocean', label: 'Ocean' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'purple', label: 'Purple' },
-    { value: 'red', label: 'Red' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'yellow', label: 'Yellow' },
-    { value: 'green', label: 'Green' },
-    { value: 'forest', label: 'Forest' },
-    { value: 'slate', label: 'Slate' },
-    { value: 'silver', label: 'Silver' },
-  ]);
+  const [categoriesOptions, setCategoriesOptions] = useState<
+    CategorySelectData[]
+  >([]);
 
   const loadCategories = useCallback(() => {
     api
@@ -122,7 +118,7 @@ const NewCategory: React.FC = () => {
         });
         history.push('/categories');
       });
-  }, [enableLoader, disableLoader, addToast, history, location.search]);
+  }, [disableLoader, addToast, history]);
 
   useEffect(() => {
     enableLoader();
@@ -180,7 +176,7 @@ const NewCategory: React.FC = () => {
   );
 
   const handleRefreshPreview = useCallback(() => {
-    console.log('formRef.current?.getData()', formRef.current?.getData());
+    // console.log('formRef.current?.getData()', formRef.current?.getData());
     const formData = formRef.current?.getData() as CommandFormData;
     let { content } = formData;
 
