@@ -6,7 +6,7 @@ import ReactHtmlParser from 'react-html-parser';
 import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
 import { Add } from '@styled-icons/ionicons-solid';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
@@ -76,7 +76,6 @@ const NewCategory: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
-  const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [loadData, setLoadData] = useState<CommandFormData>({
     title: 'Fits para Krait MKII',
@@ -248,7 +247,7 @@ const NewCategory: React.FC = () => {
               <Select
                 label="Categoria: (obrigatória)"
                 placeholder="Selecione a categoria"
-                name="test"
+                name="category_id"
                 isSearchable
                 options={categoriesOptions}
                 noOptionsMessage={() => 'Nenhuma categoria encontrada'}
