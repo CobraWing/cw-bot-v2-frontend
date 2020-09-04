@@ -71,21 +71,15 @@ interface CommandFormData {
   updated_at?: string;
 }
 
-const NewCategory: React.FC = () => {
+const NewCustomCommand: React.FC = () => {
   const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
   const { enableLoader, disableLoader } = useLoader();
-  const [loadData, setLoadData] = useState<CommandFormData>({
-    title: 'Fits para Krait MKII',
-    content:
-      '<p><strong>[01] PVE</strong> - Krait MKII para PVE -</p><p>01A - https://s.orbis.zone/4n98 - por Cmdr CyberTX.</p><p></p><p><strong>[02] PVP</strong> - Krait MKII para PVP -</p><p>02A - Não disponivel ainda.</p><p></p><p><strong>[03] Multipropósito</strong> - Krait MKII para uso misto -</p><p>03A - https://s.orbis.zone/4n99 - por Cmdr CyberTX.</p><p></p><p><strong>[04] Exploração</strong> - Krait MKII para exploração -</p><p>04A - https://s.orbis.zone/4n9b - por Cmdr CyberTX.</p><p></p><p><strong>[05] Transporte</strong> - Krait MKII para transporte de cargas -</p><p>05A - https://s.orbis.zone/4n9h - por Cmdr CyberTX.</p><p></p><p><strong>[06] Passageiro</strong> - Krait MKII para transporte de passageiros -</p><p>06A - https://s.orbis.zone/4n9i - por Cmdr CyberTX.</p><p></p><p><strong>[07] Mineração</strong> - Krait MKII para mineração -</p><p>07A - Não disponivel ainda.</p><p></p><p><strong>[08] Pirataria</strong> - Krait MKII para pirataria -</p><p>08A - Não disponivel ainda.</p><p></p><p><strong>[09] Thargoid</strong> - Krait MKII para combate AX -</p><p>09A - Não disponivel ainda.</p><p></p><p><strong>[10] Velocidade</strong> - Krait MKII com foco em velocidade -</p><p>10A - https://s.orbis.zone/4n9g - por Cmdr CyberTX.</p><p></p><p><strong>Importante:</strong> Os fits da Cobra Wing são apenas sugestões.</p>',
-    image_content:
-      'https://cdn.discordapp.com/attachments/575275169636024320/575279710792187932/Krait_Mk_II.gif',
-    image_thumbnail:
-      'https://cdn.discordapp.com/attachments/575275169636024320/575279710792187932/Krait_Mk_II.gif',
-  } as CommandFormData);
+  const [loadData, setLoadData] = useState<CommandFormData>(
+    {} as CommandFormData,
+  );
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -127,51 +121,54 @@ const NewCategory: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
       console.log('data', data);
-      // try {
-      //   formRef.current?.setErrors({});
+      try {
+        formRef.current?.setErrors({});
 
-      //   const schema = Yup.object().shape({
-      //     name: Yup.string().required('O campo nome é obrigatório.'),
-      //     description: Yup.string().required(
-      //       'O campo descrição é obrigatório.',
-      //     ),
-      //   });
+        const schema = Yup.object().shape({
+          category_id: Yup.string().required(
+            'O campo categoria é obrigatório.',
+          ),
+          name: Yup.string().required('O campo nome é obrigatório.'),
+          description: Yup.string().required(
+            'O campo descrição é obrigatório.',
+          ),
+        });
 
-      //   await schema.validate(data, {
-      //     abortEarly: false,
-      //   });
-      //   if (loadData?.id) {
-      //     delete loadData.updated_at;
-      //     await api.put(`/categories/${loadData.id}`, data);
-      //   } else {
-      //     await api.post('/categories', data);
-      //   }
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+        if (loadData?.id) {
+          delete loadData.updated_at;
+          await api.put(`/customCommands/${loadData.id}`, data);
+        } else {
+          await api.post('/customCommands', data);
+        }
 
-      //   history.push('/categories');
+        // history.push('/categories');
 
-      //   addToast({
-      //     type: 'success',
-      //     title: 'Sucesso!',
-      //     description: 'A categoria foi gravada com sucesso!',
-      //   });
-      // } catch (err) {
-      //   if (err instanceof Yup.ValidationError) {
-      //     const errors = getValidationError(err);
+        addToast({
+          type: 'success',
+          title: 'Sucesso!',
+          description: 'O comando customizado foi gravado com sucesso!',
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationError(err);
 
-      //     formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-      //     return;
-      //   }
+          return;
+        }
 
-      //   addToast({
-      //     type: 'error',
-      //     title: 'Erro na criação',
-      //     description:
-      //       'Ocorreu um erro na criação da categoria, tente novamente.',
-      //   });
-      // }
+        addToast({
+          type: 'error',
+          title: 'Erro na criação',
+          description:
+            'Ocorreu um erro na criação do comando customizado, tente novamente.',
+        });
+      }
     },
-    [addToast, history, loadData],
+    [addToast, loadData],
   );
 
   const handleRefreshPreview = useCallback(() => {
@@ -390,4 +387,4 @@ const NewCategory: React.FC = () => {
   );
 };
 
-export default NewCategory;
+export default NewCustomCommand;

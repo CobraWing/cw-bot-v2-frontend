@@ -21,6 +21,14 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
 
+  &.isError {
+    border: 2px solid var(--error);
+    .with-error > .react-select__control {
+      border: 0;
+      border-right: 1px solid var(--input-default-border);
+    }
+  }
+
   &:not(.isError):hover {
     border-color: var(--input-default-hovered-border);
   }
@@ -30,12 +38,6 @@ export const Container = styled.div<ContainerProps>`
     css`
       color: var(--input-default-focused);
       border-color: var(--input-default-focused);
-    `}
-
-  ${(props) =>
-    props.isErrored &&
-    css`
-      border-color: var(--error);
     `}
 
   > div {
@@ -99,8 +101,11 @@ export const Container = styled.div<ContainerProps>`
 
 export const Error = styled(Tooltip)`
   height: 16px;
-  margin-left: 16px;
   margin-top: -5px;
+  margin-right: 8px;
+
+  text-align: right;
+  max-width: 30px;
 
   svg {
     margin: 0;

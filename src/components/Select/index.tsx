@@ -72,12 +72,13 @@ const Select: React.FC<InputProps> = ({
           onBlur={handleInputBlur}
           defaultValue={defaultValue}
           ref={inputRef}
+          className={error ? 'with-error' : ''}
           classNamePrefix="react-select"
           {...rest}
         />
 
         {error && (
-          <Error title={error}>
+          <Error className="select-error" title={error}>
             <FiAlertCircle color="#c53030" size={20} />
           </Error>
         )}
