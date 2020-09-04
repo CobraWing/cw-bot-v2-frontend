@@ -144,7 +144,7 @@ const NewCustomCommand: React.FC = () => {
           await api.post('/customCommands', data);
         }
 
-        // history.push('/categories');
+        history.push('/custom-commands');
 
         addToast({
           type: 'success',
@@ -168,7 +168,7 @@ const NewCustomCommand: React.FC = () => {
         });
       }
     },
-    [addToast, loadData],
+    [addToast, history, loadData],
   );
 
   const handleRefreshPreview = useCallback(() => {
