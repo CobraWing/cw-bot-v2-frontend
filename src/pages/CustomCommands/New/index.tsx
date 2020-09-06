@@ -6,7 +6,7 @@ import ReactHtmlParser from 'react-html-parser';
 import * as Yup from 'yup';
 import { QuestionCircleFill } from '@styled-icons/bootstrap';
 import { Add } from '@styled-icons/ionicons-solid';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import getValidationError from '../../../utils/getValidationErrors';
 import LayoutDefault from '../../../components/Layout/Default';
 import Input from '../../../components/Input';
@@ -71,15 +71,26 @@ interface CommandFormData {
   updated_at?: string;
 }
 
+interface DefaultCategorySelectedData {
+  value: string;
+  label: string;
+}
+
 const NewCustomCommand: React.FC = () => {
   const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
+  const location = useLocation();
+  const [defaultCategory, setDefaultCategory] = useState<
+    DefaultCategorySelectedData
+  >({} as DefaultCategorySelectedData);
   const { enableLoader, disableLoader } = useLoader();
-  const [loadData, setLoadData] = useState<CommandFormData>(
-    {} as CommandFormData,
-  );
+  const [loadData, setLoadData] = useState<CommandFormData>({
+    name: 'comando_legal',
+    description: 'descrição do comando legal',
+    content: '<p><strong>Esse é o comando legal</strong></p>',
+  } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -88,35 +99,193 @@ const NewCustomCommand: React.FC = () => {
     CategorySelectData[]
   >([]);
 
-  const loadCategories = useCallback(() => {
-    api
-      .get<CategoryData[]>('/categories')
-      .then((response) => {
-        setCategoriesOptions(
-          response.data.map((category) => {
-            return {
-              value: category.id,
-              label: category.name,
-            };
-          }),
-        );
-        disableLoader();
-      })
-      .catch(() => {
-        disableLoader();
-        addToast({
-          type: 'error',
-          title: 'Erro',
-          description: 'Ocorreu um erro carregar as categorias.',
+  // const loadCategories = useCallback(async () => {
+  //   try {
+  //     console.log('await category...');
+  //     const categories = await api.get<CategoryData[]>('/categories');
+  //     console.log('categories returned...', categories.data);
+  //     setCategoriesOptions(
+  //       categories.data.map((cat) => {
+  //         return {
+  //           value: cat.id,
+  //           label: cat.name,
+  //         };
+  //       }),
+  //     );
+  //   } catch {
+  //     addToast({
+  //       type: 'error',
+  //       title: 'Erro',
+  //       description:
+  //         'Ocorreu um erro carregar o comando customizado, tente novamente.',
+  //     });
+  //     history.push('/custom-commands');
+  //   }
+  // }, [addToast, history]);
+
+  // const loadCustomCommand = useCallback(async () => {
+  //   if (!location.search.includes('?id=')) {
+  //     addToast({
+  //       type: 'error',
+  //       title: 'Erro',
+  //       description:
+  //         'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
+  //     });
+  //     history.push('/custom-commands');
+  //     return;
+  //   }
+  //   const id = location.search.replace('?id=', '');
+
+  //   try {
+  //     console.log('await customCommand...');
+  //     const customCommand = await api.get<CommandFormData>(
+  //       `/customCommands/${id}`,
+  //     );
+  //     console.log('customCommand returned...', customCommand.data);
+  //     setLoadData(customCommand.data);
+  //     disableLoader();
+  //   } catch {
+  //     addToast({
+  //       type: 'error',
+  //       title: 'Erro',
+  //       description:
+  //         'Ocorreu um erro carregar o comando customizado, tente novamente.',
+  //     });
+  //     history.push('/custom-commands');
+  //   }
+  // }, [disableLoader, addToast, history, location.search]);
+
+  const handleRefreshPreview = useCallback(() => {
+    // console.log('formRef.current?.getData()', formRef.current?.getData());
+    const formData = formRef.current?.getData() as CommandFormData;
+    let { content } = formData;
+
+    if (content) {
+      let matchs = content.match(
+        /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
+      );
+
+      if (matchs) {
+        matchs = matchs.filter((m, index) => {
+          return matchs?.indexOf(m) === index;
         });
-        history.push('/categories');
-      });
-  }, [disableLoader, addToast, history]);
+
+        for (let i = 0; i < matchs.length; i += 1) {
+          const link =
+            matchs[i].includes('http://') || matchs[i].includes('https://')
+              ? matchs[i]
+              : `http://${matchs[i]}`;
+          content = content.replace(
+            new RegExp(matchs[i], 'gm'),
+            `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
+          );
+        }
+      }
+
+      content = content
+        .replace(/<\/p><p>/g, '<br/>')
+        .replace(/<p>/g, '')
+        .replace(/<\/p>/g, '');
+    }
+
+    setRefreshData({
+      ...formData,
+      content,
+    });
+  }, []);
 
   useEffect(() => {
     enableLoader();
-    loadCategories();
-  }, [enableLoader, loadCategories]);
+    const initializePromisses = [api.get('/categories')];
+
+    if (location.pathname === '/custom-commands/edit') {
+      if (!location.search.includes('?id=')) {
+        addToast({
+          type: 'error',
+          title: 'Erro',
+          description:
+            'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
+        });
+        history.push('/custom-commands');
+        return;
+      }
+      const id = location.search.replace('?id=', '');
+      initializePromisses.push(api.get(`/customCommands/${id}`));
+    }
+
+    Promise.all(initializePromisses)
+      .then((valuesResponse) => {
+        const categories = valuesResponse[0].data;
+        // const customCommand = valuesResponse[1]?.data;
+        console.log(categories);
+        // console.log(customCommand);
+
+        setCategoriesOptions(
+          categories.map((cat: CommandFormData) => {
+            return {
+              value: cat.id,
+              label: cat.name,
+            };
+          }),
+        );
+
+        // setLoadData(customCommand);
+
+        // setRefreshData(customCommand);
+        // handleRefreshPreview();
+        // formRef.current?.setFieldValue('content', customCommand.content);
+
+        const categorySelected = categories.find(
+          (c: CategoryData) => c.id === '13ce9720-3523-467b-893e-cf4fc0241196',
+        );
+
+        console.log('categorySelected', categorySelected);
+
+        setDefaultCategory({
+          value: categorySelected.id,
+          label: categorySelected.name,
+        });
+
+        console.log(defaultCategory);
+
+        setLoadData({
+          name: 'Editado1',
+          description: 'Editado2',
+          content: '<p><strong>Editado3</strong> teste</p>',
+          category_id: '13ce9720-3523-467b-893e-cf4fc0241196',
+        });
+        formRef.current?.setData({
+          name: 'Editado1',
+          description: 'Editado2',
+          content: '<p><strong>Editado3</strong> teste</p>',
+          category_id: '13ce9720-3523-467b-893e-cf4fc0241196',
+        });
+        // handleRefreshPreview();
+        console.log(
+          'Promise.all: formRef.current?.getData()',
+          formRef.current?.getData(),
+        );
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Erro',
+          description:
+            'Ocorreu um erro carregar o comando customizado, tente novamente.',
+        });
+        history.push('/custom-commands');
+      })
+      .finally(() => {
+        disableLoader();
+      });
+  }, [
+    enableLoader,
+    disableLoader,
+    location.search,
+    location.pathname,
+    addToast,
+    history,
+  ]);
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
@@ -171,52 +340,13 @@ const NewCustomCommand: React.FC = () => {
     [addToast, history, loadData],
   );
 
-  const handleRefreshPreview = useCallback(() => {
-    // console.log('formRef.current?.getData()', formRef.current?.getData());
-    const formData = formRef.current?.getData() as CommandFormData;
-    let { content } = formData;
-
-    if (content) {
-      let matchs = content.match(
-        /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/g,
-      );
-
-      if (matchs) {
-        matchs = matchs.filter((m, index) => {
-          return matchs?.indexOf(m) === index;
-        });
-
-        for (let i = 0; i < matchs.length; i += 1) {
-          const link =
-            matchs[i].includes('http://') || matchs[i].includes('https://')
-              ? matchs[i]
-              : `http://${matchs[i]}`;
-          content = content.replace(
-            new RegExp(matchs[i], 'gm'),
-            `<a rel="noreferrer noopener" target="_blank" href="${link}">${matchs[i]}</a>`,
-          );
-        }
-      }
-
-      content = content
-        .replace(/<\/p><p>/g, '<br/>')
-        .replace(/<p>/g, '')
-        .replace(/<\/p>/g, '');
-    }
-
-    setRefreshData({
-      ...formData,
-      content,
-    });
-  }, []);
-
-  useEffect(() => {
-    // console.log(
-    //   'useEffect ===> formRef.current?.getData()',
-    //   formRef.current?.getData(),
-    // );
-    handleRefreshPreview();
-  }, [handleRefreshPreview]);
+  // useEffect(() => {
+  //   // console.log(
+  //   //   'useEffect ===> formRef.current?.getData()',
+  //   //   formRef.current?.getData(),
+  //   // );
+  //   handleRefreshPreview();
+  // }, [handleRefreshPreview]);
 
   return (
     <LayoutDefault

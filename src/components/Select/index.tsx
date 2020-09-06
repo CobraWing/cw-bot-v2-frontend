@@ -25,6 +25,15 @@ const Select: React.FC<InputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
+  useEffect(() => {
+    console.log('defaultValue', defaultValue);
+    if (defaultValue !== undefined) {
+      console.log('defaultValue', defaultValue);
+      console.log('inputRef.current', inputRef.current);
+      console.log('rest', rest);
+    }
+  }, [defaultValue]);
+
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
@@ -70,7 +79,7 @@ const Select: React.FC<InputProps> = ({
         <ReactSelect
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          defaultValue={defaultValue}
+          // defaultValue={defaultValue}
           ref={inputRef}
           className={error ? 'with-error' : ''}
           classNamePrefix="react-select"

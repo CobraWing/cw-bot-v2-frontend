@@ -51,6 +51,7 @@ const NewCategory: React.FC = () => {
           'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
       });
       history.push('/categories');
+      return;
     }
     const id = location.search.replace('?id=', '');
 

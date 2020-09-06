@@ -43,7 +43,14 @@ const EditorInput: React.FC<InputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+
   const [html, setHtml] = useState(defaultValue);
+
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      setHtml(defaultValue);
+    }
+  }, [defaultValue]);
 
   loadMessages(
     {
@@ -116,6 +123,7 @@ const EditorInput: React.FC<InputProps> = ({
             }}
             contentStyle={{ color: '#ff0000' }}
             defaultContent={html}
+            value={html}
           />
         </LocalizationProvider>
       </Container>

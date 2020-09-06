@@ -29,6 +29,12 @@ const Routes: React.FC = () => (
       component={NewCustomCommands}
       isPrivate
     />
+    <Route
+      path="/custom-commands/edit"
+      exact
+      component={NewCustomCommands}
+      isPrivate
+    />
 
     <Route path="/categories" exact component={ListCategories} isPrivate />
     <Route path="/categories/new" exact component={NewCategory} isPrivate />
