@@ -71,20 +71,12 @@ interface CommandFormData {
   updated_at?: string;
 }
 
-interface DefaultCategorySelectedData {
-  value: string;
-  label: string;
-}
-
 const NewCustomCommand: React.FC = () => {
   const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
   const location = useLocation();
-  const [defaultCategory, setDefaultCategory] = useState<
-    DefaultCategorySelectedData
-  >({} as DefaultCategorySelectedData);
   const { enableLoader, disableLoader } = useLoader();
   const [loadData, setLoadData] = useState<CommandFormData>({
     name: 'comando_legal',
@@ -235,36 +227,18 @@ const NewCustomCommand: React.FC = () => {
         // handleRefreshPreview();
         // formRef.current?.setFieldValue('content', customCommand.content);
 
-        const categorySelected = categories.find(
-          (c: CategoryData) => c.id === '13ce9720-3523-467b-893e-cf4fc0241196',
-        );
-
-        console.log('categorySelected', categorySelected);
-
-        setDefaultCategory({
-          value: categorySelected.id,
-          label: categorySelected.name,
-        });
-
-        console.log(defaultCategory);
-
         setLoadData({
           name: 'Editado1',
-          description: 'Editado2',
+          description: '',
           content: '<p><strong>Editado3</strong> teste</p>',
-          category_id: '13ce9720-3523-467b-893e-cf4fc0241196',
+          category_id: '9a542cfc-b0bb-4373-ba8b-766b56aedebc',
         });
         formRef.current?.setData({
           name: 'Editado1',
-          description: 'Editado2',
+          description: '',
           content: '<p><strong>Editado3</strong> teste</p>',
-          category_id: '13ce9720-3523-467b-893e-cf4fc0241196',
+          category_id: '9a542cfc-b0bb-4373-ba8b-766b56aedebc',
         });
-        // handleRefreshPreview();
-        console.log(
-          'Promise.all: formRef.current?.getData()',
-          formRef.current?.getData(),
-        );
       })
       .catch(() => {
         addToast({

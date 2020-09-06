@@ -24,13 +24,11 @@ const Select: React.FC<InputProps> = ({
   const inputRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+  const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    console.log('defaultValue', defaultValue);
     if (defaultValue !== undefined) {
-      console.log('defaultValue', defaultValue);
-      console.log('inputRef.current', inputRef.current);
-      console.log('rest', rest);
+      setValue(defaultValue);
     }
   }, [defaultValue]);
 
@@ -50,21 +48,10 @@ const Select: React.FC<InputProps> = ({
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current,
-      getValue: (ref: any) => {
-        if (rest.isMulti) {
-          if (!ref.state.value) {
-            return [];
-          }
-          return ref.state.value.map((option: OptionTypeBase) => option.value);
-        }
-        if (!ref.state.value) {
-          return '';
-        }
-        return ref.state.value.value;
-      },
+      ref: { value },
+      path: 'value',
     });
-  }, [fieldName, registerField, rest.isMulti]);
+  }, [fieldName, registerField, value]);
 
   return (
     <>
@@ -83,6 +70,10 @@ const Select: React.FC<InputProps> = ({
           ref={inputRef}
           className={error ? 'with-error' : ''}
           classNamePrefix="react-select"
+          onChange={(newValue: any) => {
+            setValue(newValue?.value);
+          }}
+          value={rest?.options?.find((option) => option.value === value)}
           {...rest}
         />
 
