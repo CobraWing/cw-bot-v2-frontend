@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import ReactSelect, {
   OptionTypeBase,
@@ -66,7 +68,6 @@ const Select: React.FC<InputProps> = ({
         <ReactSelect
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          // defaultValue={defaultValue}
           ref={inputRef}
           className={error ? 'with-error' : ''}
           classNamePrefix="react-select"

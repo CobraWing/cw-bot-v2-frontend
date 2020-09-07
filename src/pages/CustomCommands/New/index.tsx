@@ -78,11 +78,9 @@ const NewCustomCommand: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
-  const [loadData, setLoadData] = useState<CommandFormData>({
-    name: 'comando_legal',
-    description: 'descrição do comando legal',
-    content: '<p><strong>Esse é o comando legal</strong></p>',
-  } as CommandFormData);
+  const [loadData, setLoadData] = useState<CommandFormData>(
+    {} as CommandFormData,
+  );
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -91,64 +89,7 @@ const NewCustomCommand: React.FC = () => {
     CategorySelectData[]
   >([]);
 
-  // const loadCategories = useCallback(async () => {
-  //   try {
-  //     console.log('await category...');
-  //     const categories = await api.get<CategoryData[]>('/categories');
-  //     console.log('categories returned...', categories.data);
-  //     setCategoriesOptions(
-  //       categories.data.map((cat) => {
-  //         return {
-  //           value: cat.id,
-  //           label: cat.name,
-  //         };
-  //       }),
-  //     );
-  //   } catch {
-  //     addToast({
-  //       type: 'error',
-  //       title: 'Erro',
-  //       description:
-  //         'Ocorreu um erro carregar o comando customizado, tente novamente.',
-  //     });
-  //     history.push('/custom-commands');
-  //   }
-  // }, [addToast, history]);
-
-  // const loadCustomCommand = useCallback(async () => {
-  //   if (!location.search.includes('?id=')) {
-  //     addToast({
-  //       type: 'error',
-  //       title: 'Erro',
-  //       description:
-  //         'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
-  //     });
-  //     history.push('/custom-commands');
-  //     return;
-  //   }
-  //   const id = location.search.replace('?id=', '');
-
-  //   try {
-  //     console.log('await customCommand...');
-  //     const customCommand = await api.get<CommandFormData>(
-  //       `/customCommands/${id}`,
-  //     );
-  //     console.log('customCommand returned...', customCommand.data);
-  //     setLoadData(customCommand.data);
-  //     disableLoader();
-  //   } catch {
-  //     addToast({
-  //       type: 'error',
-  //       title: 'Erro',
-  //       description:
-  //         'Ocorreu um erro carregar o comando customizado, tente novamente.',
-  //     });
-  //     history.push('/custom-commands');
-  //   }
-  // }, [disableLoader, addToast, history, location.search]);
-
   const handleRefreshPreview = useCallback(() => {
-    // console.log('formRef.current?.getData()', formRef.current?.getData());
     const formData = formRef.current?.getData() as CommandFormData;
     let { content } = formData;
 
@@ -186,31 +127,36 @@ const NewCustomCommand: React.FC = () => {
     });
   }, []);
 
+  const checkIfLoadCustomCommand = useCallback(
+    (initializePromisses) => {
+      if (location.pathname === '/custom-commands/edit') {
+        if (!location.search.includes('?id=')) {
+          addToast({
+            type: 'error',
+            title: 'Erro',
+            description:
+              'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
+          });
+          history.push('/custom-commands');
+          return;
+        }
+        const id = location.search.replace('?id=', '');
+        initializePromisses.push(api.get(`/customCommands/${id}`));
+      }
+    },
+    [addToast, history, location.pathname, location.search],
+  );
+
   useEffect(() => {
     enableLoader();
     const initializePromisses = [api.get('/categories')];
 
-    if (location.pathname === '/custom-commands/edit') {
-      if (!location.search.includes('?id=')) {
-        addToast({
-          type: 'error',
-          title: 'Erro',
-          description:
-            'Ocorreu um erro ao abrir a pagina de edição, tente novamente.',
-        });
-        history.push('/custom-commands');
-        return;
-      }
-      const id = location.search.replace('?id=', '');
-      initializePromisses.push(api.get(`/customCommands/${id}`));
-    }
+    checkIfLoadCustomCommand(initializePromisses);
 
     Promise.all(initializePromisses)
       .then((valuesResponse) => {
         const categories = valuesResponse[0].data;
-        // const customCommand = valuesResponse[1]?.data;
-        console.log(categories);
-        // console.log(customCommand);
+        const customCommand = valuesResponse[1]?.data;
 
         setCategoriesOptions(
           categories.map((cat: CommandFormData) => {
@@ -221,24 +167,8 @@ const NewCustomCommand: React.FC = () => {
           }),
         );
 
-        // setLoadData(customCommand);
-
-        // setRefreshData(customCommand);
-        // handleRefreshPreview();
-        // formRef.current?.setFieldValue('content', customCommand.content);
-
-        setLoadData({
-          name: 'Editado1',
-          description: '',
-          content: '<p><strong>Editado3</strong> teste</p>',
-          category_id: '9a542cfc-b0bb-4373-ba8b-766b56aedebc',
-        });
-        formRef.current?.setData({
-          name: 'Editado1',
-          description: '',
-          content: '<p><strong>Editado3</strong> teste</p>',
-          category_id: '9a542cfc-b0bb-4373-ba8b-766b56aedebc',
-        });
+        setLoadData(customCommand);
+        formRef.current?.setData(customCommand);
       })
       .catch(() => {
         addToast({
@@ -255,15 +185,13 @@ const NewCustomCommand: React.FC = () => {
   }, [
     enableLoader,
     disableLoader,
-    location.search,
-    location.pathname,
+    checkIfLoadCustomCommand,
     addToast,
     history,
   ]);
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
-      console.log('data', data);
       try {
         formRef.current?.setErrors({});
 
@@ -313,14 +241,6 @@ const NewCustomCommand: React.FC = () => {
     },
     [addToast, history, loadData],
   );
-
-  // useEffect(() => {
-  //   // console.log(
-  //   //   'useEffect ===> formRef.current?.getData()',
-  //   //   formRef.current?.getData(),
-  //   // );
-  //   handleRefreshPreview();
-  // }, [handleRefreshPreview]);
 
   return (
     <LayoutDefault
