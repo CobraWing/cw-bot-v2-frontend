@@ -68,6 +68,7 @@ interface CommandFormData {
   image_thumbnail?: string;
   enabled?: boolean;
   show_in_menu?: boolean;
+  created_at?: string;
   updated_at?: string;
 }
 
@@ -209,6 +210,7 @@ const NewCustomCommand: React.FC = () => {
           abortEarly: false,
         });
         if (loadData?.id) {
+          delete loadData.created_at;
           delete loadData.updated_at;
           await api.put(`/customCommands/${loadData.id}`, data);
         } else {
