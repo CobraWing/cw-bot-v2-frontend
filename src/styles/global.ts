@@ -52,6 +52,9 @@ export default createGlobalStyle`
     --info: #3172b7;
     --info-light: #ebf8ff;
     --mention-detail: #f9a839;
+
+    --max-width: 1300px;
+    --min-width: 660px;
   }
 
   * {

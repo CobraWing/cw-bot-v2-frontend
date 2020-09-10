@@ -9,10 +9,16 @@ export const HeaderContent = styled.header`
   justify-content: space-between;
 
   width: 100%;
+  height: 100px;
+  max-width: var(--max-width);
+  position: fixed;
   padding: 0 20px;
 
   background: var(--secondary);
   box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
+
+  z-index: 2;
+}
 `;
 
 export const Logo = styled.a`

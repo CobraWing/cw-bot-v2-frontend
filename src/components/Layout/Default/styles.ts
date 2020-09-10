@@ -5,8 +5,8 @@ export const Grid = styled.div`
 
   margin: 0 auto;
 
-  max-width: 1300px;
-  min-width: 660px;
+  max-width: var(--max-width);
+  min-width: var(--min-width);
 
   grid-template-columns: 150px auto 150px;
   grid-template-rows: 100px 40px auto 50px;
