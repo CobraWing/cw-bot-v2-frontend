@@ -232,7 +232,6 @@ const NewCustomCommand: React.FC = () => {
 
           return;
         }
-
         addToast({
           type: 'error',
           title: 'Erro na criação',
