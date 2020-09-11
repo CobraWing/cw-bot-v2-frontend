@@ -9,7 +9,7 @@ import NotFound from '../pages/NotFound';
 import ChooseServer from '../pages/ChooseServer';
 import Dashboard from '../pages/Dashboard';
 
-import CustomCommands from '../pages/CustomCommands';
+import CustomCommands from '../pages/CustomCommands/List';
 import NewCustomCommands from '../pages/CustomCommands/New';
 
 import ListCategories from '../pages/Category/List';
