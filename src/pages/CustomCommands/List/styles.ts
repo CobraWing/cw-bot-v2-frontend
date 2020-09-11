@@ -20,16 +20,27 @@ export const Filters = styled.div`
     margin-left: 10px;
     display: flex;
     position: relative;
+    align-items: center;
 
     input {
       padding-right: 20px;
+    }
+
+    .formContainerSelectInput {
+      margin-left: 10px;
+      width: 250px;
+      max-width: 250px;
+
+      .react-select__dropdown-indicator {
+        padding: 7px;
+      }
     }
   }
 
   .clear-icon {
     position: absolute;
-    left: 150px;
-    top: 0;
+    left: 147px;
+    top: 4px;
     background: transparent;
     border: 0;
     color: var(--gray);
@@ -42,10 +53,12 @@ export const Filters = styled.div`
 
   .filter {
     margin-left: 10px;
+    width: 110px;
   }
 
   .action {
     margin-left: 10px;
+    width: 110px;
   }
 `;
 
@@ -67,8 +80,17 @@ export const Table = styled.div`
       background: var(--quaternary);
     }
 
+    .rdt_Pagination {
+      select option {
+        background: var(--quaternary);
+        color: var(--white);
+        border: 1px solid #000;
+      }
+    }
+
     .rdt_TableRow {
       position: relative;
+      transition: background 0.2s;
       &:hover {
         background: var(--secondary);
       }

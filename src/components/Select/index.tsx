@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import ReactSelect, {
   OptionTypeBase,
   Props as SelectProps,
+  ValueType,
 } from 'react-select';
 
 import { useField } from '@unform/core';
@@ -15,12 +16,14 @@ interface InputProps extends SelectProps<OptionTypeBase> {
   name: string;
   label?: string;
   containerStyle?: object;
+  onChange?(value: ValueType<OptionTypeBase>): void;
 }
 
 const Select: React.FC<InputProps> = ({
   name,
   label,
   containerStyle = {},
+  onChange,
   ...rest
 }) => {
   const inputRef = useRef(null);
@@ -43,7 +46,7 @@ const Select: React.FC<InputProps> = ({
   }, []);
 
   const classes = classNames({
-    formContainerInput: 'formContainerInput',
+    formContainerSelectInput: 'formContainerSelectInput',
     isError: error ? 'isError' : '',
   });
 
@@ -62,7 +65,7 @@ const Select: React.FC<InputProps> = ({
         style={containerStyle}
         isErrored={!!error}
         isFocused={isFocused}
-        data-testid="input-container"
+        data-testid="select-input-container"
         className={classes}
       >
         <ReactSelect
@@ -73,6 +76,7 @@ const Select: React.FC<InputProps> = ({
           classNamePrefix="react-select"
           onChange={(newValue: any) => {
             setValue(newValue?.value);
+            onChange && onChange(newValue?.value);
           }}
           value={rest?.options?.find((option) => option.value === value)}
           {...rest}

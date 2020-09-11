@@ -17,5 +17,5 @@ export const Grid = styled.div`
     'LEFT CENTER RIGHT'
     'FOOTER FOOTER FOOTER';
 
-  height: auto;
+  height: 100vh;
 `;

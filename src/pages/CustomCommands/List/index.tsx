@@ -13,6 +13,7 @@ import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
+import Select from '../../../components/Select';
 import ConfirmModal from '../../../components/ConfirmModal';
 
 import { Container, Filters, Table } from './styles';
@@ -50,7 +51,9 @@ const ListCustomCommands: React.FC = () => {
   const { enableLoader, disableLoader, isLoading } = useLoader();
 
   const [data, setData] = useState<ICustomCommand[]>([] as ICustomCommand[]);
+  const [categories, setCategories] = useState<ICategory[]>([] as ICategory[]);
   const [filterNameField, setFilterNameField] = useState('');
+  const [filterCategoryField, setFilterCategoryField] = useState('');
   const [filteredData, setFilteredData] = useState<ICustomCommand[]>(
     [] as ICustomCommand[],
   );
@@ -62,12 +65,27 @@ const ListCustomCommands: React.FC = () => {
   const [fieldSelected, setFieldSelected] = useState('');
   const [checkedSelected, setCheckedSelected] = useState(false);
 
-  const loadCustomCommands = useCallback(() => {
+  const loadInfos = useCallback(() => {
     enableLoader();
-    api
-      .get('/customCommands')
-      .then((response) => {
-        setData(response.data);
+
+    const initializePromisses = [
+      api.get('/categories'),
+      api.get('/customCommands'),
+    ];
+
+    Promise.all(initializePromisses)
+      .then((valuesResponse) => {
+        const categoriesList = valuesResponse[0].data;
+        categoriesList.push();
+        setCategories(
+          categoriesList.map((cat: ICategory) => {
+            return {
+              value: cat.id,
+              label: cat.name,
+            };
+          }),
+        );
+        setData(valuesResponse[1]?.data);
       })
       .catch(() => {
         addToast({
@@ -83,18 +101,21 @@ const ListCustomCommands: React.FC = () => {
   }, [addToast, enableLoader, disableLoader]);
 
   useEffect(() => {
-    loadCustomCommands();
-  }, [loadCustomCommands]);
+    loadInfos();
+  }, [loadInfos]);
 
   useEffect(() => {
     setFilteredData(
       data.filter(
         (item) =>
           item.name &&
-          item.name.toLowerCase().includes(filterNameField.toLowerCase()),
+          item.name.toLowerCase().includes(filterNameField.toLowerCase()) &&
+          (filterCategoryField
+            ? item.category_id === filterCategoryField
+            : item.category_id !== null),
       ),
     );
-  }, [filterNameField, data]);
+  }, [filterNameField, filterCategoryField, data]);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -156,7 +177,7 @@ const ListCustomCommands: React.FC = () => {
     api
       .put(`/customCommands/${customCommandSelected.id}`, updateData)
       .then(() => {
-        loadCustomCommands();
+        loadInfos();
         addToast({
           type: 'success',
           title: 'Tudo certo :)',
@@ -177,7 +198,7 @@ const ListCustomCommands: React.FC = () => {
     checkedSelected,
     fieldSelected,
     closeEditModal,
-    loadCustomCommands,
+    loadInfos,
     enableLoader,
   ]);
 
@@ -200,9 +221,9 @@ const ListCustomCommands: React.FC = () => {
       })
       .finally(() => {
         closeDeleteModal();
-        loadCustomCommands();
+        loadInfos();
       });
-  }, [closeDeleteModal, customCommandSelected, loadCustomCommands, addToast]);
+  }, [closeDeleteModal, customCommandSelected, loadInfos, addToast]);
 
   const getMessageModal = useCallback(() => {
     let action = '';
@@ -215,7 +236,12 @@ const ListCustomCommands: React.FC = () => {
   }, [checkedSelected, fieldSelected]);
 
   const handleSubmit = useCallback((filterData) => {
-    setFilterNameField(filterData.name);
+    if (filterData.name) {
+      setFilterNameField(filterData.name);
+    }
+    if (filterData.category_id) {
+      setFilterCategoryField(filterData.category_id);
+    }
   }, []);
 
   const handleClearFilters = useCallback(() => {
@@ -233,10 +259,18 @@ const ListCustomCommands: React.FC = () => {
     {
       name: 'Descrição',
       selector: 'description',
+      sortable: true,
     },
     {
       name: 'Categoria',
       selector: 'category.name',
+      sortable: true,
+      width: '150px',
+    },
+    {
+      name: 'Alterado por',
+      selector: 'updated_by',
+      width: '150px',
     },
     {
       name: (
@@ -327,7 +361,7 @@ const ListCustomCommands: React.FC = () => {
   ];
 
   const paginationOptions = {
-    noRowsPerPage: true,
+    noRowsPerPage: false,
     rowsPerPageText: 'Itens por pagina',
     rangeSeparatorText: 'de',
     selectAllRowsItem: false,
@@ -343,11 +377,28 @@ const ListCustomCommands: React.FC = () => {
             <Input
               placeholder="Nome"
               name="name"
-              containerStyle={{ width: '200px' }}
+              containerStyle={{ width: '200px', height: '38px' }}
             />
             <Button className="clear-icon" onClick={handleClearFilters}>
               <CloseCircle size={25} />
             </Button>
+
+            <Select
+              placeholder="Selecione a categoria"
+              name="category_id"
+              isSearchable
+              isClearable
+              className="categories_select"
+              options={categories}
+              onChange={(value) => {
+                if (!value) {
+                  formRef.current?.setFieldValue('category_id', '');
+                  setFilterCategoryField('');
+                }
+              }}
+              noOptionsMessage={() => 'Nenhuma categoria encontrada'}
+            />
+
             <Button className="filter" type="submit">
               Filtrar
               <Filter size={20} />
@@ -368,7 +419,8 @@ const ListCustomCommands: React.FC = () => {
               theme="dark"
               highlightOnHover
               pagination
-              paginationPerPage={5}
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 50]}
               noHeader
               paginationComponentOptions={paginationOptions}
               noDataComponent="Nenhum comando customizado encontrado!"

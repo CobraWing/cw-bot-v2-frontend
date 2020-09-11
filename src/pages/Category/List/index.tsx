@@ -221,6 +221,7 @@ const ListCategories: React.FC = () => {
     {
       name: 'Descrição',
       selector: 'description',
+      sortable: true,
     },
     {
       name: (
@@ -311,7 +312,7 @@ const ListCategories: React.FC = () => {
   ];
 
   const paginationOptions = {
-    noRowsPerPage: true,
+    noRowsPerPage: false,
     rowsPerPageText: 'Itens por pagina',
     rangeSeparatorText: 'de',
     selectAllRowsItem: false,
@@ -327,7 +328,7 @@ const ListCategories: React.FC = () => {
             <Input
               placeholder="Nome"
               name="name"
-              containerStyle={{ width: '200px' }}
+              containerStyle={{ width: '200px', height: '38px' }}
             />
             <Button className="clear-icon" onClick={handleClearFilters}>
               <CloseCircle size={25} />
@@ -352,7 +353,8 @@ const ListCategories: React.FC = () => {
               theme="dark"
               highlightOnHover
               pagination
-              paginationPerPage={5}
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 50]}
               noHeader
               paginationComponentOptions={paginationOptions}
               noDataComponent="Nenhuma categoria encontrada!"

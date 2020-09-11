@@ -104,6 +104,26 @@ export const ContentContainer = styled.div`
   display: flex;
 `;
 
+export const UserName = styled.div`
+  display: flex;
+  color: var(--cw);
+
+  strong {
+    margin-right: 4px;
+  }
+
+  .time {
+    color: #72767d;
+    font-size: 12px;
+    padding-top: 3px;
+  }
+
+  .command {
+    margin-top: 5px;
+    font-weight: 500;
+  }
+`;
+
 export const BotName = styled.div`
   display: flex;
   color: rgb(7, 125, 245);
@@ -112,7 +132,7 @@ export const BotName = styled.div`
     margin-right: 4px;
   }
 
-  span {
+  .time {
     color: #72767d;
     font-size: 12px;
     padding-top: 3px;

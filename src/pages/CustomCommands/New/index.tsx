@@ -28,6 +28,7 @@ import {
   ContentContainer,
   BotAvatar,
   MessageInfos,
+  UserName,
   BotName,
   BotTag,
   MessageBox,
@@ -272,12 +273,13 @@ const NewCustomCommand: React.FC = () => {
                 name="category_id"
                 isSearchable
                 options={categoriesOptions}
+                isClearable
                 noOptionsMessage={() => 'Nenhuma categoria encontrada'}
               />
 
               <Input
-                label="!Nome do comando: (obrigatório)"
-                placeholder="Ex: !comandolegal"
+                label="Nome do comando: (sem a exclamação, obrigatório)"
+                placeholder="Ex: comandolegal"
                 name="name"
                 maxLength={20}
                 replaceWhiteSpaces
@@ -323,7 +325,7 @@ const NewCustomCommand: React.FC = () => {
                   <QuestionCircleFill
                     className="header-icon"
                     size={15}
-                    data-tip="Ativar / Desativar a categoria.<br> Isso afetará todos os comandos nessa categoria."
+                    data-tip="Ativar / Desativar o comando.<br> Isso habilitará ou desabilitará o uso do comando."
                     data-place="top"
                     data-multiline="true"
                     data-background-color="black"
@@ -336,7 +338,7 @@ const NewCustomCommand: React.FC = () => {
                   <QuestionCircleFill
                     className="header-icon"
                     size={15}
-                    data-tip="Exibir / Não exibir no menu.<br> Isso controla quando os comandos <br> nessa categoria são exibidos no menu."
+                    data-tip="Exibir / Não exibir no menu.<br> Isso controla quando os comandos <br> são exibidos no menu de listagem da categoria."
                     data-place="top"
                     data-multiline="true"
                     data-background-color="black"
@@ -357,7 +359,23 @@ const NewCustomCommand: React.FC = () => {
           </FormContainer>
 
           <PreviewContainer>
-            <p>Preview do comando</p>
+            <p>
+              <strong>Preview do Comando</strong>
+            </p>
+
+            <PreviewContainerBox>
+              <BotAvatar src={user.avatar} alt={user.name} />
+              <MessageInfos>
+                <UserName>
+                  <strong>{user.name}</strong>
+                  <span className="time">Hoje às 16:20</span>
+                </UserName>
+                <span className="command">
+                  !{refreshData.name || 'nome_do_comando'}
+                </span>
+              </MessageInfos>
+            </PreviewContainerBox>
+
             <PreviewContainerBox>
               <BotAvatar
                 src="https://cdn.discordapp.com/avatars/317331817315434496/84175210880cdeeb7faa5384cb3634ff.png?size=128"
@@ -367,7 +385,7 @@ const NewCustomCommand: React.FC = () => {
                 <BotName>
                   <strong>CobraWingBot</strong>
                   <BotTag>BOT</BotTag>
-                  <span>Hoje às 16:20</span>
+                  <span className="time">Hoje às 16:20</span>
                 </BotName>
                 <MessageBox>
                   <ContentContainer>
@@ -377,7 +395,7 @@ const NewCustomCommand: React.FC = () => {
                         <strong>{user.name}</strong>
                       </UserInfos>
 
-                      <Title>{refreshData.title || 'Título'}</Title>
+                      <Title>{refreshData.title}</Title>
 
                       <MessageContent>
                         {ReactHtmlParser(refreshData?.content || '')}
