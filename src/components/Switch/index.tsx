@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { InputHTMLAttributes, useEffect, useState } from 'react';
 
 import Switch from 'react-switch';

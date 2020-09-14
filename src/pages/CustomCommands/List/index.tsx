@@ -29,18 +29,18 @@ interface ICategory {
 }
 
 interface ICustomCommand {
-  id: string;
+  id?: string;
   category_id: string;
-  category: ICategory;
+  category?: ICategory;
   enabled: boolean;
   show_in_menu: boolean;
   name: string;
   description: string;
   title: string;
   color: string;
-  created_at: string;
-  updated_at: string;
-  updated_by: string;
+  created_at?: string;
+  updated_at?: string;
+  updated_by?: string;
 }
 
 const ListCustomCommands: React.FC = () => {
