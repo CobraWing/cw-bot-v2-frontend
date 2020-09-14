@@ -275,6 +275,7 @@ const NewCustomCommand: React.FC = () => {
                 options={categoriesOptions}
                 isClearable
                 noOptionsMessage={() => 'Nenhuma categoria encontrada'}
+                tip="A categoria server como agrupador de comandos,<br> facilitando encontrar no menu de ajuda."
               />
 
               <Input
@@ -291,6 +292,7 @@ const NewCustomCommand: React.FC = () => {
                 placeholder="Ex: Esse comando retorna uma mensagem legal!"
                 name="description"
                 maxLength={100}
+                tip="A descrição do comando aparecerá <br>como dica no menu de ajuda no discord."
               />
 
               <Input

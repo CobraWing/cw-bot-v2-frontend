@@ -8,9 +8,10 @@ import React, {
 
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
+import { QuestionCircleFill } from '@styled-icons/bootstrap';
 import { useField } from '@unform/core';
 import classNames from 'classnames';
-import { Label, Container, Error } from './styles';
+import { Label, Tip, Container, Error } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -19,6 +20,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ComponentType<IconBaseProps>;
   replaceWhiteSpaces?: boolean;
   replaceSpecialCharacters?: boolean;
+  tip?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -28,6 +30,7 @@ const Input: React.FC<InputProps> = ({
   icon: Icon,
   replaceWhiteSpaces,
   replaceSpecialCharacters,
+  tip,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +63,21 @@ const Input: React.FC<InputProps> = ({
   return (
     <>
       {label && <Label>{label}</Label>}
+      {tip && (
+        <Tip>
+          <QuestionCircleFill
+            className="header-icon"
+            size={15}
+            data-tip={tip}
+            data-place="top"
+            data-multiline="true"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+          />
+        </Tip>
+      )}
+
       <Container
         style={containerStyle}
         isErrored={!!error}

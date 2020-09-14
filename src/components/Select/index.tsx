@@ -10,13 +10,15 @@ import ReactSelect, {
 import { useField } from '@unform/core';
 import classNames from 'classnames';
 import { FiAlertCircle } from 'react-icons/fi';
-import { Label, Container, Error } from './styles';
+import { QuestionCircleFill } from '@styled-icons/bootstrap';
+import { Label, Tip, Container, Error } from './styles';
 
 interface InputProps extends SelectProps<OptionTypeBase> {
   name: string;
   label?: string;
   containerStyle?: object;
   onChange?(value: ValueType<OptionTypeBase>): void;
+  tip?: string;
 }
 
 const Select: React.FC<InputProps> = ({
@@ -24,6 +26,7 @@ const Select: React.FC<InputProps> = ({
   label,
   containerStyle = {},
   onChange,
+  tip,
   ...rest
 }) => {
   const inputRef = useRef(null);
@@ -61,6 +64,21 @@ const Select: React.FC<InputProps> = ({
   return (
     <>
       {label && <Label>{label}</Label>}
+      {tip && (
+        <Tip>
+          <QuestionCircleFill
+            className="header-icon"
+            size={15}
+            data-tip={tip}
+            data-place="top"
+            data-multiline="true"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+          />
+        </Tip>
+      )}
+
       <Container
         style={containerStyle}
         isErrored={!!error}

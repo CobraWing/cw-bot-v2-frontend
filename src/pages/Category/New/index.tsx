@@ -152,6 +152,7 @@ const NewCategory: React.FC = () => {
               placeholder="Descrição"
               name="description"
               maxLength={50}
+              tip="A descrição da categoria aparecerá <br>como dica no menu de ajuda no discord."
             />
 
             <SwitchContainer>

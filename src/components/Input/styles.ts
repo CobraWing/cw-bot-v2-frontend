@@ -12,6 +12,10 @@ export const Label = styled.span`
   margin-left: 10px;
 `;
 
+export const Tip = styled.span`
+  margin-left: 10px;
+`;
+
 export const Container = styled.div<ContainerProps>`
   background: var(--input-default-background);
   border-radius: 10px;
