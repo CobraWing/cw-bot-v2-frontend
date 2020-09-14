@@ -74,7 +74,6 @@ export const Error = styled(Tooltip)`
   height: 16px;
   margin-left: 16px;
   margin-top: -5px;
-}
 
   svg {
     margin: 0;

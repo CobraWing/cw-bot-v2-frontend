@@ -43,7 +43,8 @@ export const FormContainer = styled.div`
   background: var(--quaternary);
 
   .formContainerInput,
-  .formContainerTextArea {
+  .formContainerTextArea,
+  .formContainerSelectInput {
     margin-bottom: 15px;
   }
 `;

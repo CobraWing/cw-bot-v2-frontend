@@ -268,8 +268,9 @@ const ListCustomCommands: React.FC = () => {
       width: '150px',
     },
     {
-      name: 'Alterado por',
+      name: 'Atualizado por',
       selector: 'updated_by',
+      sortable: true,
       width: '150px',
     },
     {

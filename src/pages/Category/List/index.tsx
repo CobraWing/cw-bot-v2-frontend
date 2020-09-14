@@ -31,6 +31,7 @@ interface ICategory {
   show_in_menu: boolean;
   created_at: string;
   updated_at: string;
+  updated_by: string;
 }
 
 const ListCategories: React.FC = () => {
@@ -222,6 +223,12 @@ const ListCategories: React.FC = () => {
       name: 'Descrição',
       selector: 'description',
       sortable: true,
+    },
+    {
+      name: 'Atualizado por',
+      selector: 'updated_by',
+      sortable: true,
+      width: '150px',
     },
     {
       name: (

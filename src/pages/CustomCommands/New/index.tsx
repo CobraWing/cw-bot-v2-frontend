@@ -268,7 +268,7 @@ const NewCustomCommand: React.FC = () => {
               initialData={loadData}
             >
               <Select
-                label="Categoria: (obrigatória)"
+                label="Categoria: (campo obrigatório)"
                 placeholder="Selecione a categoria"
                 name="category_id"
                 isSearchable
@@ -278,8 +278,8 @@ const NewCustomCommand: React.FC = () => {
               />
 
               <Input
-                label="Nome do comando: (sem a exclamação, obrigatório)"
-                placeholder="Ex: comandolegal"
+                label="Nome do comando: (sem a exclamação, campo obrigatório)"
+                placeholder="Ex: comando_legal"
                 name="name"
                 maxLength={20}
                 replaceWhiteSpaces
@@ -287,7 +287,7 @@ const NewCustomCommand: React.FC = () => {
               />
 
               <Input
-                label="Descrição: (obrigatório)"
+                label="Descrição: (campo obrigatório)"
                 placeholder="Ex: Esse comando retorna uma mensagem legal!"
                 name="description"
                 maxLength={100}
