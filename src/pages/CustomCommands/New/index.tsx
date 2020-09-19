@@ -195,6 +195,8 @@ const NewCustomCommand: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
       try {
+        enableLoader();
+
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
@@ -210,6 +212,7 @@ const NewCustomCommand: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
+
         if (loadData?.id) {
           delete loadData.created_at;
           delete loadData.updated_at;
@@ -226,6 +229,8 @@ const NewCustomCommand: React.FC = () => {
           description: 'O comando customizado foi gravado com sucesso!',
         });
       } catch (err) {
+        disableLoader();
+
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationError(err);
 
@@ -233,6 +238,7 @@ const NewCustomCommand: React.FC = () => {
 
           return;
         }
+
         addToast({
           type: 'error',
           title: 'Erro na criação',
@@ -241,7 +247,7 @@ const NewCustomCommand: React.FC = () => {
         });
       }
     },
-    [addToast, history, loadData],
+    [addToast, history, loadData, enableLoader, disableLoader],
   );
 
   return (

@@ -83,6 +83,8 @@ const NewCategory: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: CategoryFormData) => {
       try {
+        enableLoader();
+
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
@@ -110,6 +112,8 @@ const NewCategory: React.FC = () => {
           description: 'A categoria foi gravada com sucesso!',
         });
       } catch (err) {
+        disableLoader();
+
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationError(err);
 
@@ -126,7 +130,7 @@ const NewCategory: React.FC = () => {
         });
       }
     },
-    [addToast, history, loadData],
+    [addToast, history, loadData, enableLoader, disableLoader],
   );
 
   return (
