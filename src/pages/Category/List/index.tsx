@@ -184,7 +184,8 @@ const ListCategories: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro',
-          description: 'Ocorreu um erro carregar categoria, tente novamente.',
+          description:
+            'Ocorreu um erro ao deletar a categoria, tente novamente.',
         });
       })
       .finally(() => {

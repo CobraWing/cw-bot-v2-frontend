@@ -204,19 +204,20 @@ const ListCustomCommands: React.FC = () => {
 
   const acceptDeleteAction = useCallback(() => {
     api
-      .delete(`/categories/${customCommandSelected.id}`)
+      .delete(`/customCommands/${customCommandSelected.id}`)
       .then(() => {
         addToast({
           type: 'success',
           title: 'Sucesso!',
-          description: 'A categoria excluída definitivamente com sucesso!',
+          description: 'O comando foi excluído definitivamente com sucesso!',
         });
       })
       .catch(() => {
         addToast({
           type: 'error',
           title: 'Erro',
-          description: 'Ocorreu um erro carregar categoria, tente novamente.',
+          description:
+            'Ocorreu um erro carregar deletar o comando, tente novamente.',
         });
       })
       .finally(() => {
