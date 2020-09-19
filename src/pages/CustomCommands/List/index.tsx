@@ -449,9 +449,13 @@ const ListCustomCommands: React.FC = () => {
           title={
             customCommandSelected && (
               <>
-                CUIDADO, deseja realmente deletar o comando&nbsp;
-                <strong>{customCommandSelected.name}</strong> ?<br />
-                <strong>Essa ação não poderá ser revertida, CUIDADO!</strong>
+                <strong>CUIDADO</strong>, deseja realmente deletar o
+                comando&nbsp;
+                <strong>
+                  <span>{customCommandSelected.name}</span>
+                </strong>{' '}
+                ?<br />
+                <b>Essa ação não poderá ser revertida</b>
               </>
             )
           }

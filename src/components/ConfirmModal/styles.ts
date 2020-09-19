@@ -81,6 +81,12 @@ export const MyModalContent = styled.div`
 
     strong {
       text-decoration: underline;
+
+      span {
+        color: var(--cw);
+        background-color: var(--white);
+        text-decoration: none;
+      }
     }
   }
 

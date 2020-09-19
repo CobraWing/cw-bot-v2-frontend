@@ -57,7 +57,7 @@ const ListCategories: React.FC = () => {
   const loadCategories = useCallback(() => {
     enableLoader();
     api
-      .get('/categories')
+      .get('/categories?count=true')
       .then((response) => {
         setData(response.data);
       })
@@ -229,6 +229,27 @@ const ListCategories: React.FC = () => {
       sortable: true,
     },
     {
+      name: (
+        <>
+          <QuestionCircleFill
+            className="header-icon"
+            size={15}
+            data-tip="Quantidade de comandos nessa categoria."
+            data-place="top"
+            data-multiline="true"
+            data-background-color="black"
+            data-text-color="white"
+            data-border="white"
+          />
+          <span>Comandos</span>
+        </>
+      ),
+      selector: 'commands_count',
+      sortable: true,
+      width: '150px',
+      center: true,
+    },
+    {
       name: 'Atualizado por',
       selector: 'updated_by',
       sortable: true,
@@ -392,9 +413,17 @@ const ListCategories: React.FC = () => {
           title={
             categorySelected && (
               <>
-                Deseja realmente deletar a categoria&nbsp;
-                <strong>{categorySelected.name}</strong> ?<br />
-                <strong>Essa ação não poderá ser revertida</strong>
+                <strong>CUIDADO:</strong> Deseja realmente deletar a
+                categoria&nbsp;
+                <strong>
+                  <span>{categorySelected.name}</span>
+                </strong>
+                ?
+                <br />
+                <b>
+                  TODOS os comandos dessa categoria serão exluídos, essa ação
+                  não poderá ser revertida!
+                </b>
               </>
             )
           }
