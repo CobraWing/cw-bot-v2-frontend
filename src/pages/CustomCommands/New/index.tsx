@@ -241,8 +241,9 @@ const NewCustomCommand: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro na criação',
+          title: 'Algo deu errado :(',
           description:
+            err.message_ptbr ||
             'Ocorreu um erro na criação do comando customizado, tente novamente.',
         });
       }

@@ -124,7 +124,7 @@ const NewCategory: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro na criação',
+          title: 'Algo deu errado :(',
           description:
             err.message_ptbr ||
             'Ocorreu um erro na criação da categoria, tente novamente.',
