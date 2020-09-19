@@ -61,11 +61,12 @@ const ListCategories: React.FC = () => {
       .then((response) => {
         setData(response.data);
       })
-      .catch(() => {
+      .catch((err) => {
         addToast({
           type: 'error',
           title: 'Erro ao carregar',
           description:
+            err.message_ptbr ||
             'Ocorreu um erro ao carregar as categorias, tente novamente.',
         });
       })
@@ -152,11 +153,12 @@ const ListCategories: React.FC = () => {
           description: 'Categoria atualizada com sucesso.',
         });
       })
-      .catch(() => {
+      .catch((err) => {
         addToast({
           type: 'error',
           title: 'Algo deu errado :(',
           description:
+            err.message_ptbr ||
             'Ocorreu um erro ao atualizar a categoria, tente novamente.',
         });
       });
@@ -180,11 +182,12 @@ const ListCategories: React.FC = () => {
           description: 'A categoria excluída definitivamente com sucesso!',
         });
       })
-      .catch(() => {
+      .catch((err) => {
         addToast({
           type: 'error',
           title: 'Erro',
           description:
+            err.message_ptbr ||
             'Ocorreu um erro ao deletar a categoria, tente novamente.',
         });
       })

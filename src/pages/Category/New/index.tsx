@@ -29,7 +29,7 @@ interface CategoryFormData {
   description: string;
   enabled: boolean;
   show_in_menu: boolean;
-  updated_at: string;
+  updated_at?: string;
 }
 
 const NewCategory: React.FC = () => {
@@ -126,6 +126,7 @@ const NewCategory: React.FC = () => {
           type: 'error',
           title: 'Erro na criação',
           description:
+            err.message_ptbr ||
             'Ocorreu um erro na criação da categoria, tente novamente.',
         });
       }
