@@ -127,5 +127,24 @@ export const Table = styled.div`
         }
       }
     }
+
+    .rdt_TableCell {
+      div {
+        display: flex;
+        align-items: center;
+
+        span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 100px;
+        }
+
+        .category-disabled-icon {
+          margin-left: 5px;
+          color: var(--button-warning);
+        }
+      }
+    }
   }
 `;

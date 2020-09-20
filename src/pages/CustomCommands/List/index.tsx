@@ -8,6 +8,7 @@ import { CloseCircle, Add } from '@styled-icons/ionicons-solid';
 import { QuestionCircleFill, Filter } from '@styled-icons/bootstrap';
 import { Edit } from '@styled-icons/boxicons-regular';
 import { DeleteForever } from '@styled-icons/material';
+import { Warning } from '@styled-icons/material-rounded';
 
 import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
@@ -26,6 +27,7 @@ import { useLoader } from '../../../hooks/loader';
 interface ICategory {
   id: string;
   name: string;
+  enabled: boolean;
 }
 
 interface ICustomCommand {
@@ -267,6 +269,23 @@ const ListCustomCommands: React.FC = () => {
       selector: 'category.name',
       sortable: true,
       width: '150px',
+      cell: (row: ICustomCommand) => (
+        <div>
+          <span>{row.category?.name}</span>
+          {!row.category?.enabled && (
+            <Warning
+              className="category-disabled-icon"
+              size={15}
+              data-tip="A categoria está desabilitada!<br>Por tanto, este comando é automaticamente desabilitado também."
+              data-place="top"
+              data-multiline="true"
+              data-background-color="black"
+              data-text-color="white"
+              data-border="white"
+            />
+          )}
+        </div>
+      ),
     },
     {
       name: 'Atualizado por',
