@@ -165,7 +165,7 @@ const NewCategory: React.FC = () => {
                 <QuestionCircleFill
                   className="header-icon"
                   size={15}
-                  data-tip="Ativar / Desativar a categoria.<br> Isso afetará todos os comandos nessa categoria."
+                  data-tip="Ativar / Desativar a categoria.<br> Desativando a categoria irá desativar todos os comandos nela."
                   data-place="top"
                   data-multiline="true"
                   data-background-color="black"

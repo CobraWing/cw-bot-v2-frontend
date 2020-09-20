@@ -280,7 +280,7 @@ const ListCustomCommands: React.FC = () => {
           <QuestionCircleFill
             className="header-icon"
             size={15}
-            data-tip="Ativar / Desativar o comando.<br> Isso habilitará ou desabilitará o uso do comando."
+            data-tip="Ativar / Desativar o comando.<br> Isso desativará o uso do comando."
             data-place="top"
             data-multiline="true"
             data-background-color="black"
