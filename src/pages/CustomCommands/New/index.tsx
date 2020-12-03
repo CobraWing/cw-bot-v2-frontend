@@ -80,6 +80,7 @@ const NewCustomCommand: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
+  const [necessaryContentParts, setNecessaryContentParts] = useState(0);
   const [loadData, setLoadData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -91,9 +92,33 @@ const NewCustomCommand: React.FC = () => {
     CategorySelectData[]
   >([]);
 
+  const getContent = useCallback(() => {
+    const formData = formRef.current?.getData() as CommandFormData;
+    const { content } = formData;
+    let contentData = '';
+
+    if (content) {
+      contentData = content
+        .replace(/<\/p><p>/g, '\n')
+        .replace(/<strong>|<\/strong>/g, '**')
+        .replace(/<del>|<\/del>/g, '~~')
+        .replace(/<u>|<\/u>/g, '__')
+        .replace(/<em>|<\/em>/g, '*')
+        .replace(/<p>|<\/p>/g, '')
+        .replace(/http:\/\/www\.|https:\/\/www\./g, 'www.')
+        .replace(/www\./g, 'https://www.')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+    }
+
+    return contentData;
+  }, []);
+
   const handleRefreshPreview = useCallback(() => {
     const formData = formRef.current?.getData() as CommandFormData;
     let { content } = formData;
+    const contentLength = getContent().length;
 
     if (content) {
       let matchs = content.match(
@@ -120,14 +145,16 @@ const NewCustomCommand: React.FC = () => {
       content = content
         .replace(/<\/p><p>/g, '<br/>')
         .replace(/<p>/g, '')
-        .replace(/<\/p>/g, '');
+        .replace(/<\/p>/g, '')
+        .replace(/&lt;\/&gt;/g, '========= quebra de comando =========');
     }
+    setNecessaryContentParts(Math.floor(contentLength / 2040));
 
     setRefreshData({
       ...formData,
       content,
     });
-  }, []);
+  }, [getContent]);
 
   const checkIfLoadCustomCommand = useCallback(
     (initializePromisses) => {
@@ -196,6 +223,18 @@ const NewCustomCommand: React.FC = () => {
     async (data: CommandFormData) => {
       try {
         enableLoader();
+        const contentParts = getContent().split('</>').length - 1;
+
+        if (contentParts < necessaryContentParts) {
+          disableLoader();
+          addToast({
+            type: 'error',
+            title: 'Conteúdo muito extenso...',
+            description: `Insira ${necessaryContentParts} tag </> entre o
+            conteúdo no local desejado, para fazer a quebra no comando final.`,
+          });
+          return;
+        }
 
         formRef.current?.setErrors({});
 
@@ -248,7 +287,15 @@ const NewCustomCommand: React.FC = () => {
         });
       }
     },
-    [addToast, history, loadData, enableLoader, disableLoader],
+    [
+      addToast,
+      history,
+      loadData,
+      enableLoader,
+      disableLoader,
+      getContent,
+      necessaryContentParts,
+    ],
   );
 
   return (
@@ -314,6 +361,23 @@ const NewCustomCommand: React.FC = () => {
                 name="content"
                 onChangeEvent={handleRefreshPreview}
               />
+
+              {necessaryContentParts > 0 && (
+                <div className="warn-wrap">
+                  <span>
+                    <strong>ATENÇÃO:</strong> O Discord tem um limite de 2048
+                    caracteres e o texto do conteúdo está muito extenso.
+                  </span>
+                  <br />
+                  <span>
+                    Insira <strong>{necessaryContentParts}</strong> tag
+                    <strong>{' </>'}</strong> entre o conteúdo no local
+                    desejado, para fazer a quebra no comando final.
+                  </span>
+                  <br />
+                  <br />
+                </div>
+              )}
 
               <Input
                 label="Imagem de conteúdo:"
