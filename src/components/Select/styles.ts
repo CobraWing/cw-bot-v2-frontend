@@ -74,6 +74,24 @@ export const Container = styled.div<ContainerProps>`
         div {
           color: var(--input-default-text);
         }
+        .react-select__multi-value {
+          background: var(--input-default-border);
+          border: 1px solid var(--input-default-focused);
+          border-radius: 10px;
+
+          .react-select__multi-value__remove {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            svg {
+              margin-right: 4px;
+            }
+            &:hover {
+              color: var(--white);
+              background-color: var(--error);
+              cursor: pointer;
+            }
+          }
+        }
       }
       .react-select__input {
         input {

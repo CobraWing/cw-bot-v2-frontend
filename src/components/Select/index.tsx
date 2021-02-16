@@ -93,10 +93,19 @@ const Select: React.FC<InputProps> = ({
           className={error ? 'with-error' : ''}
           classNamePrefix="react-select"
           onChange={(newValue: any) => {
-            setValue(newValue?.value);
-            onChange && onChange(newValue?.value);
+            if (rest?.isMulti) {
+              setValue(newValue);
+              onChange && onChange(newValue);
+            } else {
+              setValue(newValue?.value);
+              onChange && onChange(newValue?.value);
+            }
           }}
-          value={rest?.options?.find((option) => option.value === value)}
+          value={
+            rest?.isMulti
+              ? value
+              : rest?.options?.find((option) => option.value === value)
+          }
           {...rest}
         />
 

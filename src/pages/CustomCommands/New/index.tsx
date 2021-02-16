@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -49,6 +50,11 @@ interface CategorySelectData {
   label: string;
 }
 
+interface ChannelSelectData {
+  value: string;
+  label: string;
+}
+
 interface CategoryData {
   id: string;
   name: string;
@@ -71,6 +77,7 @@ interface CommandFormData {
   show_in_menu?: boolean;
   created_at?: string;
   updated_at?: string;
+  channel_whitelist?: string;
 }
 
 const NewCustomCommand: React.FC = () => {
@@ -91,6 +98,8 @@ const NewCustomCommand: React.FC = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<
     CategorySelectData[]
   >([]);
+
+  const [channelOptions, setChannelOptions] = useState<ChannelSelectData[]>([]);
 
   const getContent = useCallback(() => {
     const formData = formRef.current?.getData() as CommandFormData;
@@ -178,14 +187,15 @@ const NewCustomCommand: React.FC = () => {
 
   useEffect(() => {
     enableLoader();
-    const initializePromisses = [api.get('/categories')];
+    const initializePromisses = [api.get('/categories'), api.get('/channels')];
 
     checkIfLoadCustomCommand(initializePromisses);
 
     Promise.all(initializePromisses)
       .then((valuesResponse) => {
         const categories = valuesResponse[0].data;
-        const customCommand = valuesResponse[1]?.data;
+        const channels = valuesResponse[1].data;
+        const customCommand = valuesResponse[2]?.data;
 
         setCategoriesOptions(
           categories.map((cat: CommandFormData) => {
@@ -195,6 +205,19 @@ const NewCustomCommand: React.FC = () => {
             };
           }),
         );
+
+        setChannelOptions(channels);
+
+        // setChannelOptions([
+        //   {
+        //     label: 'test-bot-local',
+        //     value: '797893993521741844',
+        //   },
+        //   {
+        //     label: 'test-bot-local-roles',
+        //     value: '805129586508824578',
+        //   },
+        // ]);
 
         setLoadData(customCommand);
         formRef.current?.setData(customCommand);
@@ -221,6 +244,9 @@ const NewCustomCommand: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
+      console.log('data', data);
+      // return;
+
       try {
         enableLoader();
         const contentParts = getContent().split('</>').length - 1;
@@ -251,6 +277,10 @@ const NewCustomCommand: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
+
+        data.channel_whitelist = data.channel_whitelist
+          ? JSON.stringify(data.channel_whitelist)
+          : data.channel_whitelist;
 
         if (loadData?.id) {
           delete loadData.created_at;
@@ -347,6 +377,18 @@ const NewCustomCommand: React.FC = () => {
                 name="description"
                 maxLength={100}
                 tip="A descrição do comando aparecerá <br>como dica no menu de ajuda no discord."
+              />
+
+              <Select
+                label="Canais permitidos"
+                placeholder="Selecione os canais"
+                name="channel_whitelist"
+                isSearchable
+                options={channelOptions}
+                isMulti
+                isClearable
+                noOptionsMessage={() => 'Nenhum canal encontrada'}
+                tip="Selecione os canais permitidos para o comando ser executado."
               />
 
               <Input

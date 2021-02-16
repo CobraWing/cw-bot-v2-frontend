@@ -16,8 +16,8 @@ const LayoutDefault: React.FC<TemplateProps> = ({ title, children }) => (
     <Helmet>
       <title>Cobra Wing Bot {title ? ` - ${title}` : ''}</title>
     </Helmet>
-    <Header />
-    <Breadcrumb />
+    {/* <Header />
+    <Breadcrumb /> */}
 
     {children}
 
