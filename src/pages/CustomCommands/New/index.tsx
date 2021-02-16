@@ -55,15 +55,6 @@ interface ChannelSelectData {
   label: string;
 }
 
-interface CategoryData {
-  id: string;
-  name: string;
-  description: string;
-  enabled: string;
-  show_in_menu: string;
-  updated_at: string;
-}
-
 interface CommandFormData {
   id?: string;
   category_id?: string;
@@ -207,18 +198,6 @@ const NewCustomCommand: React.FC = () => {
         );
 
         setChannelOptions(channels);
-
-        // setChannelOptions([
-        //   {
-        //     label: 'test-bot-local',
-        //     value: '797893993521741844',
-        //   },
-        //   {
-        //     label: 'test-bot-local-roles',
-        //     value: '805129586508824578',
-        //   },
-        // ]);
-
         setLoadData(customCommand);
         formRef.current?.setData(customCommand);
       })
@@ -244,9 +223,6 @@ const NewCustomCommand: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: CommandFormData) => {
-      console.log('data', data);
-      // return;
-
       try {
         enableLoader();
         const contentParts = getContent().split('</>').length - 1;
