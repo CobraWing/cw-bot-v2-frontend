@@ -12,6 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   containerStyle?: object;
   icon?: React.ComponentType<IconBaseProps>;
+  callback?(value: boolean): void;
 }
 
 const SwitchInput: React.FC<InputProps> = ({
@@ -19,6 +20,7 @@ const SwitchInput: React.FC<InputProps> = ({
   label,
   containerStyle = {},
   icon: Icon,
+  callback,
 }) => {
   const [isChecked, setIsChecked] = useState(true);
   const { fieldName, defaultValue, error, registerField } = useField(name);
@@ -35,7 +37,8 @@ const SwitchInput: React.FC<InputProps> = ({
       ref: { value: isChecked },
       path: 'value',
     });
-  }, [fieldName, registerField, isChecked]);
+    callback && callback(isChecked);
+  }, [fieldName, registerField, isChecked, callback]);
 
   return (
     <>
@@ -47,7 +50,9 @@ const SwitchInput: React.FC<InputProps> = ({
         {Icon && <Icon size={20} />}
         {label && <Label>{label}</Label>}
         <Switch
-          onChange={() => setIsChecked((last) => !last)}
+          onChange={() => {
+            setIsChecked((last) => !last);
+          }}
           onKeyDown={(e) => {
             if (e.keyCode === 13) {
               e.preventDefault();

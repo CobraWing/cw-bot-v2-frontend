@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -49,13 +50,9 @@ interface CategorySelectData {
   label: string;
 }
 
-interface CategoryData {
-  id: string;
-  name: string;
-  description: string;
-  enabled: string;
-  show_in_menu: string;
-  updated_at: string;
+interface ChannelSelectData {
+  value: string;
+  label: string;
 }
 
 interface CommandFormData {
@@ -71,6 +68,8 @@ interface CommandFormData {
   show_in_menu?: boolean;
   created_at?: string;
   updated_at?: string;
+  channel_limited?: boolean;
+  channel_whitelist?: string;
 }
 
 const NewCustomCommand: React.FC = () => {
@@ -81,9 +80,10 @@ const NewCustomCommand: React.FC = () => {
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [necessaryContentParts, setNecessaryContentParts] = useState(0);
-  const [loadData, setLoadData] = useState<CommandFormData>(
-    {} as CommandFormData,
-  );
+  const [toggleChannels, setToggleChannels] = useState(false);
+  const [loadData, setLoadData] = useState<CommandFormData>({
+    channel_limited: false,
+  } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -91,6 +91,8 @@ const NewCustomCommand: React.FC = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<
     CategorySelectData[]
   >([]);
+
+  const [channelOptions, setChannelOptions] = useState<ChannelSelectData[]>([]);
 
   const getContent = useCallback(() => {
     const formData = formRef.current?.getData() as CommandFormData;
@@ -178,14 +180,15 @@ const NewCustomCommand: React.FC = () => {
 
   useEffect(() => {
     enableLoader();
-    const initializePromisses = [api.get('/categories')];
+    const initializePromisses = [api.get('/categories'), api.get('/channels')];
 
     checkIfLoadCustomCommand(initializePromisses);
 
     Promise.all(initializePromisses)
       .then((valuesResponse) => {
         const categories = valuesResponse[0].data;
-        const customCommand = valuesResponse[1]?.data;
+        const channels = valuesResponse[1].data;
+        const customCommand = valuesResponse[2]?.data;
 
         setCategoriesOptions(
           categories.map((cat: CommandFormData) => {
@@ -196,6 +199,7 @@ const NewCustomCommand: React.FC = () => {
           }),
         );
 
+        setChannelOptions(channels);
         setLoadData(customCommand);
         formRef.current?.setData(customCommand);
       })
@@ -246,11 +250,20 @@ const NewCustomCommand: React.FC = () => {
           description: Yup.string().required(
             'O campo descrição é obrigatório.',
           ),
+          channel_whitelist: Yup.array().when('channel_limited', {
+            is: true,
+            then: (fieldSchema: any) =>
+              fieldSchema.required('O campo canais é obrigatório'),
+          }),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
+
+        data.channel_whitelist = data.channel_whitelist
+          ? JSON.stringify(data.channel_whitelist)
+          : data.channel_whitelist;
 
         if (loadData?.id) {
           delete loadData.created_at;
@@ -348,6 +361,28 @@ const NewCustomCommand: React.FC = () => {
                 maxLength={100}
                 tip="A descrição do comando aparecerá <br>como dica no menu de ajuda no discord."
               />
+
+              <Switch
+                label="Limitar o comando por canais?"
+                name="channel_limited"
+                callback={(value) => {
+                  setToggleChannels(value);
+                  if (loadData) loadData.channel_limited = value;
+                }}
+              />
+
+              {toggleChannels && (
+                <Select
+                  label="Quais canais? (selecione um ou mais):"
+                  placeholder="Selecione os canais"
+                  name="channel_whitelist"
+                  isSearchable
+                  options={channelOptions}
+                  isMulti
+                  isClearable
+                  noOptionsMessage={() => 'Nenhum canal encontrada'}
+                />
+              )}
 
               <Input
                 label="Título:"
