@@ -68,6 +68,7 @@ interface CommandFormData {
   show_in_menu?: boolean;
   created_at?: string;
   updated_at?: string;
+  channel_limited?: boolean;
   channel_whitelist?: string;
 }
 
@@ -79,9 +80,10 @@ const NewCustomCommand: React.FC = () => {
   const location = useLocation();
   const { enableLoader, disableLoader } = useLoader();
   const [necessaryContentParts, setNecessaryContentParts] = useState(0);
-  const [loadData, setLoadData] = useState<CommandFormData>(
-    {} as CommandFormData,
-  );
+  const [toggleChannels, setToggleChannels] = useState(false);
+  const [loadData, setLoadData] = useState<CommandFormData>({
+    channel_limited: false,
+  } as CommandFormData);
   const [refreshData, setRefreshData] = useState<CommandFormData>(
     {} as CommandFormData,
   );
@@ -248,6 +250,11 @@ const NewCustomCommand: React.FC = () => {
           description: Yup.string().required(
             'O campo descrição é obrigatório.',
           ),
+          channel_whitelist: Yup.array().when('channel_limited', {
+            is: true,
+            then: (fieldSchema: any) =>
+              fieldSchema.required('O campo canais é obrigatório'),
+          }),
         });
 
         await schema.validate(data, {
@@ -355,17 +362,27 @@ const NewCustomCommand: React.FC = () => {
                 tip="A descrição do comando aparecerá <br>como dica no menu de ajuda no discord."
               />
 
-              <Select
-                label="Canais permitidos"
-                placeholder="Selecione os canais"
-                name="channel_whitelist"
-                isSearchable
-                options={channelOptions}
-                isMulti
-                isClearable
-                noOptionsMessage={() => 'Nenhum canal encontrada'}
-                tip="Selecione os canais permitidos para o comando ser executado."
+              <Switch
+                label="Limitar o comando por canais?"
+                name="channel_limited"
+                callback={(value) => {
+                  setToggleChannels(value);
+                  if (loadData) loadData.channel_limited = value;
+                }}
               />
+
+              {toggleChannels && (
+                <Select
+                  label="Quais canais? (selecione um ou mais):"
+                  placeholder="Selecione os canais"
+                  name="channel_whitelist"
+                  isSearchable
+                  options={channelOptions}
+                  isMulti
+                  isClearable
+                  noOptionsMessage={() => 'Nenhum canal encontrada'}
+                />
+              )}
 
               <Input
                 label="Título:"

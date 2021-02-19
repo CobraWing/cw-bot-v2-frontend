@@ -59,7 +59,8 @@ const Select: React.FC<InputProps> = ({
       ref: { value },
       path: 'value',
     });
-  }, [fieldName, registerField, value]);
+    onChange && onChange(value);
+  }, [fieldName, registerField, value, onChange]);
 
   return (
     <>
@@ -92,6 +93,7 @@ const Select: React.FC<InputProps> = ({
           ref={inputRef}
           className={error ? 'with-error' : ''}
           classNamePrefix="react-select"
+          menuPlacement="auto"
           onChange={(newValue: any) => {
             if (rest?.isMulti) {
               setValue(newValue);
