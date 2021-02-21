@@ -58,6 +58,7 @@ export const SwitchContainer = styled.div`
     align-items: center;
     svg {
       margin-right: 5px;
+      margin-bottom: 15px;
     }
   }
 `;
